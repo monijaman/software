@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 280" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="740" height="280" fill="#ffffff"/>
+  <text x="185" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#7c2d12">Virtual machines</text>
+  <text x="555" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#0c4a6e">Containers 🐳</text>
+  <g font-size="12" font-weight="700" text-anchor="middle">
+    <g transform="translate(30 40)">
+      <g><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App A</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text><rect y="64" width="96" height="44" rx="6" fill="#fecaca"/><text x="48" y="90" fill="#7f1d1d">Guest OS</text></g>
+      <g transform="translate(106 0)"><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App B</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text><rect y="64" width="96" height="44" rx="6" fill="#fecaca"/><text x="48" y="90" fill="#7f1d1d">Guest OS</text></g>
+      <g transform="translate(212 0)"><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App C</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text><rect y="64" width="96" height="44" rx="6" fill="#fecaca"/><text x="48" y="90" fill="#7f1d1d">Guest OS</text></g>
+      <rect y="114" width="308" height="34" rx="6" fill="#fde68a"/><text x="154" y="136" fill="#78350f">Hypervisor</text>
+      <rect y="152" width="308" height="34" rx="6" fill="#e2e8f0"/><text x="154" y="174" fill="#334155">Host OS</text>
+      <rect y="190" width="308" height="34" rx="6" fill="#cbd5e1"/><text x="154" y="212" fill="#1e293b">Hardware</text>
+    </g>
+    <g transform="translate(400 40)">
+      <g><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App A</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text></g>
+      <g transform="translate(106 0)"><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App B</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text></g>
+      <g transform="translate(212 0)"><rect width="96" height="34" rx="6" fill="#dbeafe"/><text x="48" y="22" fill="#1e3a8a">App C</text><rect y="36" width="96" height="26" rx="6" fill="#e0e7ff"/><text x="48" y="54" fill="#312e81">Libs</text></g>
+      <text x="154" y="94" font-size="11" font-weight="400" fill="#0369a1">no guest OS → small, starts in seconds</text>
+      <rect y="114" width="308" height="34" rx="6" fill="#bae6fd"/><text x="154" y="136" fill="#0c4a6e">Container runtime (Docker)</text>
+      <rect y="152" width="308" height="34" rx="6" fill="#e2e8f0"/><text x="154" y="174" fill="#334155">Host OS (shared kernel)</text>
+      <rect y="190" width="308" height="34" rx="6" fill="#cbd5e1"/><text x="154" y="212" fill="#1e293b">Hardware</text>
+    </g>
+  </g>
+</svg>

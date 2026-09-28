@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sqlite database (rebuilt by npm run seed)
+/data/*.db*
+
+# library images copied from ../Theoretical by the seed script
+/public/library/

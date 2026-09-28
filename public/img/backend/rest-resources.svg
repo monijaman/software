@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="250" fill="#ffffff"/>
+  <g transform="translate(40 30)">
+    <rect width="200" height="190" rx="16" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <text x="100" y="32" text-anchor="middle" font-size="15" font-weight="800" fill="#14532d">Resource (noun)</text>
+    <text x="100" y="100" text-anchor="middle" font-size="50">👤</text>
+    <text x="100" y="146" text-anchor="middle" font-family="Consolas, monospace" font-size="18" font-weight="700" fill="#166534">/users/42</text>
+    <text x="100" y="172" text-anchor="middle" font-size="12" fill="#15803d">one thing, one address</text>
+  </g>
+  <g font-family="Consolas, monospace" font-size="14" font-weight="700">
+    <g transform="translate(300 30)"><rect width="80" height="30" rx="6" fill="#3b82f6"/><text x="40" y="20" text-anchor="middle" fill="#fff">GET</text><text x="96" y="20" fill="#334155" font-family="Segoe UI" font-weight="400">read the user</text></g>
+    <g transform="translate(300 72)"><rect width="80" height="30" rx="6" fill="#22c55e"/><text x="40" y="20" text-anchor="middle" fill="#fff">POST</text><text x="96" y="20" fill="#334155" font-family="Segoe UI" font-weight="400">create (on /users)</text></g>
+    <g transform="translate(300 114)"><rect width="80" height="30" rx="6" fill="#f59e0b"/><text x="40" y="20" text-anchor="middle" fill="#fff">PUT</text><text x="96" y="20" fill="#334155" font-family="Segoe UI" font-weight="400">replace the whole user</text></g>
+    <g transform="translate(300 156)"><rect width="80" height="30" rx="6" fill="#8b5cf6"/><text x="40" y="20" text-anchor="middle" fill="#fff">PATCH</text><text x="96" y="20" fill="#334155" font-family="Segoe UI" font-weight="400">change some fields</text></g>
+    <g transform="translate(300 198)"><rect width="80" height="30" rx="6" fill="#ef4444"/><text x="40" y="20" text-anchor="middle" fill="#fff">DELETE</text><text x="96" y="20" fill="#334155" font-family="Segoe UI" font-weight="400">remove the user</text></g>
+  </g>
+  <g stroke="#94a3b8" stroke-width="2"><line x1="240" y1="125" x2="296" y2="45"/><line x1="240" y1="125" x2="296" y2="87"/><line x1="240" y1="125" x2="296" y2="129"/><line x1="240" y1="125" x2="296" y2="171"/><line x1="240" y1="125" x2="296" y2="213"/></g>
+  <text x="600" y="130" text-anchor="middle" font-size="13" fill="#475569">Verbs live in</text>
+  <text x="600" y="148" text-anchor="middle" font-size="13" fill="#475569">the HTTP method,</text>
+  <text x="600" y="166" text-anchor="middle" font-size="13" fill="#475569">not in the URL</text>
+</svg>

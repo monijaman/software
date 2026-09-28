@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="270" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <g transform="translate(380 45)"><rect x="-150" y="-28" width="300" height="56" rx="12" fill="#eff6ff" stroke="#326ce5" stroke-width="3"/><text y="-4" fill="#1e3a8a">📋 Deployment: shop-api</text><text y="14" font-size="11" font-weight="400" fill="#1e40af">desired: 3 replicas of v1.9</text></g>
+    <g transform="translate(220 135)"><rect x="-130" y="-26" width="260" height="52" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4"/><text y="-2" fill="#64748b">🔁 ReplicaSet v1.8</text><text y="14" font-size="11" font-weight="400" fill="#64748b">scaled to 0 (kept for rollback)</text></g>
+    <g transform="translate(540 135)"><rect x="-130" y="-26" width="260" height="52" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text y="-2" fill="#14532d">🔁 ReplicaSet v1.9</text><text y="14" font-size="11" font-weight="400" fill="#15803d">keeps 3 pods alive</text></g>
+    <g transform="translate(440 225)"><rect x="-40" y="-24" width="80" height="48" rx="10" fill="#bbf7d0" stroke="#16a34a"/><text y="-2" font-size="16">📦</text><text y="16" font-size="10" fill="#14532d">pod</text></g>
+    <g transform="translate(540 225)"><rect x="-40" y="-24" width="80" height="48" rx="10" fill="#bbf7d0" stroke="#16a34a"/><text y="-2" font-size="16">📦</text><text y="16" font-size="10" fill="#14532d">pod</text></g>
+    <g transform="translate(640 225)"><rect x="-40" y="-24" width="80" height="48" rx="10" fill="#bbf7d0" stroke="#16a34a"/><text y="-2" font-size="16">📦</text><text y="16" font-size="10" fill="#14532d">pod</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><path d="M320 73 C 300 90, 260 100, 240 106" stroke-dasharray="5 4"/><path d="M440 73 C 460 90, 510 100, 530 106"/><path d="M510 161 L460 198"/><path d="M540 161 V198"/><path d="M570 161 L620 198"/></g>
+  <text x="220" y="230" text-anchor="middle" font-size="12" fill="#475569">rollback = scale the old ReplicaSet back up</text>
+</svg>

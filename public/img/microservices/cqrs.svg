@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <g transform="translate(70 125)"><circle r="36" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/><text y="8" font-size="26">🧑‍💻</text><text y="56" fill="#334155">Client</text></g>
+    <g transform="translate(300 60)"><rect x="-100" y="-36" width="200" height="72" rx="14" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-8" fill="#78350f">✍️ Write model</text><text y="12" font-size="11" font-weight="400" fill="#92400e">rules · validation</text><text y="27" font-size="11" font-weight="400" fill="#92400e">Postgres (normalised)</text></g>
+    <g transform="translate(300 190)"><rect x="-100" y="-36" width="200" height="72" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text y="-8" fill="#1e3a8a">📖 Read model</text><text y="12" font-size="11" font-weight="400" fill="#1e40af">shaped for screens</text><text y="27" font-size="11" font-weight="400" fill="#1e40af">Elasticsearch / Redis / views</text></g>
+    <g transform="translate(580 125)"><rect x="-90" y="-40" width="180" height="80" rx="40" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text y="-4" fill="#4c1d95">🔄 Events</text><text y="14" font-size="11" font-weight="400" fill="#5b21b6">OrderPlaced, AddressChanged…</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2.5" marker-end="url(#a)" fill="none">
+    <path d="M100 105 C 140 70, 170 60, 196 60"/>
+    <path d="M196 190 C 170 190, 140 180, 104 148"/>
+    <path d="M400 60 C 480 60, 520 80, 540 90"/>
+    <path d="M540 160 C 520 175, 480 190, 404 190"/>
+  </g>
+  <g font-size="11" fill="#475569"><text x="116" y="66">commands</text><text x="112" y="200">queries</text><text x="466" y="56">publishes</text><text x="460" y="206">projects into</text></g>
+</svg>

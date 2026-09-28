@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="280" fill="#ffffff"/>
+  <g transform="translate(40 40)">
+    <rect width="290" height="200" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+    <text x="145" y="30" text-anchor="middle" font-size="16" font-weight="800" fill="#c2410c">doEverything()</text>
+    <rect x="80" y="100" width="130" height="36" rx="18" fill="#dc2626"/>
+    <g stroke="#94a3b8" stroke-width="10" stroke-linecap="round">
+      <line x1="110" y1="104" x2="70" y2="60"/><line x1="130" y1="100" x2="125" y2="52"/><line x1="160" y1="100" x2="190" y2="56"/>
+      <line x1="185" y1="104" x2="235" y2="74"/><line x1="110" y1="132" x2="66" y2="170"/><line x1="180" y1="134" x2="228" y2="166"/>
+    </g>
+    <text x="145" y="124" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">+</text>
+    <text x="145" y="190" text-anchor="middle" font-size="12" fill="#9a3412">validate + save + email + log + format…</text>
+  </g>
+  <g transform="translate(345 140)"><path d="M0 0h20" stroke="#94a3b8" stroke-width="4"/><path d="M18 -8l12 8-12 8z" fill="#94a3b8"/></g>
+  <g transform="translate(390 40)">
+    <rect width="290" height="200" rx="16" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="145" y="30" text-anchor="middle" font-size="16" font-weight="800" fill="#047857">One job each</text>
+    <g font-size="11.5" font-weight="700" fill="#065f46" text-anchor="middle">
+      <rect x="18" y="50" width="120" height="36" rx="10" fill="#fff" stroke="#a7f3d0"/><text x="78" y="73">validate()</text>
+      <rect x="152" y="50" width="120" height="36" rx="10" fill="#fff" stroke="#a7f3d0"/><text x="212" y="73">save()</text>
+      <rect x="18" y="98" width="120" height="36" rx="10" fill="#fff" stroke="#a7f3d0"/><text x="78" y="121">sendEmail()</text>
+      <rect x="152" y="98" width="120" height="36" rx="10" fill="#fff" stroke="#a7f3d0"/><text x="212" y="121">log()</text>
+      <rect x="85" y="146" width="120" height="36" rx="10" fill="#fff" stroke="#a7f3d0"/><text x="145" y="169">format()</text>
+    </g>
+  </g>
+</svg>

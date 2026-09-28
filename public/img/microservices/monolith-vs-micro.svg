@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="290" fill="#ffffff"/>
+  <text x="180" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#7c2d12">🏬 Monolith</text>
+  <text x="560" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#312e81">🏪 Microservices</text>
+  <g transform="translate(40 44)">
+    <rect width="280" height="170" rx="16" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>
+    <g font-size="12" font-weight="700" text-anchor="middle">
+      <rect x="16" y="16" width="118" height="60" rx="10" fill="#fed7aa"/><text x="75" y="44" fill="#7c2d12">👤 Users</text><text x="75" y="62" font-weight="400" font-size="10" fill="#9a3412">module</text>
+      <rect x="146" y="16" width="118" height="60" rx="10" fill="#fed7aa"/><text x="205" y="44" fill="#7c2d12">🛒 Orders</text><text x="205" y="62" font-weight="400" font-size="10" fill="#9a3412">module</text>
+      <rect x="16" y="90" width="118" height="60" rx="10" fill="#fed7aa"/><text x="75" y="118" fill="#7c2d12">💳 Payments</text><text x="75" y="136" font-weight="400" font-size="10" fill="#9a3412">module</text>
+      <rect x="146" y="90" width="118" height="60" rx="10" fill="#fed7aa"/><text x="205" y="118" fill="#7c2d12">📦 Inventory</text><text x="205" y="136" font-weight="400" font-size="10" fill="#9a3412">module</text>
+    </g>
+  </g>
+  <g transform="translate(130 228)"><ellipse cx="50" cy="0" rx="50" ry="10" fill="#fdba74"/><rect y="0" width="100" height="30" fill="#fdba74"/><ellipse cx="50" cy="30" rx="50" ry="10" fill="#fb923c"/><text x="50" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#7c2d12">1 database</text></g>
+  <line x1="180" y1="214" x2="180" y2="228" stroke="#f97316" stroke-width="3"/>
+  <line x1="380" y1="40" x2="380" y2="270" stroke="#e2e8f0" stroke-width="2"/>
+  <g font-size="11.5" font-weight="700" text-anchor="middle">
+    <g transform="translate(420 50)"><rect width="120" height="54" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/><text x="60" y="32" fill="#312e81">👤 Users svc</text></g>
+    <g transform="translate(590 50)"><rect width="120" height="54" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/><text x="60" y="32" fill="#312e81">🛒 Orders svc</text></g>
+    <g transform="translate(420 160)"><rect width="120" height="54" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/><text x="60" y="32" fill="#312e81">💳 Payments svc</text></g>
+    <g transform="translate(590 160)"><rect width="120" height="54" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/><text x="60" y="32" fill="#312e81">📦 Inventory svc</text></g>
+  </g>
+  <g fill="#a5b4fc" font-size="9" font-weight="700" text-anchor="middle">
+    <g transform="translate(480 118)"><ellipse rx="22" ry="6"/><rect x="-22" width="44" height="16"/><ellipse cy="16" rx="22" ry="6" fill="#818cf8"/></g>
+    <g transform="translate(650 118)"><ellipse rx="22" ry="6"/><rect x="-22" width="44" height="16"/><ellipse cy="16" rx="22" ry="6" fill="#818cf8"/></g>
+    <g transform="translate(480 228)"><ellipse rx="22" ry="6"/><rect x="-22" width="44" height="16"/><ellipse cy="16" rx="22" ry="6" fill="#818cf8"/></g>
+    <g transform="translate(650 228)"><ellipse rx="22" ry="6"/><rect x="-22" width="44" height="16"/><ellipse cy="16" rx="22" ry="6" fill="#818cf8"/></g>
+  </g>
+  <g stroke="#6366f1" stroke-width="2" stroke-dasharray="5 4"><line x1="540" y1="77" x2="590" y2="77"/><line x1="590" y1="95" x2="540" y2="175"/></g>
+  <text x="565" y="68" text-anchor="middle" font-size="10" fill="#4338ca">API</text>
+  <text x="560" y="275" text-anchor="middle" font-size="12" fill="#475569">each service owns its own data, talks over the network</text>
+  <text x="180" y="280" text-anchor="middle" font-size="12" fill="#475569">one codebase, one deploy</text>
+</svg>

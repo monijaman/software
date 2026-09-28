@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="750" height="260" fill="#ffffff"/>
+  <g text-anchor="middle">
+    <g transform="translate(125 20)">
+      <rect x="-110" width="220" height="220" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+      <text y="44" font-size="36">🍱</text>
+      <text y="80" font-size="20" font-weight="800" fill="#1e3a8a">REST</text>
+      <text y="102" font-size="12" fill="#1e40af">set menu: fixed dishes</text>
+      <g font-family="Consolas, monospace" font-size="11" fill="#334155"><text y="134">GET /users/42</text><text y="152">GET /users/42/posts</text><text y="170">GET /users/42/followers</text></g>
+      <text y="202" font-size="12" font-weight="700" fill="#2563eb">JSON · many endpoints</text>
+    </g>
+    <g transform="translate(375 20)">
+      <rect x="-110" width="220" height="220" rx="18" fill="#fdf2f8" stroke="#ec4899" stroke-width="2"/>
+      <text y="44" font-size="36">🥗</text>
+      <text y="80" font-size="20" font-weight="800" fill="#831843">GraphQL</text>
+      <text y="102" font-size="12" fill="#9d174d">salad bar: pick exact fields</text>
+      <g font-family="Consolas, monospace" font-size="11" fill="#334155" text-anchor="start"><text x="-70" y="134">user(id: 42) {</text><text x="-56" y="152">name  posts { title }</text><text x="-70" y="170">}</text></g>
+      <text y="202" font-size="12" font-weight="700" fill="#db2777">JSON · one endpoint</text>
+    </g>
+    <g transform="translate(625 20)">
+      <rect x="-110" width="220" height="220" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+      <text y="44" font-size="36">📞</text>
+      <text y="80" font-size="20" font-weight="800" fill="#064e3b">gRPC</text>
+      <text y="102" font-size="12" fill="#065f46">kitchen intercom: fast shorthand</text>
+      <g font-family="Consolas, monospace" font-size="11" fill="#334155"><text y="134">orders.GetOrder(id)</text><text y="152">0a 07 6f 72 64 5f 31</text><text y="170">(binary protobuf)</text></g>
+      <text y="202" font-size="12" font-weight="700" fill="#059669">HTTP/2 · service to service</text>
+    </g>
+  </g>
+</svg>

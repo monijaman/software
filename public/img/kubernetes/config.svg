@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle">
+    <g transform="translate(100 125)"><rect x="-80" y="-50" width="160" height="100" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="3"/><text y="-12" font-size="28">🐳</text><text y="18" font-size="13" font-weight="800" fill="#1e3a8a">shop-api:1.9.0</text><text y="36" font-size="10" fill="#475569">one image, built once</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><path d="M180 105 C 240 70, 280 55, 326 52"/><path d="M180 125 H326"/><path d="M180 145 C 240 180, 280 195, 326 198"/></g>
+  <g font-size="12">
+    <g transform="translate(330 22)"><rect width="190" height="60" rx="10" fill="#f0fdf4" stroke="#22c55e"/><text x="12" y="22" font-weight="800" fill="#14532d">🧪 dev</text><text x="12" y="42" font-family="Consolas, monospace" font-size="10.5" fill="#334155">LOG_LEVEL=debug</text></g>
+    <g transform="translate(330 96)"><rect width="190" height="60" rx="10" fill="#fefce8" stroke="#eab308"/><text x="12" y="22" font-weight="800" fill="#713f12">🎭 staging</text><text x="12" y="42" font-family="Consolas, monospace" font-size="10.5" fill="#334155">DB=staging-db</text></g>
+    <g transform="translate(330 170)"><rect width="190" height="60" rx="10" fill="#fef2f2" stroke="#ef4444"/><text x="12" y="22" font-weight="800" fill="#991b1b">🚀 production</text><text x="12" y="42" font-family="Consolas, monospace" font-size="10.5" fill="#334155">DB=prod-db (secret 🔐)</text></g>
+  </g>
+  <g transform="translate(560 40)" font-size="12">
+    <rect width="180" height="170" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+    <text x="90" y="28" text-anchor="middle" font-weight="800" fill="#0f172a">injected as</text>
+    <text x="20" y="62" fill="#334155">⚙️ ConfigMap → settings</text>
+    <text x="20" y="90" fill="#334155">🔐 Secret → passwords</text>
+    <text x="20" y="118" fill="#334155">🌱 env vars</text>
+    <text x="20" y="146" fill="#334155">📄 or mounted files</text>
+  </g>
+</svg>

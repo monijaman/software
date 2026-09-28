@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 290" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="740" height="290" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g transform="translate(40 30)">
+    <rect width="150" height="200" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="75" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#1e3a8a">Call stack</text>
+    <g font-family="Consolas, monospace" font-size="12" text-anchor="middle">
+      <rect x="20" y="120" width="110" height="28" rx="6" fill="#bfdbfe"/><text x="75" y="139" fill="#1e3a8a">handleClick()</text>
+      <rect x="20" y="152" width="110" height="28" rx="6" fill="#dbeafe"/><text x="75" y="171" fill="#1e3a8a">main()</text>
+    </g>
+    <text x="75" y="220" text-anchor="middle" font-size="11" fill="#475569">one thing at a time</text>
+  </g>
+  <g transform="translate(290 30)">
+    <rect width="170" height="110" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="85" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#4c1d95">Web APIs</text>
+    <g font-size="12" fill="#5b21b6"><text x="16" y="52">⏱️ setTimeout</text><text x="16" y="74">🌐 fetch</text><text x="16" y="96">🖱️ DOM events</text></g>
+  </g>
+  <g transform="translate(520 30)">
+    <rect width="190" height="80" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#991b1b">🔥 Microtask queue</text>
+    <g font-family="Consolas, monospace" font-size="11" text-anchor="middle"><rect x="14" y="36" width="76" height="28" rx="6" fill="#fecaca"/><text x="52" y="54" fill="#7f1d1d">.then()</text><rect x="98" y="36" width="76" height="28" rx="6" fill="#fecaca"/><text x="136" y="54" fill="#7f1d1d">await</text></g>
+  </g>
+  <g transform="translate(520 130)">
+    <rect width="190" height="80" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#854d0e">📋 Task queue</text>
+    <g font-family="Consolas, monospace" font-size="11" text-anchor="middle"><rect x="14" y="36" width="76" height="28" rx="6" fill="#fef08a"/><text x="52" y="54" fill="#713f12">timer cb</text><rect x="98" y="36" width="76" height="28" rx="6" fill="#fef08a"/><text x="136" y="54" fill="#713f12">click cb</text></g>
+  </g>
+  <g transform="translate(375 220)"><circle r="36" fill="#ecfdf5" stroke="#10b981" stroke-width="3"/><text y="-2" text-anchor="middle" font-size="22">🔁</text><text y="18" text-anchor="middle" font-size="10" font-weight="800" fill="#065f46">event loop</text></g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none">
+    <path d="M190 80 H286"/>
+    <path d="M460 70 H516"/><path d="M460 110 C 490 130, 500 160, 516 166"/>
+    <path d="M520 100 C 470 170, 430 190, 408 202"/><path d="M520 190 C 480 210, 440 220, 414 222"/>
+    <path d="M339 222 C 260 222, 200 200, 160 180"/>
+  </g>
+  <g font-size="11" fill="#475569"><text x="200" y="72">async work</text><text x="200" y="268">stack empty? → run ALL microtasks, then ONE task</text></g>
+</svg>

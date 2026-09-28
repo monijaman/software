@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="740" height="270" fill="#ffffff"/>
+  <g text-anchor="middle">
+    <g transform="translate(130 20)">
+      <rect x="-110" width="220" height="230" rx="18" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+      <text y="56" font-size="44">🏭</text>
+      <text y="92" font-size="19" font-weight="800" fill="#7c2d12">Creational</text>
+      <text y="114" font-size="13" fill="#9a3412">“How do I make objects?”</text>
+      <g font-size="12" fill="#7c2d12"><text y="146">Factory · Abstract Factory</text><text y="166">Builder · Prototype</text><text y="186">Singleton</text></g>
+      <text y="216" font-size="12" font-weight="700" fill="#ea580c">5 patterns</text>
+    </g>
+    <g transform="translate(370 20)">
+      <rect x="-110" width="220" height="230" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+      <text y="56" font-size="44">🧱</text>
+      <text y="92" font-size="19" font-weight="800" fill="#1e3a8a">Structural</text>
+      <text y="114" font-size="13" fill="#1e40af">“How do I connect objects?”</text>
+      <g font-size="12" fill="#1e3a8a"><text y="146">Adapter · Bridge · Composite</text><text y="166">Decorator · Facade</text><text y="186">Flyweight · Proxy</text></g>
+      <text y="216" font-size="12" font-weight="700" fill="#2563eb">7 patterns</text>
+    </g>
+    <g transform="translate(610 20)">
+      <rect x="-110" width="220" height="230" rx="18" fill="#fdf2f8" stroke="#ec4899" stroke-width="2"/>
+      <text y="56" font-size="44">🗣️</text>
+      <text y="92" font-size="19" font-weight="800" fill="#831843">Behavioral</text>
+      <text y="114" font-size="13" fill="#9d174d">“How do objects talk?”</text>
+      <g font-size="12" fill="#831843"><text y="146">Observer · Strategy · Command</text><text y="166">State · Chain · Iterator</text><text y="186">Mediator · Memento · Template · Visitor</text></g>
+      <text y="216" font-size="12" font-weight="700" fill="#db2777">10 patterns</text>
+    </g>
+  </g>
+</svg>

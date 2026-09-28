@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="250" fill="#ffffff"/>
+  <g transform="translate(60 50)" text-anchor="middle">
+    <text x="60" y="0" font-size="14" font-weight="800" fill="#0c4a6e">High level</text>
+    <text x="60" y="80" font-size="56">💡</text>
+    <text x="60" y="120" font-size="13" fill="#075985">OrderService</text>
+    <text x="60" y="138" font-size="11" fill="#64748b">(business logic)</text>
+  </g>
+  <path d="M190 120 H290" stroke="#0ea5e9" stroke-width="4"/><path d="M288 110 l16 10 -16 10z" fill="#0ea5e9"/>
+  <g transform="translate(310 60)" text-anchor="middle">
+    <rect width="100" height="120" rx="16" fill="#f1f5f9" stroke="#0ea5e9" stroke-width="3"/>
+    <rect x="30" y="42" width="10" height="26" rx="3" fill="#334155"/><rect x="60" y="42" width="10" height="26" rx="3" fill="#334155"/>
+    <circle cx="50" cy="88" r="7" fill="#334155"/>
+    <text x="50" y="-10" font-size="14" font-weight="800" fill="#0369a1">Abstraction</text>
+    <text x="50" y="146" font-size="12" fill="#0369a1">interface</text>
+  </g>
+  <path d="M530 120 H430" stroke="#22c55e" stroke-width="4"/><path d="M432 110 l-16 10 16 10z" fill="#22c55e"/>
+  <g transform="translate(540 40)" text-anchor="middle">
+    <text x="70" y="10" font-size="14" font-weight="800" fill="#14532d">Low level (swappable)</text>
+    <rect x="10" y="26" width="120" height="36" rx="8" fill="#dcfce7" stroke="#22c55e"/><text x="70" y="49" font-size="12" fill="#14532d">🏭 MySQL</text>
+    <rect x="10" y="68" width="120" height="36" rx="8" fill="#dcfce7" stroke="#22c55e"/><text x="70" y="91" font-size="12" fill="#14532d">☀️ Postgres</text>
+    <rect x="10" y="110" width="120" height="36" rx="8" fill="#dcfce7" stroke="#22c55e"/><text x="70" y="133" font-size="12" fill="#14532d">🧪 In-memory fake</text>
+  </g>
+  <text x="360" y="228" text-anchor="middle" font-size="13" fill="#475569">Both sides depend on the socket. Neither depends on the other.</text>
+</svg>

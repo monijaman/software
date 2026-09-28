@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="250" fill="#ffffff"/>
+  <text x="20" y="30" font-size="14" font-weight="800" fill="#0f172a">Looking for 23</text>
+  <g font-family="Consolas, monospace" font-size="15" font-weight="700" text-anchor="middle">
+    <g transform="translate(110 50)">
+      <g fill="#dbeafe" stroke="#3b82f6"><rect width="56" height="36" rx="5"/><rect x="58" width="56" height="36" rx="5"/><rect x="116" width="56" height="36" rx="5"/><rect x="174" width="56" height="36" rx="5"/><rect x="232" width="56" height="36" rx="5" fill="#fde68a" stroke="#f59e0b"/><rect x="290" width="56" height="36" rx="5"/><rect x="348" width="56" height="36" rx="5"/><rect x="406" width="56" height="36" rx="5"/><rect x="464" width="56" height="36" rx="5"/><rect x="522" width="56" height="36" rx="5"/></g>
+      <g fill="#1e3a8a"><text x="28" y="24">2</text><text x="86" y="24">5</text><text x="144" y="24">8</text><text x="202" y="24">12</text><text x="260" y="24" fill="#78350f">16</text><text x="318" y="24">23</text><text x="376" y="24">38</text><text x="434" y="24">56</text><text x="492" y="24">72</text><text x="550" y="24">91</text></g>
+    </g>
+    <g transform="translate(110 110)">
+      <g fill="#f1f5f9" stroke="#e2e8f0"><rect width="56" height="36" rx="5"/><rect x="58" width="56" height="36" rx="5"/><rect x="116" width="56" height="36" rx="5"/><rect x="174" width="56" height="36" rx="5"/><rect x="232" width="56" height="36" rx="5"/></g>
+      <g fill="#dbeafe" stroke="#3b82f6"><rect x="290" width="56" height="36" rx="5"/><rect x="348" width="56" height="36" rx="5"/><rect x="406" width="56" height="36" rx="5" fill="#fde68a" stroke="#f59e0b"/><rect x="464" width="56" height="36" rx="5"/><rect x="522" width="56" height="36" rx="5"/></g>
+      <g fill="#cbd5e1"><text x="28" y="24">2</text><text x="86" y="24">5</text><text x="144" y="24">8</text><text x="202" y="24">12</text><text x="260" y="24">16</text></g>
+      <g fill="#1e3a8a"><text x="318" y="24">23</text><text x="376" y="24">38</text><text x="434" y="24" fill="#78350f">56</text><text x="492" y="24">72</text><text x="550" y="24">91</text></g>
+    </g>
+    <g transform="translate(110 170)">
+      <g fill="#f1f5f9" stroke="#e2e8f0"><rect width="56" height="36" rx="5"/><rect x="58" width="56" height="36" rx="5"/><rect x="116" width="56" height="36" rx="5"/><rect x="174" width="56" height="36" rx="5"/><rect x="232" width="56" height="36" rx="5"/><rect x="406" width="56" height="36" rx="5"/><rect x="464" width="56" height="36" rx="5"/><rect x="522" width="56" height="36" rx="5"/></g>
+      <rect x="290" width="56" height="36" rx="5" fill="#bbf7d0" stroke="#22c55e" stroke-width="3"/><rect x="348" width="56" height="36" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+      <g fill="#cbd5e1"><text x="28" y="24">2</text><text x="86" y="24">5</text><text x="144" y="24">8</text><text x="202" y="24">12</text><text x="260" y="24">16</text><text x="434" y="24">56</text><text x="492" y="24">72</text><text x="550" y="24">91</text></g>
+      <text x="318" y="24" fill="#14532d">23</text><text x="376" y="24" fill="#1e3a8a">38</text>
+    </g>
+  </g>
+  <g font-size="12" fill="#334155">
+    <text x="20" y="74">step 1</text><text x="20" y="134">step 2</text><text x="20" y="194">step 3</text>
+  </g>
+  <text x="360" y="236" text-anchor="middle" font-size="13" fill="#475569">10 items → 3 steps · 1 billion items → about 30 steps</text>
+</svg>

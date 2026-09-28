@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <g text-anchor="middle">
+    <g transform="translate(130 20)">
+      <rect x="-115" width="230" height="210" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <text y="30" font-size="15" font-weight="800" fill="#0f172a">🔄 Rolling</text>
+      <g font-size="11" font-weight="700">
+        <g transform="translate(-80 52)"><rect width="36" height="26" rx="5" fill="#bfdbfe"/><text x="18" y="17" fill="#1e3a8a">v1</text><rect x="42" width="36" height="26" rx="5" fill="#bfdbfe"/><text x="60" y="17" fill="#1e3a8a">v1</text><rect x="84" width="36" height="26" rx="5" fill="#bfdbfe"/><text x="102" y="17" fill="#1e3a8a">v1</text><rect x="126" width="36" height="26" rx="5" fill="#bfdbfe"/><text x="144" y="17" fill="#1e3a8a">v1</text></g>
+        <g transform="translate(-80 90)"><rect width="36" height="26" rx="5" fill="#bbf7d0"/><text x="18" y="17" fill="#14532d">v2</text><rect x="42" width="36" height="26" rx="5" fill="#bbf7d0"/><text x="60" y="17" fill="#14532d">v2</text><rect x="84" width="36" height="26" rx="5" fill="#bfdbfe"/><text x="102" y="17" fill="#1e3a8a">v1</text><rect x="126" width="36" height="26" rx="5" fill="#bfdbfe"/><text x="144" y="17" fill="#1e3a8a">v1</text></g>
+        <g transform="translate(-80 128)"><rect width="36" height="26" rx="5" fill="#bbf7d0"/><text x="18" y="17" fill="#14532d">v2</text><rect x="42" width="36" height="26" rx="5" fill="#bbf7d0"/><text x="60" y="17" fill="#14532d">v2</text><rect x="84" width="36" height="26" rx="5" fill="#bbf7d0"/><text x="102" y="17" fill="#14532d">v2</text><rect x="126" width="36" height="26" rx="5" fill="#bbf7d0"/><text x="144" y="17" fill="#14532d">v2</text></g>
+      </g>
+      <text y="184" font-size="11" fill="#475569">replace a few at a time</text>
+    </g>
+    <g transform="translate(380 20)">
+      <rect x="-115" width="230" height="210" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <text y="30" font-size="15" font-weight="800" fill="#0f172a">🔵🟢 Blue-green</text>
+      <rect x="-30" y="48" width="60" height="30" rx="8" fill="#ede9fe" stroke="#8b5cf6"/><text y="68" font-size="11" font-weight="700" fill="#4c1d95">router</text>
+      <path d="M-10 78 L-60 116" stroke="#3b82f6" stroke-width="3"/><path d="M10 78 L60 116" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4"/>
+      <rect x="-100" y="116" width="84" height="44" rx="10" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/><text x="-58" y="143" font-size="12" font-weight="700" fill="#1e3a8a">Blue v1</text>
+      <rect x="16" y="116" width="84" height="44" rx="10" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/><text x="58" y="143" font-size="12" font-weight="700" fill="#14532d">Green v2</text>
+      <text y="184" font-size="11" fill="#475569">flip the switch · flip back to undo</text>
+    </g>
+    <g transform="translate(630 20)">
+      <rect x="-115" width="230" height="210" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <text y="30" font-size="15" font-weight="800" fill="#0f172a">🐤 Canary</text>
+      <rect x="-30" y="48" width="60" height="30" rx="8" fill="#ede9fe" stroke="#8b5cf6"/><text y="68" font-size="11" font-weight="700" fill="#4c1d95">router</text>
+      <path d="M-10 78 L-60 116" stroke="#3b82f6" stroke-width="6"/><path d="M10 78 L60 116" stroke="#22c55e" stroke-width="2"/>
+      <rect x="-100" y="116" width="84" height="44" rx="10" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/><text x="-58" y="136" font-size="12" font-weight="700" fill="#1e3a8a">v1</text><text x="-58" y="152" font-size="11" fill="#1e40af">95%</text>
+      <rect x="16" y="116" width="84" height="44" rx="10" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/><text x="58" y="136" font-size="12" font-weight="700" fill="#14532d">v2</text><text x="58" y="152" font-size="11" fill="#15803d">5%</text>
+      <text y="184" font-size="11" fill="#475569">small slice first, watch metrics</text>
+    </g>
+  </g>
+</svg>

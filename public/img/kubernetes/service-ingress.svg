@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="270" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <g transform="translate(60 135)"><circle r="36" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/><text y="8" font-size="26">🌍</text><text y="58" fill="#334155">Internet</text></g>
+    <g transform="translate(215 135)"><rect x="-70" y="-60" width="140" height="120" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/><text y="-26" font-size="24">🚪</text><text y="4" fill="#4c1d95">Ingress</text><text y="22" font-size="10" font-weight="400" fill="#5b21b6">host + path routing</text><text y="38" font-size="10" font-weight="400" fill="#5b21b6">TLS 🔒</text></g>
+    <g transform="translate(440 70)"><path d="M-70 -24 H70 L80 0 L70 24 H-70 L-80 0 Z" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text y="-2" fill="#1e3a8a">🔗 Service: shop-web</text><text y="13" font-size="9" font-weight="400" fill="#1e40af">stable IP + DNS name</text></g>
+    <g transform="translate(440 200)"><path d="M-70 -24 H70 L80 0 L70 24 H-70 L-80 0 Z" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text y="-2" fill="#1e3a8a">🔗 Service: orders-api</text><text y="13" font-size="9" font-weight="400" fill="#1e40af">load-balances</text></g>
+    <g font-size="10">
+      <g transform="translate(640 40)"><rect x="-34" y="-16" width="68" height="32" rx="8" fill="#dcfce7" stroke="#22c55e"/><text y="4" fill="#14532d">📦 pod</text></g>
+      <g transform="translate(640 100)"><rect x="-34" y="-16" width="68" height="32" rx="8" fill="#dcfce7" stroke="#22c55e"/><text y="4" fill="#14532d">📦 pod</text></g>
+      <g transform="translate(640 170)"><rect x="-34" y="-16" width="68" height="32" rx="8" fill="#dcfce7" stroke="#22c55e"/><text y="4" fill="#14532d">📦 pod</text></g>
+      <g transform="translate(640 215)"><rect x="-34" y="-16" width="68" height="32" rx="8" fill="#dcfce7" stroke="#22c55e"/><text y="4" fill="#14532d">📦 pod</text></g>
+      <g transform="translate(640 255)"><rect x="-34" y="-12" width="68" height="24" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-dasharray="4 3"/><text y="4" fill="#991b1b">not ready</text></g>
+    </g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none">
+    <line x1="96" y1="135" x2="141" y2="135"/>
+    <path d="M285 110 C 320 80, 330 72, 356 70"/><path d="M285 160 C 320 190, 330 198, 356 200"/>
+    <path d="M520 64 C 560 50, 580 42, 602 40"/><path d="M520 76 C 560 90, 580 98, 602 100"/>
+    <path d="M520 194 C 560 180, 580 172, 602 170"/><path d="M520 206 C 560 212, 580 214, 602 215"/>
+  </g>
+  <line x1="520" y1="212" x2="604" y2="252" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 4"/>
+  <text x="566" y="248" font-size="16" fill="#ef4444">✕</text>
+  <g font-family="Consolas, monospace" font-size="10" fill="#6d28d9"><text x="292" y="86">shop.example.com/</text><text x="292" y="196">api…/orders</text></g>
+</svg>

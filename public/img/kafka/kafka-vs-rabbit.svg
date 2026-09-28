@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="260" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <text x="185" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#c2410c">🐰 RabbitMQ: post office</text>
+  <text x="570" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#1e293b">🗂️ Kafka: archive</text>
+  <g text-anchor="middle" font-size="11" font-weight="700">
+    <g transform="translate(60 130)"><rect x="-40" y="-22" width="80" height="44" rx="10" fill="#dbeafe" stroke="#3b82f6"/><text y="4" fill="#1e3a8a">Producer</text></g>
+    <g transform="translate(170 130)"><path d="M-36 -26 H36 L46 0 L36 26 H-36 L-46 0 Z" fill="#ffedd5" stroke="#f97316" stroke-width="2"/><text y="-2" fill="#9a3412">Exchange</text><text y="12" font-size="9" font-weight="400" fill="#9a3412">routing rules</text></g>
+    <g transform="translate(290 80)"><rect x="-42" y="-18" width="84" height="36" rx="18" fill="#fef3c7" stroke="#f59e0b"/><text y="4" fill="#78350f">queue A</text></g>
+    <g transform="translate(290 180)"><rect x="-42" y="-18" width="84" height="36" rx="18" fill="#fef3c7" stroke="#f59e0b"/><text y="4" fill="#78350f">queue B</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><line x1="100" y1="130" x2="120" y2="130"/><path d="M212 118 C 230 100, 235 84, 244 82"/><path d="M212 142 C 230 160, 235 176, 244 178"/><line x1="332" y1="80" x2="356" y2="80" stroke-dasharray="4 3"/><line x1="332" y1="180" x2="356" y2="180" stroke-dasharray="4 3"/></g>
+  <g font-size="18" text-anchor="middle"><text x="370" y="86">🗑️</text><text x="370" y="186">🗑️</text></g>
+  <text x="185" y="235" text-anchor="middle" font-size="11" fill="#9a3412">routed, delivered, then deleted</text>
+  <line x1="400" y1="40" x2="400" y2="245" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(430 90)">
+    <rect width="300" height="60" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+    <g font-family="Consolas, monospace" font-size="12" font-weight="700" text-anchor="middle">
+      <rect x="10" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="28" y="35" fill="#1e293b">0</text>
+      <rect x="52" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="70" y="35" fill="#1e293b">1</text>
+      <rect x="94" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="112" y="35" fill="#1e293b">2</text>
+      <rect x="136" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="154" y="35" fill="#1e293b">3</text>
+      <rect x="178" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="196" y="35" fill="#1e293b">4</text>
+      <rect x="220" y="14" width="36" height="32" rx="5" fill="#cbd5e1"/><text x="238" y="35" fill="#1e293b">5</text>
+    </g>
+    <text x="280" y="36" font-size="16" fill="#475569">→</text>
+  </g>
+  <g text-anchor="middle" font-size="11" font-weight="700">
+    <g transform="translate(470 200)"><rect x="-44" y="-20" width="88" height="40" rx="10" fill="#dcfce7" stroke="#22c55e"/><text y="-2" fill="#14532d">reader A</text><text y="12" font-size="9" font-weight="400" fill="#15803d">at offset 1</text></g>
+    <g transform="translate(580 200)"><rect x="-44" y="-20" width="88" height="40" rx="10" fill="#dcfce7" stroke="#22c55e"/><text y="-2" fill="#14532d">reader B</text><text y="12" font-size="9" font-weight="400" fill="#15803d">at offset 5</text></g>
+    <g transform="translate(690 200)"><rect x="-44" y="-20" width="88" height="40" rx="10" fill="#e0e7ff" stroke="#6366f1"/><text y="-2" fill="#312e81">new reader</text><text y="12" font-size="9" font-weight="400" fill="#4338ca">replays from 0</text></g>
+  </g>
+  <g stroke="#22c55e" stroke-width="2" stroke-dasharray="4 3" fill="none"><line x1="500" y1="180" x2="500" y2="150"/><line x1="668" y1="180" x2="668" y2="150"/><line x1="690" y1="180" x2="458" y2="150" stroke="#6366f1"/></g>
+  <text x="570" y="245" text-anchor="middle" font-size="11" fill="#334155">stored in order, kept, read by anyone from any point</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="230" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle">
+    <g transform="translate(70 90)"><rect x="-55" y="-45" width="110" height="90" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/><text y="-6" font-size="30">🌐</text><text y="26" font-size="13" font-weight="700" fill="#1e3a8a">Browser</text></g>
+    <g transform="translate(215 90)"><rect x="-50" y="-45" width="100" height="90" rx="14" fill="#fefce8" stroke="#eab308" stroke-width="2"/><text y="-6" font-size="30">📖</text><text y="26" font-size="13" font-weight="700" fill="#713f12">DNS</text></g>
+    <g transform="translate(360 90)"><rect x="-55" y="-45" width="110" height="90" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text y="-6" font-size="30">⚖️</text><text y="26" font-size="12" font-weight="700" fill="#4c1d95">Load balancer</text></g>
+    <g transform="translate(510 90)"><rect x="-55" y="-45" width="110" height="90" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text y="-6" font-size="30">🖥️</text><text y="26" font-size="13" font-weight="700" fill="#064e3b">App server</text></g>
+    <g transform="translate(670 90)"><rect x="-55" y="-45" width="110" height="90" rx="14" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/><text y="-6" font-size="30">🗄️</text><text y="26" font-size="13" font-weight="700" fill="#881337">Database</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"><line x1="125" y1="80" x2="163" y2="80"/><line x1="265" y1="80" x2="303" y2="80"/><line x1="415" y1="80" x2="453" y2="80"/><line x1="565" y1="80" x2="613" y2="80"/></g>
+  <g stroke="#10b981" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#a)" fill="none"><path d="M670 136 V170 H70 V137"/></g>
+  <g font-size="11.5" fill="#475569" text-anchor="middle">
+    <text x="144" y="68">1. name?</text><text x="284" y="68">2. TCP+TLS</text><text x="434" y="68">3. HTTP</text><text x="589" y="68">4. query</text>
+    <text x="370" y="190" fill="#047857" font-weight="700">5. response travels back: 200 OK + JSON</text>
+  </g>
+  <text x="380" y="220" text-anchor="middle" font-size="12" fill="#64748b">DNS finds the address · TCP connects · TLS encrypts · HTTP carries the message</text>
+</svg>

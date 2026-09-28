@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="240" fill="#ffffff"/>
+  <g text-anchor="middle">
+    <g transform="translate(130 20)">
+      <rect x="-115" width="230" height="200" rx="16" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+      <g transform="translate(0 44)" fill="none" stroke="#0891b2" stroke-width="3"><ellipse rx="30" ry="11"/><ellipse rx="30" ry="11" transform="rotate(60)"/><ellipse rx="30" ry="11" transform="rotate(120)"/></g><circle cx="0" cy="44" r="5" fill="#0891b2"/>
+      <text y="100" font-size="20" font-weight="800" fill="#155e75">React</text>
+      <text y="122" font-size="12" fill="#0e7490">🧱 LEGO: flexible library</text>
+      <text y="150" font-size="11" fill="#334155">JSX · hooks · virtual DOM</text>
+      <text y="170" font-size="11" fill="#334155">Next.js for full-stack</text>
+    </g>
+    <g transform="translate(380 20)">
+      <rect x="-115" width="230" height="200" rx="16" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <path d="M-30 20 L0 72 L30 20 H18 L0 50 L-18 20 Z" fill="#41b883"/><path d="M-18 20 L0 50 L18 20 H8 L0 34 L-8 20 Z" fill="#35495e"/>
+      <text y="100" font-size="20" font-weight="800" fill="#166534">Vue</text>
+      <text y="122" font-size="12" fill="#15803d">🪑 starter kit: approachable</text>
+      <text y="150" font-size="11" fill="#334155">templates · Proxy reactivity</text>
+      <text y="170" font-size="11" fill="#334155">Nuxt for full-stack</text>
+    </g>
+    <g transform="translate(630 20)">
+      <rect x="-115" width="230" height="200" rx="16" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+      <path d="M0 14 L32 26 L27 64 L0 78 L-27 64 L-32 26 Z" fill="#dd0031"/><path d="M0 22 L-16 62 H-10 L-6 52 H6 L10 62 H16 Z M-3 45 L0 36 L3 45 Z" fill="#fff"/>
+      <text y="100" font-size="20" font-weight="800" fill="#991b1b">Angular</text>
+      <text y="122" font-size="12" fill="#b91c1c">🏢 furnished office: complete</text>
+      <text y="150" font-size="11" fill="#334155">TypeScript · DI · signals</text>
+      <text y="170" font-size="11" fill="#334155">router, forms, HTTP built in</text>
+    </g>
+  </g>
+</svg>

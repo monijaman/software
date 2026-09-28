@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="380" fill="#ffffff"/>
+  <g transform="translate(250 190)" text-anchor="middle">
+    <circle r="175" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <circle r="130" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <circle r="85" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+    <circle r="42" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text y="-3" font-size="13" font-weight="800" fill="#78350f">Entities</text>
+    <text y="13" font-size="10" fill="#92400e">User, Order</text>
+    <text y="-58" font-size="13" font-weight="800" fill="#14532d">Use cases</text>
+    <text y="-102" font-size="13" font-weight="800" fill="#1e3a8a">Interface adapters</text>
+    <text y="-148" font-size="13" font-weight="800" fill="#4c1d95">Frameworks &amp; drivers</text>
+    <text x="-100" y="118" font-size="11" fill="#1e3a8a">Controllers</text>
+    <text x="100" y="118" font-size="11" fill="#1e3a8a">Repositories</text>
+    <text x="-128" y="160" font-size="11" fill="#4c1d95">Express</text>
+    <text x="0" y="168" font-size="11" fill="#4c1d95">Postgres</text>
+    <text x="128" y="160" font-size="11" fill="#4c1d95">React</text>
+    <g stroke="#0f172a" stroke-width="2.5" fill="#0f172a">
+      <line x1="150" y1="-60" x2="68" y2="-28"/><path d="M60 -25 l14 -1 -6 10z"/>
+      <line x1="-155" y1="-50" x2="-72" y2="-22"/><path d="M-62 -19 l-8 -9 -4 12z"/>
+      <line x1="0" y1="150" x2="0" y2="60"/><path d="M0 50 l-6 12 12 0z"/>
+    </g>
+  </g>
+  <g transform="translate(470 60)">
+    <rect width="230" height="260" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+    <text x="16" y="32" font-size="15" font-weight="800" fill="#0f172a">The Dependency Rule</text>
+    <text x="16" y="56" font-size="12" fill="#475569">Arrows point inward only.</text>
+    <text x="16" y="74" font-size="12" fill="#475569">Inner circles never import</text>
+    <text x="16" y="92" font-size="12" fill="#475569">from outer circles.</text>
+    <g font-size="12">
+      <rect x="16" y="112" width="14" height="14" rx="3" fill="#fef3c7" stroke="#f59e0b"/><text x="38" y="124" fill="#0f172a">Most stable, most valuable</text>
+      <rect x="16" y="140" width="14" height="14" rx="3" fill="#dcfce7" stroke="#22c55e"/><text x="38" y="152" fill="#0f172a">What the app does</text>
+      <rect x="16" y="168" width="14" height="14" rx="3" fill="#dbeafe" stroke="#3b82f6"/><text x="38" y="180" fill="#0f172a">Translators / glue</text>
+      <rect x="16" y="196" width="14" height="14" rx="3" fill="#ede9fe" stroke="#8b5cf6"/><text x="38" y="208" fill="#0f172a">Details you can swap</text>
+    </g>
+    <text x="16" y="240" font-size="12" font-weight="700" fill="#7c3aed">Swap Postgres → Mongo:</text>
+    <text x="16" y="254" font-size="12" fill="#475569">only the outer ring changes.</text>
+  </g>
+</svg>

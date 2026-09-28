@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="300" fill="#ffffff"/>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#22c55e"/><stop offset=".5" stop-color="#eab308"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+  <rect x="40" y="252" width="640" height="10" rx="5" fill="url(#g)"/>
+  <text x="40" y="285" font-size="13" font-weight="700" fill="#15803d">Excellent</text>
+  <text x="680" y="285" text-anchor="end" font-size="13" font-weight="700" fill="#b91c1c">Terrible</text>
+  <g font-family="Consolas, monospace" font-weight="700" text-anchor="middle" font-size="14">
+    <g transform="translate(80 0)"><rect x="-38" y="222" width="76" height="22" rx="5" fill="#22c55e"/><text y="238" fill="#fff">O(1)</text><text y="210" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">hash lookup</text></g>
+    <g transform="translate(170 0)"><rect x="-44" y="196" width="88" height="48" rx="5" fill="#4ade80"/><text y="238" fill="#fff">O(log n)</text><text y="184" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">binary search</text></g>
+    <g transform="translate(265 0)"><rect x="-38" y="170" width="76" height="74" rx="5" fill="#a3e635"/><text y="238" fill="#fff">O(n)</text><text y="158" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">one loop</text></g>
+    <g transform="translate(365 0)"><rect x="-50" y="140" width="100" height="104" rx="5" fill="#eab308"/><text y="238" fill="#fff">O(n log n)</text><text y="128" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">good sorting</text></g>
+    <g transform="translate(470 0)"><rect x="-38" y="100" width="76" height="144" rx="5" fill="#f97316"/><text y="238" fill="#fff">O(n²)</text><text y="88" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">nested loops</text></g>
+    <g transform="translate(560 0)"><rect x="-38" y="56" width="76" height="188" rx="5" fill="#ef4444"/><text y="238" fill="#fff">O(2ⁿ)</text><text y="44" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">all subsets</text></g>
+    <g transform="translate(645 0)"><rect x="-38" y="20" width="76" height="224" rx="5" fill="#b91c1c"/><text y="238" fill="#fff">O(n!)</text><text y="14" font-family="Segoe UI" font-size="11" fill="#475569" font-weight="400">permutations</text></g>
+  </g>
+</svg>

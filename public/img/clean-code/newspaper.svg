@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="280" fill="#ffffff"/>
+  <g transform="translate(40 24)">
+    <rect width="280" height="232" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="140" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="800" fill="#0f172a">THE DAILY CODE</text>
+    <line x1="16" y1="48" x2="264" y2="48" stroke="#0f172a" stroke-width="2"/>
+    <text x="16" y="76" font-family="Georgia, serif" font-size="16" font-weight="800" fill="#0f172a">Big headline</text>
+    <text x="16" y="96" font-size="11" fill="#475569">Summary: what the story is about</text>
+    <g fill="#cbd5e1"><rect x="16" y="110" width="120" height="7" rx="3"/><rect x="16" y="124" width="120" height="7" rx="3"/><rect x="16" y="138" width="100" height="7" rx="3"/>
+    <rect x="148" y="110" width="116" height="7" rx="3"/><rect x="148" y="124" width="116" height="7" rx="3"/><rect x="148" y="138" width="90" height="7" rx="3"/>
+    <rect x="16" y="160" width="248" height="5" rx="2"/><rect x="16" y="172" width="248" height="5" rx="2"/><rect x="16" y="184" width="220" height="5" rx="2"/><rect x="16" y="196" width="248" height="5" rx="2"/><rect x="16" y="208" width="180" height="5" rx="2"/></g>
+  </g>
+  <g transform="translate(340 130)"><path d="M0 0h20" stroke="#94a3b8" stroke-width="4"/><path d="M18 -8l12 8-12 8z" fill="#94a3b8"/></g>
+  <g transform="translate(390 24)">
+    <rect width="290" height="232" rx="10" fill="#0f172a"/>
+    <g font-family="Consolas, monospace" font-size="12.5">
+      <text x="16" y="34" fill="#c792ea">export function <tspan fill="#82aaff">publishArticle</tspan><tspan fill="#e2e8f0">(a) {</tspan></text>
+      <text x="32" y="54" fill="#e2e8f0">validate(a);</text>
+      <text x="32" y="72" fill="#e2e8f0">save(render(a));</text>
+      <text x="16" y="90" fill="#e2e8f0">}</text>
+      <text x="200" y="54" fill="#7c8aa5" font-style="italic">← headline</text>
+      <text x="16" y="124" fill="#c792ea">function <tspan fill="#82aaff">validate</tspan><tspan fill="#e2e8f0">(a) { … }</tspan></text>
+      <text x="16" y="150" fill="#c792ea">function <tspan fill="#82aaff">render</tspan><tspan fill="#e2e8f0">(a) { … }</tspan></text>
+      <text x="16" y="176" fill="#c792ea">function <tspan fill="#82aaff">save</tspan><tspan fill="#e2e8f0">(html) { … }</tspan></text>
+      <text x="200" y="150" fill="#7c8aa5" font-style="italic">← details</text>
+    </g>
+  </g>
+</svg>

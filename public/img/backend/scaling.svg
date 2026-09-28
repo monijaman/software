@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="740" height="260" fill="#ffffff"/>
+  <text x="180" y="28" text-anchor="middle" font-size="16" font-weight="800" fill="#7c2d12">Vertical: scale UP</text>
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="800" fill="#064e3b">Horizontal: scale OUT</text>
+  <g transform="translate(60 150)">
+    <rect width="60" height="60" rx="8" fill="#fed7aa" stroke="#f97316" stroke-width="2"/><text x="30" y="38" text-anchor="middle" font-size="22">🖥️</text>
+    <text x="30" y="84" text-anchor="middle" font-size="12" fill="#475569">2 CPU</text>
+  </g>
+  <path d="M136 180 H176" stroke="#f97316" stroke-width="3"/><path d="M174 172 l12 8 -12 8z" fill="#f97316"/>
+  <g transform="translate(196 60)">
+    <rect width="120" height="150" rx="12" fill="#fed7aa" stroke="#ea580c" stroke-width="3"/><text x="60" y="88" text-anchor="middle" font-size="44">🖥️</text>
+    <text x="60" y="174" text-anchor="middle" font-size="12" fill="#475569">64 CPU · $$$$</text>
+  </g>
+  <line x1="370" y1="40" x2="370" y2="240" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(510 50)"><rect width="80" height="44" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/><text x="40" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">⚖️ LB</text></g>
+  <g stroke="#94a3b8" stroke-width="2"><line x1="550" y1="94" x2="420" y2="150"/><line x1="550" y1="94" x2="505" y2="150"/><line x1="550" y1="94" x2="590" y2="150"/><line x1="550" y1="94" x2="675" y2="150"/></g>
+  <g text-anchor="middle" font-size="22">
+    <g transform="translate(390 150)"><rect width="60" height="60" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="30" y="38">🖥️</text></g>
+    <g transform="translate(475 150)"><rect width="60" height="60" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="30" y="38">🖥️</text></g>
+    <g transform="translate(560 150)"><rect width="60" height="60" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="30" y="38">🖥️</text></g>
+    <g transform="translate(645 150)"><rect width="60" height="60" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="5 4"/><text x="30" y="38">➕</text></g>
+  </g>
+  <text x="550" y="238" text-anchor="middle" font-size="12" fill="#475569">many small servers · survives one failing</text>
+</svg>

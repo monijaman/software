@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">If 1 ns were 1 second…</text>
+  <g font-size="13">
+    <g transform="translate(30 50)"><text x="0" y="18" font-size="22">🧠</text><text x="36" y="17" font-weight="700" fill="#0f172a">CPU cache</text><rect x="200" y="4" width="8" height="18" rx="3" fill="#22c55e"/><text x="218" y="18" fill="#15803d">1 ns → 1 second</text></g>
+    <g transform="translate(30 88)"><text x="0" y="18" font-size="22">🗂️</text><text x="36" y="17" font-weight="700" fill="#0f172a">RAM</text><rect x="200" y="4" width="30" height="18" rx="3" fill="#4ade80"/><text x="240" y="18" fill="#15803d">100 ns → under 2 minutes</text></g>
+    <g transform="translate(30 126)"><text x="0" y="18" font-size="22">⚡</text><text x="36" y="17" font-weight="700" fill="#0f172a">Redis (network)</text><rect x="200" y="4" width="120" height="18" rx="3" fill="#eab308"/><text x="330" y="18" fill="#a16207">0.5 ms → about 6 days</text></g>
+    <g transform="translate(30 164)"><text x="0" y="18" font-size="22">🗄️</text><text x="36" y="17" font-weight="700" fill="#0f172a">Database query</text><rect x="200" y="4" width="260" height="18" rx="3" fill="#f97316"/><text x="470" y="18" fill="#c2410c">5 ms → about 2 months</text></g>
+    <g transform="translate(30 202)"><text x="0" y="18" font-size="22">🌍</text><text x="36" y="17" font-weight="700" fill="#0f172a">External API</text><rect x="200" y="4" width="440" height="18" rx="3" fill="#ef4444"/><text x="632" y="18" text-anchor="end" fill="#fff" font-weight="700">200 ms → over 6 years</text></g>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <g font-family="Consolas, monospace" font-size="14" font-weight="700">
+    <g transform="translate(30 50)"><rect width="110" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6"/><text x="55" y="23" text-anchor="middle" fill="#1e3a8a">"apple"</text></g>
+    <g transform="translate(30 112)"><rect width="110" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6"/><text x="55" y="23" text-anchor="middle" fill="#1e3a8a">"banana"</text></g>
+    <g transform="translate(30 174)"><rect width="110" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6"/><text x="55" y="23" text-anchor="middle" fill="#1e3a8a">"grape"</text></g>
+  </g>
+  <g stroke="#94a3b8" stroke-width="2.5"><line x1="140" y1="68" x2="220" y2="120"/><line x1="140" y1="130" x2="220" y2="130"/><line x1="140" y1="192" x2="220" y2="140"/></g>
+  <g transform="translate(220 80)">
+    <rect width="130" height="100" rx="50" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="65" y="46" text-anchor="middle" font-size="15" font-weight="800" fill="#4c1d95">hash()</text>
+    <text x="65" y="66" text-anchor="middle" font-size="11" fill="#6d28d9">key → number</text>
+  </g>
+  <g stroke="#8b5cf6" stroke-width="2.5" fill="none"><path d="M350 120 C 390 110, 400 100, 440 94"/><path d="M350 130 C 390 150, 400 180, 440 186"/><path d="M350 140 C 390 130, 400 105, 440 98"/></g>
+  <g font-family="Consolas, monospace" font-size="13">
+    <g transform="translate(440 20)">
+      <rect width="60" height="220" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+      <g fill="#64748b" text-anchor="middle"><text x="30" y="30">0</text><text x="30" y="58">1</text><text x="30" y="86">2</text><text x="30" y="114" font-weight="700" fill="#7c3aed">3</text><text x="30" y="142">4</text><text x="30" y="170">5</text><text x="30" y="198" font-weight="700" fill="#7c3aed">6</text></g>
+    </g>
+    <g transform="translate(510 102)"><rect width="88" height="24" rx="5" fill="#fef3c7" stroke="#f59e0b"/><text x="8" y="17" fill="#78350f">apple:🍎</text></g>
+    <path d="M598 114 H610" stroke="#94a3b8" stroke-width="2"/>
+    <g transform="translate(610 102)"><rect width="92" height="24" rx="5" fill="#fef3c7" stroke="#f59e0b"/><text x="8" y="17" fill="#78350f">grape:🍇</text></g>
+    <g transform="translate(510 186)"><rect width="100" height="24" rx="5" fill="#fef3c7" stroke="#f59e0b"/><text x="8" y="17" fill="#78350f">banana:🍌</text></g>
+  </g>
+  <text x="606" y="90" text-anchor="middle" font-size="11" fill="#b45309">collision → chain</text>
+  <text x="360" y="252" text-anchor="middle" font-size="13" fill="#475569">No scanning: hash the key, jump to its bucket → O(1) on average</text>
+</svg>

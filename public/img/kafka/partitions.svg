@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="260" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g font-family="Consolas, monospace" font-size="11" font-weight="700" text-anchor="middle">
+    <g transform="translate(20 40)"><rect width="120" height="30" rx="15" fill="#fed7aa" stroke="#f97316"/><text x="60" y="20" fill="#7c2d12">key: order-42</text></g>
+    <g transform="translate(20 95)"><rect width="120" height="30" rx="15" fill="#bae6fd" stroke="#0ea5e9"/><text x="60" y="20" fill="#0c4a6e">key: order-77</text></g>
+    <g transform="translate(20 150)"><rect width="120" height="30" rx="15" fill="#fed7aa" stroke="#f97316"/><text x="60" y="20" fill="#7c2d12">key: order-42</text></g>
+    <g transform="translate(20 205)"><rect width="120" height="30" rx="15" fill="#ddd6fe" stroke="#8b5cf6"/><text x="60" y="20" fill="#4c1d95">key: order-13</text></g>
+  </g>
+  <g transform="translate(190 100)"><rect width="110" height="60" rx="30" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="55" y="28" text-anchor="middle" font-size="12" font-weight="800" fill="#4c1d95">hash(key)</text><text x="55" y="45" text-anchor="middle" font-size="11" fill="#6d28d9">% 3</text></g>
+  <g stroke="#94a3b8" stroke-width="2"><line x1="140" y1="55" x2="190" y2="120"/><line x1="140" y1="110" x2="190" y2="126"/><line x1="140" y1="165" x2="190" y2="134"/><line x1="140" y1="220" x2="190" y2="140"/></g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><path d="M300 118 C 330 90, 340 70, 368 66"/><path d="M300 130 H368"/><path d="M300 142 C 330 170, 340 190, 368 194"/></g>
+  <g font-size="12" font-weight="800"><text x="376" y="48" fill="#334155">Partition 0</text><text x="376" y="112" fill="#334155">Partition 1</text><text x="376" y="176" fill="#334155">Partition 2</text></g>
+  <g font-family="Consolas, monospace" font-size="10" font-weight="700" text-anchor="middle">
+    <g transform="translate(376 54)"><rect width="370" height="26" rx="6" fill="#f8fafc" stroke="#cbd5e1"/><rect x="4" y="3" width="80" height="20" rx="4" fill="#bae6fd"/><text x="44" y="17" fill="#0c4a6e">order-77</text></g>
+    <g transform="translate(376 118)"><rect width="370" height="26" rx="6" fill="#f8fafc" stroke="#cbd5e1"/><rect x="4" y="3" width="80" height="20" rx="4" fill="#fed7aa"/><text x="44" y="17" fill="#7c2d12">42 placed</text><rect x="88" y="3" width="80" height="20" rx="4" fill="#fed7aa"/><text x="128" y="17" fill="#7c2d12">42 paid</text><rect x="172" y="3" width="80" height="20" rx="4" fill="#fed7aa"/><text x="212" y="17" fill="#7c2d12">42 shipped</text></g>
+    <g transform="translate(376 182)"><rect width="370" height="26" rx="6" fill="#f8fafc" stroke="#cbd5e1"/><rect x="4" y="3" width="80" height="20" rx="4" fill="#ddd6fe"/><text x="44" y="17" fill="#4c1d95">order-13</text></g>
+  </g>
+  <text x="560" y="240" text-anchor="middle" font-size="12" fill="#475569">same key → same partition → events stay in order</text>
+</svg>

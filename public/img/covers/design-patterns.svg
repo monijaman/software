@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9d174d"/><stop offset="1" stop-color="#f472b6"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <circle cx="560" cy="40" r="140" fill="#fff" opacity=".07"/>
+  <circle cx="80" cy="340" r="110" fill="#fff" opacity=".06"/>
+  <text x="36" y="262" font-size="42" font-weight="800" fill="#fff">Design Patterns</text>
+  <text x="38" y="302" font-size="21" fill="#fff" opacity=".88">Creational · Structural · Behavioral</text>
+
+  <g filter="url(#sh)" font-size="30" text-anchor="middle">
+    <g transform="translate(400 80)"><rect x="-50" y="-44" width="100" height="88" rx="16" fill="#fff"/><text y="0">🏭</text><text y="28" font-size="12" font-weight="700" fill="#9d174d">Create</text></g>
+    <g transform="translate(520 80)"><rect x="-50" y="-44" width="100" height="88" rx="16" fill="#fde68a"/><text y="0">🧱</text><text y="28" font-size="12" font-weight="700" fill="#9d174d">Structure</text></g>
+    <g transform="translate(460 184)"><rect x="-50" y="-44" width="100" height="88" rx="16" fill="#a5f3fc"/><text y="0">🗣️</text><text y="28" font-size="12" font-weight="700" fill="#9d174d">Behave</text></g>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">One word, three models: “Product”</text>
+  <g font-size="12">
+    <g transform="translate(30 44)">
+      <rect width="220" height="180" rx="16" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="7 5"/>
+      <text x="110" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#1e3a8a">📚 Catalog context</text>
+      <rect x="30" y="46" width="160" height="112" rx="10" fill="#fff" stroke="#93c5fd"/>
+      <text x="110" y="68" text-anchor="middle" font-weight="800" fill="#1e40af">Product</text>
+      <g font-family="Consolas, monospace" fill="#334155"><text x="46" y="92">name</text><text x="46" y="110">photos[]</text><text x="46" y="128">description</text><text x="46" y="146">category</text></g>
+    </g>
+    <g transform="translate(270 44)">
+      <rect width="220" height="180" rx="16" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="7 5"/>
+      <text x="110" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#064e3b">📦 Inventory context</text>
+      <rect x="30" y="46" width="160" height="112" rx="10" fill="#fff" stroke="#6ee7b7"/>
+      <text x="110" y="68" text-anchor="middle" font-weight="800" fill="#047857">StockItem</text>
+      <g font-family="Consolas, monospace" fill="#334155"><text x="46" y="92">sku</text><text x="46" y="110">quantity</text><text x="46" y="128">shelfLocation</text><text x="46" y="146">weightKg</text></g>
+    </g>
+    <g transform="translate(510 44)">
+      <rect width="220" height="180" rx="16" fill="#fefce8" stroke="#eab308" stroke-width="2" stroke-dasharray="7 5"/>
+      <text x="110" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#713f12">💰 Billing context</text>
+      <rect x="30" y="46" width="160" height="112" rx="10" fill="#fff" stroke="#fde047"/>
+      <text x="110" y="68" text-anchor="middle" font-weight="800" fill="#a16207">BillableItem</text>
+      <g font-family="Consolas, monospace" fill="#334155"><text x="46" y="92">priceCents</text><text x="46" y="110">taxClass</text><text x="46" y="128">discounts[]</text><text x="46" y="146">currency</text></g>
+    </g>
+  </g>
+  <text x="380" y="244" text-anchor="middle" font-size="12" fill="#475569">Shared only by ID (productId) · each context owns its own data and language</text>
+</svg>

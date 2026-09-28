@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <g text-anchor="middle">
+    <g transform="translate(100 20)">
+      <rect x="-85" width="170" height="210" rx="16" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text y="44" font-size="34">🛵</text><text y="80" font-size="18" font-weight="800" fill="#166534">Node.js</text>
+      <text y="104" font-size="11.5" fill="#15803d">event loop · JavaScript</text>
+      <g font-size="11" fill="#334155"><text y="134">⚡ speed ●●●○○</text><text y="154">📚 ease ●●●●○</text><text y="174">🧵 concurrency ●●●○○</text></g>
+      <text y="200" font-size="11" font-weight="700" fill="#166534">APIs · real-time · full-stack</text>
+    </g>
+    <g transform="translate(287 20)">
+      <rect x="-85" width="170" height="210" rx="16" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+      <text y="44" font-size="34">🚚</text><text y="80" font-size="18" font-weight="800" fill="#155e75">Go</text>
+      <text y="104" font-size="11.5" fill="#0e7490">goroutines · compiled</text>
+      <g font-size="11" fill="#334155"><text y="134">⚡ speed ●●●●○</text><text y="154">📚 ease ●●●●○</text><text y="174">🧵 concurrency ●●●●●</text></g>
+      <text y="200" font-size="11" font-weight="700" fill="#155e75">microservices · cloud tools</text>
+    </g>
+    <g transform="translate(474 20)">
+      <rect x="-85" width="170" height="210" rx="16" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+      <text y="44" font-size="34">🚙</text><text y="80" font-size="18" font-weight="800" fill="#854d0e">Python</text>
+      <text y="104" font-size="11.5" fill="#a16207">asyncio · huge ecosystem</text>
+      <g font-size="11" fill="#334155"><text y="134">⚡ speed ●●○○○</text><text y="154">📚 ease ●●●●●</text><text y="174">🧵 concurrency ●●○○○</text></g>
+      <text y="200" font-size="11" font-weight="700" fill="#854d0e">AI/ML · data · prototypes</text>
+    </g>
+    <g transform="translate(661 20)">
+      <rect x="-85" width="170" height="210" rx="16" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+      <text y="44" font-size="34">🏎️</text><text y="80" font-size="18" font-weight="800" fill="#9a3412">Rust</text>
+      <text y="104" font-size="11.5" fill="#c2410c">ownership · no GC</text>
+      <g font-size="11" fill="#334155"><text y="134">⚡ speed ●●●●●</text><text y="154">📚 ease ●●○○○</text><text y="174">🧵 concurrency ●●●●●</text></g>
+      <text y="200" font-size="11" font-weight="700" fill="#9a3412">high performance · systems</text>
+    </g>
+  </g>
+</svg>

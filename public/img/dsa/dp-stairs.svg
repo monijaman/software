@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="270" fill="#ffffff"/>
+  <g fill="#e0e7ff" stroke="#6366f1" stroke-width="2">
+    <rect x="60" y="210" width="100" height="40"/><rect x="160" y="170" width="100" height="80"/><rect x="260" y="130" width="100" height="120"/>
+    <rect x="360" y="90" width="100" height="160"/><rect x="460" y="50" width="100" height="200"/><rect x="560" y="10" width="100" height="240" fill="#fde68a" stroke="#f59e0b"/>
+  </g>
+  <g text-anchor="middle" font-weight="800">
+    <g font-size="12" fill="#4338ca"><text x="110" y="234">step 1</text><text x="210" y="194">step 2</text><text x="310" y="154">step 3</text><text x="410" y="114">step 4</text><text x="510" y="74">step 5</text><text x="610" y="34" fill="#92400e">step 6</text></g>
+    <g font-size="20" fill="#1e1b4b"><text x="110" y="200">1</text><text x="210" y="160">2</text><text x="310" y="120">3</text><text x="410" y="80">5</text><text x="510" y="40">8</text></g>
+    <text x="610" y="70" font-size="22" fill="#78350f">13</text>
+  </g>
+  <g fill="none" stroke="#f59e0b" stroke-width="2.5"><path d="M520 30 C 560 0, 590 40, 600 58"/><path d="M420 70 C 500 -10, 590 30, 598 60"/></g>
+  <text x="600" y="110" text-anchor="middle" font-size="12" fill="#92400e">= 8 + 5</text>
+  <text x="330" y="266" text-anchor="middle" font-size="13" fill="#475569">ways(n) = ways(n−1) + ways(n−2): each answer reuses the two answers below it</text>
+</svg>

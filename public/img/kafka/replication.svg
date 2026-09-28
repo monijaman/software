@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="260" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle">
+    <g transform="translate(140 30)">
+      <rect x="-110" width="220" height="190" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <text y="28" font-size="14" font-weight="800" fill="#0f172a">🖥️ Broker 1</text>
+      <rect x="-90" y="46" width="180" height="40" rx="10" fill="#fdba74" stroke="#ea580c" stroke-width="3"/><text y="71" font-size="13" font-weight="800" fill="#7c2d12">P0 👑 leader</text>
+      <rect x="-90" y="96" width="180" height="36" rx="10" fill="#e0f2fe"/><text y="119" font-size="12" fill="#0c4a6e">P1 copy</text>
+      <rect x="-90" y="142" width="180" height="36" rx="10" fill="#ede9fe"/><text y="165" font-size="12" fill="#4c1d95">P2 copy</text>
+    </g>
+    <g transform="translate(380 30)">
+      <rect x="-110" width="220" height="190" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <text y="28" font-size="14" font-weight="800" fill="#0f172a">🖥️ Broker 2</text>
+      <rect x="-90" y="46" width="180" height="36" rx="10" fill="#ffedd5"/><text y="69" font-size="12" fill="#7c2d12">P0 copy (in sync)</text>
+      <rect x="-90" y="92" width="180" height="40" rx="10" fill="#7dd3fc" stroke="#0284c7" stroke-width="3"/><text y="117" font-size="13" font-weight="800" fill="#0c4a6e">P1 👑 leader</text>
+      <rect x="-90" y="142" width="180" height="36" rx="10" fill="#ede9fe"/><text y="165" font-size="12" fill="#4c1d95">P2 copy</text>
+    </g>
+    <g transform="translate(620 30)">
+      <rect x="-110" width="220" height="190" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <text y="28" font-size="14" font-weight="800" fill="#0f172a">🖥️ Broker 3</text>
+      <rect x="-90" y="46" width="180" height="36" rx="10" fill="#ffedd5"/><text y="69" font-size="12" fill="#7c2d12">P0 copy (in sync)</text>
+      <rect x="-90" y="92" width="180" height="36" rx="10" fill="#e0f2fe"/><text y="115" font-size="12" fill="#0c4a6e">P1 copy</text>
+      <rect x="-90" y="138" width="180" height="40" rx="10" fill="#c4b5fd" stroke="#7c3aed" stroke-width="3"/><text y="163" font-size="13" font-weight="800" fill="#4c1d95">P2 👑 leader</text>
+    </g>
+  </g>
+  <g stroke="#ea580c" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)" fill="none"><path d="M230 96 C 250 96, 260 96, 286 96"/><path d="M230 90 C 330 20, 460 20, 526 90"/></g>
+  <text x="380" y="245" text-anchor="middle" font-size="12" fill="#475569">Followers copy the leader · if Broker 1 dies, an in-sync copy of P0 becomes leader</text>
+</svg>

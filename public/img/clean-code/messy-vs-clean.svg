@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="300" fill="#ffffff"/>
+  <!-- messy kitchen -->
+  <g transform="translate(30 30)">
+    <rect width="310" height="220" rx="16" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+    <text x="155" y="32" text-anchor="middle" font-size="18" font-weight="800" fill="#b91c1c">😵 Messy kitchen</text>
+    <g font-size="30">
+      <text x="30" y="90" transform="rotate(-15 45 80)">🍳</text><text x="200" y="85" transform="rotate(20 215 75)">🥄</text>
+      <text x="110" y="120">🧂</text><text x="240" y="140" transform="rotate(-30 255 130)">🔪</text>
+      <text x="50" y="160" transform="rotate(35 65 150)">🥕</text><text x="160" y="175">🍅</text><text x="95" y="190" transform="rotate(-10 110 180)">🧄</text>
+    </g>
+    <text x="155" y="208" text-anchor="middle" font-size="13" fill="#7f1d1d">“Where is the knife?” — 10 minutes lost</text>
+  </g>
+  <!-- arrow -->
+  <g transform="translate(360 140)"><path d="M0 0h28" stroke="#94a3b8" stroke-width="4"/><path d="M26 -9l14 9-14 9z" fill="#94a3b8"/></g>
+  <!-- clean kitchen -->
+  <g transform="translate(380 30)">
+    <rect width="310" height="220" rx="16" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="155" y="32" text-anchor="middle" font-size="18" font-weight="800" fill="#047857">😌 Clean kitchen</text>
+    <g font-size="12" font-weight="700" fill="#065f46" text-anchor="middle">
+      <rect x="24" y="52" width="80" height="120" rx="10" fill="#fff" stroke="#a7f3d0"/>
+      <text x="64" y="70">Tools</text><text x="64" y="104" font-size="26">🔪</text><text x="64" y="140" font-size="26">🥄</text>
+      <rect x="115" y="52" width="80" height="120" rx="10" fill="#fff" stroke="#a7f3d0"/>
+      <text x="155" y="70">Veg</text><text x="155" y="104" font-size="26">🥕</text><text x="155" y="140" font-size="26">🧄</text>
+      <rect x="206" y="52" width="80" height="120" rx="10" fill="#fff" stroke="#a7f3d0"/>
+      <text x="246" y="70">Spices</text><text x="246" y="104" font-size="26">🧂</text><text x="246" y="140" font-size="26">🌶️</text>
+    </g>
+    <text x="155" y="208" text-anchor="middle" font-size="13" fill="#064e3b">Everything has a labelled place — 2 seconds</text>
+  </g>
+  <text x="360" y="286" text-anchor="middle" font-size="14" fill="#475569">Code works the same way: a clear place and a clear name for everything saves time for every reader.</text>
+</svg>

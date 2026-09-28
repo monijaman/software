@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="740" height="270" fill="#ffffff"/>
+  <text x="190" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#1e3a8a">SQL: linked tables</text>
+  <text x="560" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#065f46">NoSQL: one document</text>
+  <g font-family="Consolas, monospace" font-size="12">
+    <g transform="translate(20 44)">
+      <rect width="160" height="24" fill="#3b82f6"/><text x="8" y="17" fill="#fff" font-weight="700">customers</text>
+      <rect y="24" width="160" height="22" fill="#dbeafe"/><text x="8" y="40" fill="#1e3a8a">id │ name</text>
+      <rect y="46" width="160" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="62" fill="#334155">17 │ Ana</text>
+      <rect y="68" width="160" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="84" fill="#334155">18 │ Bo</text>
+    </g>
+    <g transform="translate(200 44)">
+      <rect width="160" height="24" fill="#3b82f6"/><text x="8" y="17" fill="#fff" font-weight="700">orders</text>
+      <rect y="24" width="160" height="22" fill="#dbeafe"/><text x="8" y="40" fill="#1e3a8a">id │ customer_id</text>
+      <rect y="46" width="160" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="62" fill="#334155">501 │ 17</text>
+      <rect y="68" width="160" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="84" fill="#334155">502 │ 17</text>
+    </g>
+    <g transform="translate(110 160)">
+      <rect width="170" height="24" fill="#3b82f6"/><text x="8" y="17" fill="#fff" font-weight="700">order_items</text>
+      <rect y="24" width="170" height="22" fill="#dbeafe"/><text x="8" y="40" fill="#1e3a8a">order_id │ product</text>
+      <rect y="46" width="170" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="62" fill="#334155">501 │ Keyboard</text>
+      <rect y="68" width="170" height="22" fill="#fff" stroke="#dbeafe"/><text x="8" y="84" fill="#334155">501 │ Mouse</text>
+    </g>
+  </g>
+  <g stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="4 3"><path d="M180 102 C 190 102, 190 106, 200 106"/><path d="M230 134 C 230 150, 200 150, 195 160"/></g>
+  <text x="190" y="264" text-anchor="middle" font-size="12" fill="#1d4ed8">JOIN to rebuild the order · no duplicates</text>
+  <line x1="380" y1="40" x2="380" y2="250" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(410 44)">
+    <rect width="300" height="200" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <g font-family="Consolas, monospace" font-size="12.5" fill="#064e3b">
+      <text x="14" y="26">{</text>
+      <text x="28" y="46">"_id": 501,</text>
+      <text x="28" y="66">"customer": { "id": 17, "name": "Ana" },</text>
+      <text x="28" y="86">"items": [</text>
+      <text x="44" y="106">{ "product": "Keyboard", "qty": 1 },</text>
+      <text x="44" y="126">{ "product": "Mouse", "qty": 2 }</text>
+      <text x="28" y="146">],</text>
+      <text x="28" y="166">"totalCents": 8997</text>
+      <text x="14" y="186">}</text>
+    </g>
+  </g>
+  <text x="560" y="264" text-anchor="middle" font-size="12" fill="#047857">read in one go · data may be duplicated</text>
+</svg>

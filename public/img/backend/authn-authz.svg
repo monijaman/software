@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="230" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle">
+    <g transform="translate(80 110)"><text y="12" font-size="46">🧍</text><text y="60" font-size="13" font-weight="700" fill="#334155">Request</text></g>
+    <g transform="translate(290 110)">
+      <rect x="-120" y="-80" width="240" height="160" rx="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+      <text y="-40" font-size="32">🛂</text>
+      <text y="-2" font-size="16" font-weight="800" fill="#1e3a8a">Authentication</text>
+      <text y="20" font-size="13" fill="#1e40af">“Who are you?”</text>
+      <text y="44" font-size="11" fill="#475569">password · token · passkey</text>
+      <text y="64" font-size="11" font-weight="700" fill="#dc2626">fails → 401</text>
+    </g>
+    <g transform="translate(560 110)">
+      <rect x="-120" y="-80" width="240" height="160" rx="18" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+      <text y="-40" font-size="32">🎫</text>
+      <text y="-2" font-size="16" font-weight="800" fill="#4c1d95">Authorization</text>
+      <text y="20" font-size="13" fill="#5b21b6">“What may you do?”</text>
+      <text y="44" font-size="11" fill="#475569">roles · ownership · policies</text>
+      <text y="64" font-size="11" font-weight="700" fill="#dc2626">fails → 403</text>
+    </g>
+  </g>
+  <g stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"><line x1="112" y1="100" x2="164" y2="100"/><line x1="412" y1="100" x2="434" y2="100"/></g>
+  <text x="360" y="218" text-anchor="middle" font-size="12" fill="#64748b">Always in this order: first prove identity, then check permissions</text>
+</svg>

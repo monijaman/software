@@ -1,0 +1,83 @@
+[
+  {
+    "slug": "clean-code",
+    "title": "Clean Code",
+    "tagline": "Write code humans love to read",
+    "description": "Naming, small functions, error handling, the KISS / DRY / YAGNI rules of thumb, code smells, and Clean Architecture layers.",
+    "icon": "✨",
+    "color": "#0ea5e9",
+    "cover": "/img/covers/clean-code.svg"
+  },
+  {
+    "slug": "solid",
+    "title": "SOLID Principles",
+    "tagline": "Five rules for flexible designs",
+    "description": "Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation and Dependency Inversion, each with a picture and a before/after example.",
+    "icon": "🧱",
+    "color": "#8b5cf6",
+    "cover": "/img/covers/solid.svg"
+  },
+  {
+    "slug": "design-patterns",
+    "title": "Design Patterns",
+    "tagline": "Proven answers to common problems",
+    "description": "The 22 classic Gang of Four patterns in three families (creational, structural, behavioral), explained with real-life analogies and short JavaScript examples.",
+    "icon": "🧩",
+    "color": "#ec4899",
+    "cover": "/img/covers/design-patterns.svg"
+  },
+  {
+    "slug": "dsa",
+    "title": "Data Structures & Algorithms",
+    "tagline": "Think like a problem solver",
+    "description": "Big-O, arrays, hash maps, linked lists, stacks, trees, heaps, graphs, sorting, binary search, recursion and dynamic programming, with a pattern cheat sheet for interviews.",
+    "icon": "🧮",
+    "color": "#f59e0b",
+    "cover": "/img/covers/dsa.svg"
+  },
+  {
+    "slug": "backend",
+    "title": "Backend Engineering",
+    "tagline": "Servers, data and scale",
+    "description": "How requests travel, API design (REST, GraphQL, gRPC), SQL vs NoSQL, indexing, caching with Redis, queues, authentication, scaling, Docker and backend languages.",
+    "icon": "🖥️",
+    "color": "#10b981",
+    "cover": "/img/covers/backend.svg"
+  },
+  {
+    "slug": "frontend",
+    "title": "Frontend Engineering",
+    "tagline": "Fast, safe, delightful UIs",
+    "description": "How browsers render, the JavaScript event loop, TypeScript, React and hooks, state management, Next.js rendering modes, performance, security and testing.",
+    "icon": "🎨",
+    "color": "#f43f5e",
+    "cover": "/img/covers/frontend.svg"
+  },
+  {
+    "slug": "microservices",
+    "title": "Microservices",
+    "tagline": "Small services, big systems",
+    "description": "Monolith vs microservices, service boundaries, sync vs async communication, API gateways, resilience patterns, sagas, the outbox pattern, CQRS and observability.",
+    "icon": "🔗",
+    "color": "#6366f1",
+    "cover": "/img/covers/microservices.svg"
+  },
+  {
+    "slug": "kafka",
+    "title": "Apache Kafka",
+    "tagline": "The event streaming backbone",
+    "description": "Topics, partitions and offsets, producers, consumer groups, replication, delivery guarantees, and when to choose Kafka over RabbitMQ.",
+    "icon": "📨",
+    "color": "#0d9488",
+    "cover": "/img/covers/kafka.svg"
+  },
+  {
+    "slug": "kubernetes",
+    "title": "Kubernetes",
+    "tagline": "Run containers at scale",
+    "description": "Containers to orchestration: cluster architecture, Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, storage, autoscaling, health probes and Helm.",
+    "icon": "☸️",
+    "color": "#2563eb",
+    "cover": "/img/covers/kubernetes.svg"
+  }
+]

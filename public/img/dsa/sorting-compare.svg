@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Time to sort 1,000,000 items (relative)</text>
+  <g font-size="13" font-weight="700">
+    <text x="170" y="66" text-anchor="end" fill="#334155">Bubble sort</text><rect x="180" y="52" width="500" height="20" rx="4" fill="#ef4444"/><text x="690" y="66" text-anchor="end" fill="#fff">~ 10¹² steps · O(n²)</text>
+    <text x="170" y="100" text-anchor="end" fill="#334155">Insertion sort</text><rect x="180" y="86" width="480" height="20" rx="4" fill="#f97316"/><text x="650" y="100" text-anchor="end" fill="#fff">O(n²)</text>
+    <text x="170" y="134" text-anchor="end" fill="#334155">Merge sort</text><rect x="180" y="120" width="26" height="20" rx="4" fill="#22c55e"/><text x="214" y="134" fill="#15803d">~ 2 × 10⁷ · O(n log n)</text>
+    <text x="170" y="168" text-anchor="end" fill="#334155">Quick sort</text><rect x="180" y="154" width="22" height="20" rx="4" fill="#16a34a"/><text x="210" y="168" fill="#15803d">O(n log n), fastest in practice</text>
+    <text x="170" y="202" text-anchor="end" fill="#334155">TimSort (JS)</text><rect x="180" y="188" width="20" height="20" rx="4" fill="#0ea5e9"/><text x="208" y="202" fill="#0369a1">O(n log n), great on real data</text>
+  </g>
+  <text x="360" y="240" text-anchor="middle" font-size="12" fill="#64748b">n² = 1,000,000,000,000 vs n log n ≈ 20,000,000: about 50,000× less work</text>
+</svg>

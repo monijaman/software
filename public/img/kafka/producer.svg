@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="230" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <rect x="20" y="30" width="500" height="160" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="36" y="52" font-size="12" font-weight="800" fill="#334155">Producer</text>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <g transform="translate(95 110)"><rect x="-55" y="-34" width="110" height="68" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text y="-8" font-size="18">🧬</text><text y="16" fill="#1e3a8a">Serialise</text></g>
+    <g transform="translate(225 110)"><rect x="-55" y="-34" width="110" height="68" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text y="-8" font-size="18">🔀</text><text y="16" fill="#4c1d95">Partition</text></g>
+    <g transform="translate(360 110)">
+      <rect x="-60" y="-50" width="120" height="100" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-30" fill="#78350f">📦 Batches</text>
+      <g font-size="10" font-weight="600"><rect x="-48" y="-18" width="96" height="18" rx="4" fill="#fed7aa"/><text y="-5" fill="#7c2d12">P0 ■■■■□</text><rect x="-48" y="4" width="96" height="18" rx="4" fill="#bae6fd"/><text y="17" fill="#0c4a6e">P1 ■■□□□</text><rect x="-48" y="26" width="96" height="18" rx="4" fill="#ddd6fe"/><text y="39" fill="#4c1d95">P2 ■■■□□</text></g>
+    </g>
+    <g transform="translate(470 110)"><rect x="-38" y="-34" width="76" height="68" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text y="-8" font-size="18">🗜️</text><text y="16" fill="#064e3b">Send</text></g>
+    <g transform="translate(655 110)"><rect x="-80" y="-44" width="160" height="88" rx="14" fill="#1e293b"/><text y="-14" font-size="18">🗄️</text><text y="10" fill="#fff">Partition leader</text><text y="28" font-size="10" font-weight="400" fill="#cbd5e1">+ followers replicate</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><line x1="150" y1="110" x2="166" y2="110"/><line x1="280" y1="110" x2="296" y2="110"/><line x1="420" y1="110" x2="428" y2="110"/><path d="M508 100 H571"/><path d="M575 128 C 560 150, 530 150, 510 132" stroke="#16a34a" stroke-dasharray="5 4"/></g>
+  <text x="540" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">ack</text>
+  <text x="380" y="216" text-anchor="middle" font-size="12" fill="#475569">linger.ms + batch.size + compression = throughput · acks = safety</text>
+</svg>

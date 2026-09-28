@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="250" fill="#ffffff"/>
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#16a34a"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#dc2626"/></marker>
+  </defs>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <g transform="translate(95 80)"><rect x="-72" y="-34" width="144" height="68" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text y="-6" fill="#14532d">1. Create order</text><text y="14" font-size="18">✅</text></g>
+    <g transform="translate(285 80)"><rect x="-72" y="-34" width="144" height="68" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text y="-6" fill="#14532d">2. Reserve stock</text><text y="14" font-size="18">✅</text></g>
+    <g transform="translate(475 80)"><rect x="-72" y="-34" width="144" height="68" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/><text y="-6" fill="#7f1d1d">3. Charge card</text><text y="14" font-size="18">❌</text></g>
+    <g transform="translate(665 80)"><rect x="-72" y="-34" width="144" height="68" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 4"/><text y="-6" fill="#94a3b8">4. Ship</text><text y="14" fill="#94a3b8" font-weight="400">never runs</text></g>
+    <g transform="translate(95 190)"><rect x="-72" y="-28" width="144" height="56" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-4" fill="#78350f">↩ Cancel order</text><text y="14" font-size="10" font-weight="400" fill="#92400e">compensation</text></g>
+    <g transform="translate(285 190)"><rect x="-72" y="-28" width="144" height="56" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-4" fill="#78350f">↩ Release stock</text><text y="14" font-size="10" font-weight="400" fill="#92400e">compensation</text></g>
+  </g>
+  <g stroke="#16a34a" stroke-width="2.5" marker-end="url(#g)"><line x1="167" y1="80" x2="209" y2="80"/><line x1="357" y1="80" x2="399" y2="80"/></g>
+  <g stroke="#dc2626" stroke-width="2.5" marker-end="url(#r)" fill="none"><path d="M475 114 C 475 180, 420 190, 361 190"/><line x1="213" y1="190" x2="171" y2="190"/></g>
+  <text x="440" y="222" font-size="12" fill="#b91c1c">failure → undo completed steps in reverse order</text>
+</svg>
