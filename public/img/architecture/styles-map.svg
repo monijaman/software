@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#ffedd5"/></linearGradient></defs>
+  <rect x="30" y="250" width="700" height="10" rx="5" fill="url(#g)"/>
+  <text x="30" y="285" font-size="12" font-weight="700" fill="#1d4ed8">Inside one application</text>
+  <text x="730" y="285" text-anchor="end" font-size="12" font-weight="700" fill="#c2410c">The whole system</text>
+  <g font-size="12" font-weight="700" text-anchor="middle">
+    <g transform="translate(95 60)"><rect x="-65" y="-20" width="130" height="40" rx="10" fill="#dbeafe" stroke="#3b82f6"/><text y="5" fill="#1e3a8a">Layered</text></g>
+    <g transform="translate(95 115)"><rect x="-65" y="-20" width="130" height="40" rx="10" fill="#dbeafe" stroke="#3b82f6"/><text y="5" fill="#1e3a8a">MVC · MVVM</text></g>
+    <g transform="translate(95 170)"><rect x="-65" y="-20" width="130" height="40" rx="10" fill="#dbeafe" stroke="#3b82f6"/><text y="5" fill="#1e3a8a">Vertical slices</text></g>
+    <g transform="translate(255 60)"><rect x="-70" y="-20" width="140" height="40" rx="10" fill="#e0e7ff" stroke="#6366f1"/><text y="5" fill="#312e81">Clean</text></g>
+    <g transform="translate(255 115)"><rect x="-70" y="-20" width="140" height="40" rx="10" fill="#e0e7ff" stroke="#6366f1"/><text y="5" fill="#312e81">Hexagonal</text></g>
+    <g transform="translate(255 170)"><rect x="-70" y="-20" width="140" height="40" rx="10" fill="#e0e7ff" stroke="#6366f1"/><text y="5" fill="#312e81">Onion</text></g>
+    <g transform="translate(410 115)"><rect x="-70" y="-75" width="140" height="150" rx="14" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-44" font-size="20">🧭</text><text y="-16" fill="#78350f">Domain-Driven</text><text y="2" fill="#78350f">Design</text><text y="28" font-size="10" font-weight="400" fill="#92400e">boundaries (strategic)</text><text y="44" font-size="10" font-weight="400" fill="#92400e">models (tactical)</text></g>
+    <g transform="translate(580 45)"><rect x="-80" y="-20" width="160" height="40" rx="10" fill="#ffedd5" stroke="#ea580c"/><text y="5" fill="#7c2d12">Modular monolith</text></g>
+    <g transform="translate(580 95)"><rect x="-80" y="-20" width="160" height="40" rx="10" fill="#ffedd5" stroke="#ea580c"/><text y="5" fill="#7c2d12">Microservices</text></g>
+    <g transform="translate(580 145)"><rect x="-80" y="-20" width="160" height="40" rx="10" fill="#ffedd5" stroke="#ea580c"/><text y="5" fill="#7c2d12">Event-driven</text></g>
+    <g transform="translate(580 195)"><rect x="-80" y="-20" width="160" height="40" rx="10" fill="#ffedd5" stroke="#ea580c"/><text y="5" fill="#7c2d12">Microkernel</text></g>
+    <g transform="translate(700 120)"><rect x="-38" y="-95" width="76" height="190" rx="10" fill="#fff7ed" stroke="#fb923c"/><text y="-4" fill="#9a3412" font-size="11">Server-</text><text y="12" fill="#9a3412" font-size="11">less</text></g>
+  </g>
+  <text x="255" y="222" text-anchor="middle" font-size="11" fill="#4338ca">same core idea: domain in the centre</text>
+</svg>

@@ -86,6 +86,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+p {
+  font-size: 17px;
+}
+
 a {
   color: var(--brand);
   text-decoration: none;
@@ -127,6 +131,7 @@ h4 {
 .muted {
   color: var(--muted);
 }
+
 .lead {
   font-size: 1.15rem;
   color: var(--muted);

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="340" fill="#ffffff"/>
+  <g transform="translate(250 175)" text-anchor="middle">
+    <ellipse rx="210" ry="155" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <ellipse rx="155" ry="115" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <ellipse rx="100" ry="76" fill="#ffedd5" stroke="#f97316" stroke-width="2"/>
+    <ellipse rx="50" ry="38" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text y="-2" font-size="12" font-weight="800" fill="#78350f">Domain</text>
+    <text y="13" font-size="12" font-weight="800" fill="#78350f">model</text>
+    <text y="-52" font-size="11" font-weight="800" fill="#9a3412">Domain services</text>
+    <text y="60" font-size="9" fill="#9a3412">IOrderRepository (interface)</text>
+    <text y="-92" font-size="12" font-weight="800" fill="#1e3a8a">Application services</text>
+    <text y="-130" font-size="12" font-weight="800" fill="#4c1d95">UI · Infrastructure · Tests</text>
+    <text x="-150" y="80" font-size="10" fill="#5b21b6">Web API</text>
+    <text x="150" y="80" font-size="10" fill="#5b21b6">SqlOrderRepository</text>
+    <text y="140" font-size="10" fill="#5b21b6">Tests</text>
+    <g stroke="#0f172a" stroke-width="2" fill="none"><path d="M-150 60 L-95 30"/><path d="M-95 30 l0 -10 m0 10 l10 2"/><path d="M150 60 L96 30"/><path d="M96 30 l0 -10 m0 10 l-10 2"/></g>
+  </g>
+  <g transform="translate(490 50)">
+    <rect width="250" height="240" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+    <text x="16" y="30" font-size="15" font-weight="800" fill="#0f172a">Onion rules</text>
+    <g font-size="12" fill="#334155">
+      <text x="16" y="60">1. Everything is built around</text><text x="32" y="78">an independent domain model</text>
+      <text x="16" y="106">2. Inner rings define interfaces,</text><text x="32" y="124">outer rings implement them</text>
+      <text x="16" y="152">3. Coupling points toward</text><text x="32" y="170">the centre</text>
+      <text x="16" y="198">4. The core runs without</text><text x="32" y="216">any infrastructure</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="290" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g text-anchor="middle" font-size="14" font-weight="800">
+    <g transform="translate(300 45)"><rect x="-230" y="-28" width="460" height="56" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text y="-2" fill="#1e3a8a">🖥️ Presentation</text><text y="16" font-size="11" font-weight="400" fill="#1e40af">controllers · views · API routes</text></g>
+    <g transform="translate(300 115)"><rect x="-230" y="-28" width="460" height="56" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text y="-2" fill="#78350f">⚙️ Business</text><text y="16" font-size="11" font-weight="400" fill="#92400e">services · rules · workflows</text></g>
+    <g transform="translate(300 185)"><rect x="-230" y="-28" width="460" height="56" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text y="-2" fill="#14532d">🗃️ Persistence</text><text y="16" font-size="11" font-weight="400" fill="#166534">repositories · ORM · SQL</text></g>
+    <g transform="translate(300 255)"><rect x="-230" y="-24" width="460" height="48" rx="24" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/><text y="6" fill="#334155">🗄️ Database</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"><line x1="560" y1="50" x2="560" y2="240"/></g>
+  <text x="580" y="140" font-size="12" fill="#475569">each layer only</text>
+  <text x="580" y="158" font-size="12" fill="#475569">calls the one below</text>
+  <text x="580" y="200" font-size="12" fill="#b91c1c">⚠️ business depends</text>
+  <text x="580" y="218" font-size="12" fill="#b91c1c">on the database</text>
+</svg>

@@ -15,6 +15,8 @@ Clean Architecture does the same for code: your **business rules** (the valuable
 
 > 💡 **The one rule to remember, the Dependency Rule:** source code dependencies point **inward only**. Inner layers never know about outer layers.
 
+> 🏛️ **Want to go deeper?** This lesson is the introduction. The [Software Architecture](/learn/software-architecture) topic covers [Clean Architecture in depth](/learn/software-architecture/clean-architecture), [Hexagonal](/learn/software-architecture/hexagonal-architecture), [Onion](/learn/software-architecture/onion-and-comparison) and [Domain-Driven Design](/learn/software-architecture/ddd-strategic-design).
+
 ## The four layers
 
 | Layer | Contains | Knows about | Example |

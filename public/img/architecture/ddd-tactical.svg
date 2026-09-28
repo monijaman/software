@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <g font-size="12" font-weight="700" text-anchor="middle">
+    <g transform="translate(110 60)"><rect x="-90" y="-28" width="180" height="56" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/><text y="-4" fill="#312e81">⚙️ Application service</text><text y="14" font-size="10" font-weight="400" fill="#4338ca">orchestrates a use case</text></g>
+    <g transform="translate(110 150)"><rect x="-90" y="-28" width="180" height="56" rx="12" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/><text y="-4" fill="#334155">🗃️ Repository</text><text y="14" font-size="10" font-weight="400" fill="#475569">loads / saves aggregates</text></g>
+    <g transform="translate(110 240)"><rect x="-90" y="-28" width="180" height="56" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/><text y="-4" fill="#9d174d">🧮 Domain service</text><text y="14" font-size="10" font-weight="400" fill="#be185d">rules across objects</text></g>
+  </g>
+  <g transform="translate(260 30)">
+    <rect width="300" height="240" rx="20" fill="#fff7ed" stroke="#ea580c" stroke-width="3" stroke-dasharray="8 5"/>
+    <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#9a3412">📦 Aggregate (consistency boundary)</text>
+    <g font-size="12" font-weight="700" text-anchor="middle">
+      <g transform="translate(150 72)"><rect x="-80" y="-24" width="160" height="48" rx="10" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/><text y="-2" fill="#7c2d12">👑 Order (root)</text><text y="14" font-size="10" font-weight="400" fill="#9a3412">entity with identity</text></g>
+      <g transform="translate(80 160)"><rect x="-62" y="-22" width="124" height="44" rx="10" fill="#ffedd5" stroke="#fb923c"/><text y="-2" fill="#7c2d12">OrderLine</text><text y="13" font-size="10" font-weight="400" fill="#9a3412">entity</text></g>
+      <g transform="translate(220 160)"><rect x="-62" y="-22" width="124" height="44" rx="22" fill="#fef9c3" stroke="#eab308"/><text y="-2" fill="#713f12">💶 Money</text><text y="13" font-size="10" font-weight="400" fill="#854d0e">value object</text></g>
+      <g stroke="#ea580c" stroke-width="2"><line x1="120" y1="96" x2="90" y2="138"/><line x1="180" y1="96" x2="210" y2="138"/></g>
+      <text x="150" y="222" font-size="10" font-weight="400" fill="#9a3412">change it only through the root · one transaction</text>
+    </g>
+  </g>
+  <g transform="translate(660 150)" text-anchor="middle"><circle r="58" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text y="-8" font-size="20">📣</text><text y="14" font-size="12" font-weight="700" fill="#14532d">Domain event</text><text y="30" font-size="10" fill="#166534">OrderPlaced</text></g>
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)" fill="none"><path d="M200 60 C 240 60, 260 90, 326 96"/><path d="M200 150 C 230 150, 250 120, 296 110"/><path d="M200 240 C 250 240, 280 200, 300 190"/><path d="M560 110 C 590 120, 600 130, 604 136"/></g>
+</svg>

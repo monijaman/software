@@ -2,7 +2,7 @@
 
 A Next.js + SQLite learning site with easy, picture-first lessons on software engineering, built from the notes in `../Theoretical`.
 
-- **82 lessons** in 9 topics, each with diagrams, real-life analogies, code examples and key takeaways
+- **95 lessons** in 10 topics, each with diagrams, real-life analogies, code examples and key takeaways
 - **Library** of all 178 original notes from `../Theoretical`, sorted into the same topics
 - **Full-text search** (SQLite FTS5) across lessons and notes
 - Home page index with live filtering, level filters and per-browser progress tracking
@@ -49,12 +49,13 @@ The notes in `Theoretical` were reviewed and organised into this learning path:
 | 1 | Clean Code (incl. KISS, DRY, YAGNI) | 10 | `Principles/CLEAN-CODE-Architecture`, `Code Refactoring Techniques` |
 | 2 | SOLID Principles | 6 | `Principles/solid` |
 | 3 | Design Patterns | 6 | `Principles/Design Pattern` |
-| 4 | Data Structures & Algorithms | 14 | `Principles/DSA`, `PDFS` problems |
-| 5 | Backend Engineering | 12 | `Backend-guru`, `Database`, `DevOps/Docker`, `Languages` |
-| 6 | Frontend Engineering | 11 | `Frontend-guru`, `React`, `Redux`, `VueJs`, `Languages/TypeScript` |
-| 7 | Microservices | 8 | `Microservices`, `Backend-guru/System Design` |
-| 8 | Apache Kafka | 7 | `MessageBroker.md`, `kafka-like-message-broker.md` |
-| 9 | Kubernetes | 8 | `DevOps/Kubernetes`, `Kubernetes + Observability` |
+| 4 | Software Architecture (Layered, MVC/MVVM, Clean, Hexagonal, Onion, DDD, event-driven, microkernel, serverless, vertical slices, modular monolith) | 13 | `Principles/CLEAN-CODE-Architecture`, `Backend-guru/Architecture Patterns`, `Frontend-guru/Frontend-Arthitecture` |
+| 5 | Data Structures & Algorithms | 14 | `Principles/DSA`, `PDFS` problems |
+| 6 | Backend Engineering | 12 | `Backend-guru`, `Database`, `DevOps/Docker`, `Languages` |
+| 7 | Frontend Engineering | 11 | `Frontend-guru`, `React`, `Redux`, `VueJs`, `Languages/TypeScript` |
+| 8 | Microservices | 8 | `Microservices`, `Backend-guru/System Design` |
+| 9 | Apache Kafka | 7 | `MessageBroker.md`, `kafka-like-message-broker.md` |
+| 10 | Kubernetes | 8 | `DevOps/Kubernetes`, `Kubernetes + Observability` |
 
 The folder-to-topic mapping for the library lives in `LIBRARY_RULES` in `scripts/seed.mjs`.
 

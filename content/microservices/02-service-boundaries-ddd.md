@@ -19,6 +19,8 @@ If one giant `Product` class tries to serve everyone, every team edits it, it gr
 
 ![The same "Product" means different things in different bounded contexts](/img/microservices/bounded-contexts.svg)
 
+> 🏛️ This lesson applies DDD to **service boundaries**. For the full picture, see [DDD strategic design](/learn/software-architecture/ddd-strategic-design) and [DDD tactical patterns](/learn/software-architecture/ddd-tactical-design) in the Software Architecture topic.
+
 ## Key DDD vocabulary
 
 | Term | Meaning | Example |

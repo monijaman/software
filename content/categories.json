@@ -27,6 +27,15 @@
     "cover": "/img/covers/design-patterns.svg"
   },
   {
+    "slug": "software-architecture",
+    "title": "Software Architecture",
+    "tagline": "Shape systems that last",
+    "description": "Layered, MVC/MVVM, Clean Architecture, Hexagonal (Ports & Adapters), Onion, Domain-Driven Design, event-driven, microkernel, serverless, vertical slices and the modular monolith, plus how to choose between them.",
+    "icon": "🏛️",
+    "color": "#ea580c",
+    "cover": "/img/covers/software-architecture.svg"
+  },
+  {
     "slug": "dsa",
     "title": "Data Structures & Algorithms",
     "tagline": "Think like a problem solver",

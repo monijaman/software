@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <text x="185" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#7c2d12">Problem space: the business</text>
+  <text x="575" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#1e3a8a">Solution space: the software</text>
+  <g transform="translate(20 40)">
+    <rect width="330" height="240" rx="18" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+    <text x="165" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#9a3412">Domain: online retail</text>
+    <g font-size="12" font-weight="700" text-anchor="middle">
+      <g transform="translate(90 80)"><ellipse rx="70" ry="34" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/><text y="-2" fill="#78350f">⭐ Pricing</text><text y="14" font-size="10" font-weight="400" fill="#92400e">core</text></g>
+      <g transform="translate(240 80)"><ellipse rx="70" ry="34" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/><text y="-2" fill="#78350f">⭐ Ordering</text><text y="14" font-size="10" font-weight="400" fill="#92400e">core</text></g>
+      <g transform="translate(90 160)"><ellipse rx="70" ry="30" fill="#fef3c7" stroke="#fbbf24"/><text y="-2" fill="#78350f">🧰 Shipping</text><text y="14" font-size="10" font-weight="400" fill="#92400e">supporting</text></g>
+      <g transform="translate(240 160)"><ellipse rx="70" ry="30" fill="#f1f5f9" stroke="#94a3b8"/><text y="-2" fill="#334155">📦 Payments</text><text y="14" font-size="10" font-weight="400" fill="#475569">generic</text></g>
+      <g transform="translate(165 215)"><ellipse rx="70" ry="18" fill="#f1f5f9" stroke="#94a3b8"/><text y="4" fill="#334155" font-size="11">📦 Identity (generic)</text></g>
+    </g>
+  </g>
+  <g stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"><line x1="360" y1="160" x2="395" y2="160"/></g>
+  <g transform="translate(405 40)" font-size="12" font-weight="700" text-anchor="middle">
+    <g transform="translate(80 70)"><rect x="-72" y="-38" width="144" height="76" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 4"/><text y="-12" fill="#1e3a8a">Pricing context</text><text y="8" font-size="10" font-weight="400" fill="#1e40af">PriceRule, Discount</text><text y="24" font-size="10" font-weight="400" fill="#1e40af">team A</text></g>
+    <g transform="translate(260 70)"><rect x="-72" y="-38" width="144" height="76" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 4"/><text y="-12" fill="#1e3a8a">Ordering context</text><text y="8" font-size="10" font-weight="400" fill="#1e40af">Order, OrderLine</text><text y="24" font-size="10" font-weight="400" fill="#1e40af">team B</text></g>
+    <g transform="translate(80 170)"><rect x="-72" y="-38" width="144" height="76" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" stroke-dasharray="6 4"/><text y="-12" fill="#14532d">Shipping context</text><text y="8" font-size="10" font-weight="400" fill="#166534">Shipment, Parcel</text><text y="24" font-size="10" font-weight="400" fill="#166534">team C</text></g>
+    <g transform="translate(260 170)"><rect x="-72" y="-38" width="144" height="76" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/><text y="-12" fill="#334155">Stripe + Auth0</text><text y="8" font-size="10" font-weight="400" fill="#475569">bought, not built</text><text y="24" font-size="10" font-weight="400" fill="#475569">behind an ACL</text></g>
+    <g stroke="#64748b" stroke-width="1.8" fill="none" stroke-dasharray="4 3"><line x1="152" y1="70" x2="188" y2="70"/><line x1="260" y1="108" x2="260" y2="132"/><line x1="188" y1="96" x2="130" y2="132"/></g>
+    <text x="170" y="236" font-size="11" font-weight="400" fill="#475569">lines = relationships on the context map</text>
+  </g>
+</svg>
