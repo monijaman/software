@@ -510,6 +510,21 @@ h4 {
 .index-list .is-done .index-title {
   color: var(--muted);
 }
+.index-card-more {
+  display: block;
+  margin: 0 12px 12px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-align: center;
+}
+.index-card-more:hover {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  text-decoration: none;
+}
 .index-title {
   flex: 1;
 }
@@ -1126,3 +1141,11 @@ mark {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.lesson-groups { display: grid; gap: 34px; }
+.lesson-group { scroll-margin-top: 96px; }
+.lesson-group-header { margin: 0 0 14px; padding: 0 2px; }
+.lesson-group-header h2 { margin: 0 0 4px; font-size: 1.35rem; }
+.lesson-group-header p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+.sidebar-lesson-group + .sidebar-lesson-group { margin-top: 16px; }
+.sidebar-lesson-group > p { margin: 0 8px 5px; color: var(--accent); font-size: 0.73rem; font-weight: 800; letter-spacing: 0.055em; text-transform: uppercase; }

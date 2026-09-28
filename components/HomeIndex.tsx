@@ -64,6 +64,8 @@ export default function HomeIndex({
         {categories.map((category) => {
           const list = byCategory.get(category.slug);
           if (!list) return null;
+          const compactSystemDesign = category.slug === "system-design-l6" && query.trim() === "" && level === "All";
+          const visibleLessons = compactSystemDesign ? list.slice(0, 5) : list;
           const done = lessons.filter(
             (l) => l.categorySlug === category.slug && completed.includes(`${l.categorySlug}/${l.slug}`),
           ).length;
@@ -83,7 +85,7 @@ export default function HomeIndex({
                 <span style={{ width: `${percent}%` }} />
               </div>
               <ol className="index-list">
-                {list.map((lesson) => {
+                {visibleLessons.map((lesson) => {
                   const key = `${lesson.categorySlug}/${lesson.slug}`;
                   return (
                     <li key={lesson.id} className={completed.includes(key) ? "is-done" : ""}>
@@ -96,6 +98,11 @@ export default function HomeIndex({
                   );
                 })}
               </ol>
+              {compactSystemDesign && list.length > visibleLessons.length && (
+                <Link href={`/learn/${category.slug}`} className="index-card-more">
+                  View all {list.length} grouped lessons →
+                </Link>
+              )}
             </article>
           );
         })}

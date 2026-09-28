@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DoneMark } from "@/components/CompleteButton";
 import { getCategories, getCategory, getLessonsInCategory, getLibraryDocs } from "@/lib/db";
+import { groupLessons } from "@/lib/lesson-groups";
 
 type Props = { params: Promise<{ category: string }> };
 
@@ -22,6 +23,7 @@ export default async function CategoryPage({ params }: Props) {
   const lessons = getLessonsInCategory(slug);
   const notes = getLibraryDocs().filter((d) => d.categorySlug === slug);
   const minutes = lessons.reduce((n, l) => n + l.minutes, 0);
+  const groups = groupLessons(slug, lessons);
 
   return (
     <div style={{ "--accent": category.color } as React.CSSProperties}>
@@ -52,25 +54,35 @@ export default async function CategoryPage({ params }: Props) {
       </section>
 
       <section className="container">
-        <ol className="lesson-cards">
-          {lessons.map((lesson) => (
-            <li key={lesson.id}>
-              <Link href={`/learn/${slug}/${lesson.slug}`} className="lesson-card">
-                <span className="lesson-card-num">{String(lesson.position).padStart(2, "0")}</span>
-                <span className="lesson-card-body">
-                  <strong>
-                    {lesson.title} <DoneMark lessonKey={`${slug}/${lesson.slug}`} />
-                  </strong>
-                  <span className="muted">{lesson.summary}</span>
-                  <span className="lesson-card-meta">
-                    <span className={`level level-${lesson.level.toLowerCase()}`}>{lesson.level}</span>
-                    <span>{lesson.minutes} min read</span>
-                  </span>
-                </span>
-              </Link>
-            </li>
+        <div className="lesson-groups">
+          {groups.map((group) => (
+            <section className="lesson-group" key={group.title}>
+              {groups.length > 1 && (
+                <header className="lesson-group-header">
+                  <h2>{group.title}</h2>
+                  <p>{group.description}</p>
+                </header>
+              )}
+              <ol className="lesson-cards">
+                {group.lessons.map((lesson) => (
+                  <li key={lesson.id}>
+                    <Link href={`/learn/${slug}/${lesson.slug}`} className="lesson-card">
+                      <span className="lesson-card-num">{String(lesson.position).padStart(2, "0")}</span>
+                      <span className="lesson-card-body">
+                        <strong>{lesson.title} <DoneMark lessonKey={`${slug}/${lesson.slug}`} /></strong>
+                        <span className="muted">{lesson.summary}</span>
+                        <span className="lesson-card-meta">
+                          <span className={`level level-${lesson.level.toLowerCase()}`}>{lesson.level}</span>
+                          <span>{lesson.minutes} min read</span>
+                        </span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
           ))}
-        </ol>
+        </div>
 
         {notes.length > 0 && (
           <div className="related-notes">

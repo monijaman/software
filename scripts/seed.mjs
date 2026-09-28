@@ -133,7 +133,7 @@ function systemDesignSection(relPath) {
 // First matching rule wins. `category` links a section to one of the lesson categories;
 // the section is a label or a function of the path.
 const LIBRARY_RULES = [
-  [/^Principles\/solid\//, "solid", "SOLID"],
+  [/^Principles\/solid\//, "clean-code", "SOLID Principles"],
   [/^Principles\/Design Pattern\//, "design-patterns", "Design Patterns"],
   [/^Principles\/DSA\//, "dsa", "DSA Problems"],
   [/^PDFS\/(problem1|moreproblems)\.md$/, "dsa", "DSA Problems"],

@@ -1,21 +1,12 @@
 [
   {
     "slug": "clean-code",
-    "title": "Clean Code",
-    "tagline": "Write code humans love to read",
-    "description": "Naming, small functions, error handling, the KISS / DRY / YAGNI rules of thumb, code smells, and Clean Architecture layers.",
+    "title": "Clean Code & SOLID",
+    "tagline": "Readable code and flexible designs",
+    "description": "Clean code, naming, functions, errors, KISS / DRY / YAGNI, refactoring, Clean Architecture, and all five SOLID principles with practical examples.",
     "icon": "✨",
     "color": "#0ea5e9",
     "cover": "/img/covers/clean-code.svg"
-  },
-  {
-    "slug": "solid",
-    "title": "SOLID Principles",
-    "tagline": "Five rules for flexible designs",
-    "description": "Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation and Dependency Inversion, each with a picture and a before/after example.",
-    "icon": "🧱",
-    "color": "#8b5cf6",
-    "cover": "/img/covers/solid.svg"
   },
   {
     "slug": "design-patterns",
@@ -88,5 +79,23 @@
     "icon": "☸️",
     "color": "#2563eb",
     "cover": "/img/covers/kubernetes.svg"
+  },
+  {
+    "slug": "system-design-l6",
+    "title": "System Design L6",
+    "tagline": "Design for scale, failure and recovery",
+    "description": "Staff-level system-design case studies: define correctness, find bottlenecks, recover safely and limit blast radius.",
+    "icon": "🧭",
+    "color": "#7c3aed",
+    "cover": "/img/covers/system-design-l6.svg"
+  },
+  {
+    "slug": "databases",
+    "title": "Database Design & Performance",
+    "tagline": "Model data, protect correctness, scale reads and writes",
+    "description": "Relational modeling, normalization, ACID, indexes, query performance, replication, sharding, storage engines, and detailed DBMS interview preparation.",
+    "icon": "🗃️",
+    "color": "#0f766e",
+    "cover": "/img/covers/databases.svg"
   }
 ]
