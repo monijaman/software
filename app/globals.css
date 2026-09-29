@@ -118,14 +118,9 @@ h4 {
 
 .container {
   width: 100%;
-  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 16px;
-}
-@media (min-width: 720px) {
-  .container {
-    padding: 0 28px;
-  }
+  max-width: none;
+  padding-inline: clamp(16px, 2.5vw, 48px);
 }
 
 .muted {
