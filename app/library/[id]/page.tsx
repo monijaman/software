@@ -13,7 +13,12 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const doc = getLibraryDoc(Number((await params).id));
-  return doc ? { title: doc.title } : {};
+  return doc
+    ? {
+        title: doc.title,
+        description: `${doc.title} — practical software engineering notes from Software Academy.`,
+      }
+    : {};
 }
 
 export default async function LibraryDocPage({ params }: Props) {
@@ -26,7 +31,8 @@ export default async function LibraryDocPage({ params }: Props) {
     <div className="container lesson-layout no-sidebar" style={{ "--accent": category?.color ?? "#64748b" } as React.CSSProperties}>
       <article className="lesson">
         <nav className="breadcrumbs">
-          <Link href="/">Home</Link> / <Link href="/library">Library</Link> / <span>{doc.section}</span>
+          <Link href="/">Software engineering lessons</Link> / <Link href="/library">Software engineering notes</Link> / {" "}
+          <span>{doc.title}</span>
         </nav>
         <div className="library-banner">
           <span>

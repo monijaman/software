@@ -52,7 +52,7 @@ export default function MarkdownContent({ source }: { source: string }) {
           a({ href, children }) {
             const external = href?.startsWith("http");
             return (
-              <a href={href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+              <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
                 {children}
               </a>
             );

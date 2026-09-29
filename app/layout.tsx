@@ -17,6 +17,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WEN0ZL81VV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-WEN0ZL81VV');`}
+        </Script>
         <header className="site-header">
           <div className="container header-inner">
             <Link href="/" className="brand">
@@ -24,8 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span>Software Academy</span>
             </Link>
             <nav className="nav">
-              <Link href="/#index">Lessons</Link>
-              <Link href="/library">Library</Link>
+              <Link href="/#index" title="Browse software engineering lessons">Lessons</Link>
+              <Link href="/library" title="Browse software engineering notes">Library</Link>
               <form action="/search" className="nav-search" role="search">
                 <input name="q" type="search" placeholder="Search…" aria-label="Search everything" />
               </form>
