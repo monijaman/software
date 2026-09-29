@@ -15,6 +15,27 @@ npm install
 npm run dev      # seeds the database, then starts http://localhost:3000
 ```
 
+### Deploying to the Contabo server
+
+After pushing changes, SSH into the server and run:
+
+```bash
+cd /var/www/software
+git pull origin main
+npm install
+npm run build
+pkill -f "next start"
+PORT=3000 npm start
+```
+
+Keep the `npm start` process running. Verify the deployed Google tag from a second SSH session:
+
+```bash
+curl -fsS http://127.0.0.1:3000/ | grep -Eo 'googletagmanager|G-WEN0ZL81VV'
+```
+
+The expected output includes `googletagmanager` and `G-WEN0ZL81VV`.
+
 | Script | What it does |
 | --- | --- |
 | `npm run seed` | Rebuilds `data/software.db` from `content/` and `../Theoretical` |

@@ -17,6 +17,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WEN0ZL81VV"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-analytics" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-WEN0ZL81VV');`}
+        </Script>
         <header className="site-header">
           <div className="container header-inner">
             <Link href="/" className="brand">
