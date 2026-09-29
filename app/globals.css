@@ -117,10 +117,17 @@ h4 {
 }
 
 .container {
-  width: 100%;
+  width: 1600px;
   margin: 0 auto;
-  max-width: none;
-  padding-inline: clamp(16px, 2.5vw, 48px);
+  max-width: 1600px;
+  padding-inline: 0;
+}
+@media (max-width: 1632px) {
+  .container {
+    width: auto;
+    max-width: none;
+    margin-inline: 16px;
+  }
 }
 
 .muted {

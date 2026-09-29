@@ -24,14 +24,22 @@ cd /var/www/software
 git pull origin main
 npm install
 npm run build
-pkill -f "next start"
-PORT=3000 npm start
+# Port 3000 is used by the Kossti Next.js application. Do not stop it.
+PORT=3001 npm start
 ```
 
-Keep the `npm start` process running. Verify the deployed Google tag from a second SSH session:
+Keep the `npm start` process running in that SSH terminal. From a second SSH session, verify Software on port `3001`:
 
 ```bash
-curl -fsS http://127.0.0.1:3000/ | grep -Eo 'googletagmanager|G-WEN0ZL81VV'
+curl -I http://127.0.0.1:3001
+```
+
+A successful response is an HTTP status such as `200 OK`. Configure the Software domain in Nginx or OpenLiteSpeed to reverse proxy to `http://127.0.0.1:3001`; do not proxy it to Kossti’s port `3000`.
+
+To verify the Google tag after the proxy is live:
+
+```bash
+curl -fsS http://127.0.0.1:3001/ | grep -Eo 'googletagmanager|G-WEN0ZL81VV'
 ```
 
 The expected output includes `googletagmanager` and `G-WEN0ZL81VV`.
