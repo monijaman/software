@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "Software Academy", template: "%s · Software Academy" },
   description:
-    "Easy, picture-first lessons on clean code, SOLID, design patterns, DSA, backend, frontend, microservices, Kafka and Kubernetes.",
+    "Easy, picture-first lessons on clean code, SOLID, design patterns, DSA, backend, frontend, programming languages, microservices, Kafka, Kubernetes and AWS.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,6 +25,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <nav className="nav">
               <Link href="/#index">Lessons</Link>
+              <Link href="/learn/aws">AWS</Link>
+              <Link href="/learn/programming-languages">Languages</Link>
               <Link href="/library">Library</Link>
               <form action="/search" className="nav-search" role="search">
                 <input name="q" type="search" placeholder="Search…" aria-label="Search everything" />

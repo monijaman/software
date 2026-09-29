@@ -1,0 +1,10 @@
+---
+title: "AWS Developer Map: Where Each Service Fits"
+summary: Direct console shortcuts and the core AWS service map for application developers.
+level: Beginner
+tags: [aws, console, ecs, ec2, s3, cloudfront, rds, vpc]
+---
+
+# AWS Developer Map
+
+Start in **us-east-1** and check the Region selector before deciding a resource does not exist. [IAM Identity Center](https://us-east-1.console.aws.amazon.com/singlesignon/home?region=us-east-1) is the human sign-in point; [IAM](https://console.aws.amazon.com/iam/home?region=us-east-1) controls roles and policies. Run VMs in [EC2](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1), containers in [ECS](https://us-east-1.console.aws.amazon.com/ecs/v2/home?region=us-east-1), and store their images in [ECR](https://us-east-1.console.aws.amazon.com/ecr/home?region=us-east-1). Use [VPC](https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1) for network boundaries, [Aurora and RDS](https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1) for managed SQL, [Secrets Manager](https://us-east-1.console.aws.amazon.com/secretsmanager/home?region=us-east-1) for credentials, [CloudWatch](https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1) for evidence, and [CodeBuild](https://us-east-1.console.aws.amazon.com/codesuite/codebuild/home?region=us-east-1) for CI. Deliver files from [S3](https://us-east-1.console.aws.amazon.com/s3/home?region=us-east-1) through [CloudFront](https://console.aws.amazon.com/cloudfront/v4/home?region=us-east-1); add login with [Cognito](https://us-east-1.console.aws.amazon.com/cognito/v2/home?region=us-east-1), APIs with [API Gateway](https://us-east-1.console.aws.amazon.com/apigateway/home?region=us-east-1), and alerts with [SNS](https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1). A common request path is browser → CloudFront → API Gateway/load balancer → ECS/EC2 → RDS; the application reads Secrets Manager and writes CloudWatch logs. Use roles for workloads, not access keys in code.

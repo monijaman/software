@@ -2,7 +2,7 @@
 
 A Next.js + SQLite learning site with easy, picture-first lessons on software engineering, built from the notes in `../Theoretical`.
 
-- **95 lessons** in 10 topics, each with diagrams, real-life analogies, code examples and key takeaways
+- **147 lessons** in 13 topics, each with diagrams, real-life analogies, code examples and key takeaways
 - **Library** of all 178 original notes from `../Theoretical`, sorted into the same topics
 - **Full-text search** (SQLite FTS5) across lessons and notes
 - Home page index with live filtering, level filters and per-browser progress tracking
@@ -56,6 +56,8 @@ The notes in `Theoretical` were reviewed and organised into this learning path:
 | 8 | Microservices | 8 | `Microservices`, `Backend-guru/System Design` |
 | 9 | Apache Kafka | 7 | `MessageBroker.md`, `kafka-like-message-broker.md` |
 | 10 | Kubernetes | 8 | `DevOps/Kubernetes`, `Kubernetes + Observability` |
+| 11 | AWS for Developers | 4 | `DevOps/AWS` |
+| 12 | Programming Languages | 6 | `Languages` |
 
 The folder-to-topic mapping for the library lives in `LIBRARY_RULES` in `scripts/seed.mjs`.
 
