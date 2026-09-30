@@ -250,6 +250,44 @@ h4 {
   align-items: center;
   gap: 16px;
 }
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 4px 0 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+.lang-switcher select {
+  max-width: 110px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.lang-switcher select option {
+  background: var(--surface);
+  color: var(--text);
+}
+/* Hide Google Translate's own banner, tooltip and highlight; our picker replaces them. */
+.skiptranslate iframe,
+iframe.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+font[style] {
+  background: none !important;
+  box-shadow: none !important;
+}
 .menu-toggle {
   display: none;
   width: 40px;

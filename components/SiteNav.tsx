@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 
 const LINKS = [
@@ -38,6 +39,7 @@ export default function SiteNav() {
           <input name="q" type="search" placeholder="Search…" aria-label="Search everything" />
         </form>
       </nav>
+      <LanguageSwitcher />
       <ThemeToggle />
       <button
         type="button"

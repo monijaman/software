@@ -30,7 +30,15 @@ export default function MarkdownContent({ source }: { source: string }) {
           pre({ node, children, ...props }) {
             const chart = mermaidSource(node);
             if (chart) return <Mermaid chart={chart} />;
-            return <pre {...props}>{children}</pre>;
+            return (
+              <pre translate="no" {...props}>
+                {children}
+              </pre>
+            );
+          },
+          // Keep inline code (identifiers, commands) in English when the page is translated.
+          code({ node, ...props }) {
+            return <code translate="no" {...props} />;
           },
           // A <figure> may not sit inside the <p> Markdown wraps images in, so use spans.
           img({ src, alt }) {
