@@ -26,7 +26,7 @@ npm ci
 npm run build
 sudo systemctl restart software-next.service
 sudo systemctl status software-next.service
-Then verify:
+# Then verify:
 sudo ss -ltnp | grep ':3002'
 # Port 3000 is used by the Kossti Next.js application. Do not stop it.
 PORT=3002 npm start
