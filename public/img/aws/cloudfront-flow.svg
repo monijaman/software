@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 255" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="255" fill="#ffffff"/>
+  <rect x="15" y="40" width="120" height="60" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="75.0" y="64" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">👤 Tokyo</text>
+  <rect x="15" y="150" width="120" height="60" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="75.0" y="174" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">👤 Paris</text>
+  <rect x="200" y="40" width="150" height="60" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="275.0" y="64" font-size="13" font-weight="800" fill="#166534" text-anchor="middle">edge Tokyo</text>
+  <text x="275.0" y="83" font-size="11" fill="#334155" text-anchor="middle">cache HIT ⚡</text>
+  <rect x="200" y="150" width="150" height="60" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="275.0" y="174" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">edge Paris</text>
+  <text x="275.0" y="193" font-size="11" fill="#334155" text-anchor="middle">cache MISS</text>
+  <rect x="420" y="95" width="140" height="60" rx="12" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"/>
+  <text x="490.0" y="119" font-size="13" font-weight="800" fill="#115e59" text-anchor="middle">regional cache</text>
+  <rect x="620" y="80" width="125" height="90" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="682.5" y="104" font-size="13" font-weight="800" fill="#854d0e" text-anchor="middle">origin</text>
+  <text x="682.5" y="123" font-size="10" fill="#334155" text-anchor="middle">S3 (OAC) / ALB</text>
+  <text x="682.5" y="139" font-size="10" fill="#334155" text-anchor="middle">API Gateway</text>
+  <line x1="135" y1="70" x2="198" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="135" y1="180" x2="198" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="350" y1="180" x2="418" y2="135" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="560" y1="125" x2="618" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="589.0" y="115" font-size="10.5" fill="#475569" text-anchor="middle">fetch once</text>
+  <text x="275" y="25" font-size="11" font-weight="600" fill="#166534" text-anchor="middle">most requests end here</text>
+  <text x="380" y="240" font-size="11.5" font-weight="400" fill="#475569" text-anchor="middle">cache key small · hashed assets cached 1 year · index.html short TTL · APIs not cached</text>
+</svg>

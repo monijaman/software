@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="240" fill="#ffffff"/>
+  <rect x="15.0" y="30" width="105.0" height="80" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="67.5" y="54" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">commit</text>
+  <text x="67.5" y="73" font-size="10" fill="#334155" text-anchor="middle">PR review</text>
+  <rect x="140.0" y="30" width="105.0" height="80" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="192.5" y="54" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">test</text>
+  <text x="192.5" y="73" font-size="10" fill="#334155" text-anchor="middle">lint · unit</text>
+  <text x="192.5" y="89" font-size="10" fill="#334155" text-anchor="middle">IaC plan</text>
+  <line x1="122.0" y1="70.0" x2="138.0" y2="70.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="265.0" y="30" width="105.0" height="80" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="317.5" y="54" font-size="13" font-weight="800" fill="#854d0e" text-anchor="middle">build</text>
+  <text x="317.5" y="73" font-size="10" fill="#334155" text-anchor="middle">image :sha</text>
+  <text x="317.5" y="89" font-size="10" fill="#334155" text-anchor="middle">scan</text>
+  <line x1="247.0" y1="70.0" x2="263.0" y2="70.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="390.0" y="30" width="105.0" height="80" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="442.5" y="54" font-size="13" font-weight="800" fill="#1e40af" text-anchor="middle">dev</text>
+  <text x="442.5" y="73" font-size="10" fill="#334155" text-anchor="middle">deploy + smoke</text>
+  <line x1="372.0" y1="70.0" x2="388.0" y2="70.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="515.0" y="30" width="105.0" height="80" rx="12" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="567.5" y="54" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">approve</text>
+  <text x="567.5" y="73" font-size="10" fill="#334155" text-anchor="middle">manual / auto</text>
+  <line x1="497.0" y1="70.0" x2="513.0" y2="70.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="640.0" y="30" width="105.0" height="80" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="692.5" y="54" font-size="13" font-weight="800" fill="#166534" text-anchor="middle">prod</text>
+  <text x="692.5" y="73" font-size="10" fill="#334155" text-anchor="middle">same image</text>
+  <line x1="622.0" y1="70.0" x2="638.0" y2="70.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="260" y="160" width="240" height="60" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="380.0" y="184" font-size="12.5" font-weight="800" fill="#991b1b" text-anchor="middle">↩️ automatic rollback</text>
+  <text x="380.0" y="203" font-size="10" fill="#334155" text-anchor="middle">circuit breaker / alarms</text>
+  <line x1="420" y1="110" x2="400" y2="158" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+  <line x1="690" y1="110" x2="480" y2="165" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+  <text x="130" y="185" font-size="11" font-weight="600" fill="#1e40af" text-anchor="middle">GitHub OIDC / CodeBuild role</text>
+  <text x="130" y="203" font-size="11" font-weight="600" fill="#1e40af" text-anchor="middle">no stored AWS keys</text>
+  <text x="630" y="205" font-size="11" font-weight="600" fill="#166534" text-anchor="middle">build once, promote the same artefact</text>
+</svg>

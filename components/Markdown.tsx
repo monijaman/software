@@ -5,6 +5,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import Mermaid from "./Mermaid";
+import ZoomableImage from "./ZoomableImage";
 
 function textOf(node: ElementContent): string {
   if (node.type === "text") return node.value;
@@ -36,8 +37,7 @@ export default function MarkdownContent({ source }: { source: string }) {
             if (typeof src !== "string") return null;
             return (
               <span className="figure">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={alt ?? ""} loading="lazy" />
+                <ZoomableImage src={src} alt={alt ?? ""} />
                 {alt ? <span className="figcaption">{alt}</span> : null}
               </span>
             );

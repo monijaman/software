@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 282" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="282" fill="#ffffff"/>
+  <rect x="15" y="100" width="120" height="60" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="75.0" y="124" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">producer</text>
+  <text x="75.0" y="143" font-size="10" fill="#334155" text-anchor="middle">order service</text>
+  <rect x="170" y="90" width="130" height="80" rx="12" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/>
+  <text x="235.0" y="114" font-size="13" font-weight="800" fill="#9f1239" text-anchor="middle">SNS topic</text>
+  <text x="235.0" y="133" font-size="10" fill="#334155" text-anchor="middle">OrderPlaced</text>
+  <text x="235.0" y="149" font-size="10" fill="#334155" text-anchor="middle">fan-out</text>
+  <line x1="135" y1="130" x2="168" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="345" y="20" width="150" height="60" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="420.0" y="44" font-size="12.5" font-weight="800" fill="#854d0e" text-anchor="middle">SQS email</text>
+  <text x="420.0" y="63" font-size="10" fill="#334155" text-anchor="middle">+ DLQ</text>
+  <rect x="545" y="20" width="150" height="60" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="620.0" y="44" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">email worker</text>
+  <text x="620.0" y="63" font-size="10" fill="#334155" text-anchor="middle">idempotent</text>
+  <line x1="300" y1="130" x2="343" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="495" y1="50" x2="543" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="345" y="100" width="150" height="60" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="420.0" y="124" font-size="12.5" font-weight="800" fill="#854d0e" text-anchor="middle">SQS inventory</text>
+  <text x="420.0" y="143" font-size="10" fill="#334155" text-anchor="middle">+ DLQ</text>
+  <rect x="545" y="100" width="150" height="60" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="620.0" y="124" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">inventory worker</text>
+  <text x="620.0" y="143" font-size="10" fill="#334155" text-anchor="middle">idempotent</text>
+  <line x1="300" y1="130" x2="343" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="495" y1="130" x2="543" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="345" y="180" width="150" height="60" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="420.0" y="204" font-size="12.5" font-weight="800" fill="#854d0e" text-anchor="middle">SQS analytics</text>
+  <text x="420.0" y="223" font-size="10" fill="#334155" text-anchor="middle">+ DLQ</text>
+  <rect x="545" y="180" width="150" height="60" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="620.0" y="204" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">analytics worker</text>
+  <text x="620.0" y="223" font-size="10" fill="#334155" text-anchor="middle">idempotent</text>
+  <line x1="300" y1="130" x2="343" y2="210" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="495" y1="210" x2="543" y2="210" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="380" y="270" font-size="11.5" font-weight="400" fill="#475569" text-anchor="middle">each consumer has its own queue: fails, retries and scales independently</text>
+</svg>

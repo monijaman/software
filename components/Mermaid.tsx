@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import Lightbox from "./Lightbox";
 
 function currentTheme(): "dark" | "default" {
   const forced = document.documentElement.dataset.theme;
@@ -13,6 +14,7 @@ export default function Mermaid({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string>();
   const [error, setError] = useState<string>();
   const [theme, setTheme] = useState<"dark" | "default">();
+  const [open, setOpen] = useState(false);
 
   // Follow both the OS setting and the header theme toggle.
   useEffect(() => {
@@ -65,5 +67,16 @@ export default function Mermaid({ chart }: { chart: string }) {
     );
   }
   if (!svg) return <div className="diagram diagram-loading" aria-busy="true">Drawing diagram…</div>;
-  return <div className="diagram" role="img" dangerouslySetInnerHTML={{ __html: svg }} />;
+  return (
+    <>
+      <button type="button" className="diagram zoomable" onClick={() => setOpen(true)} aria-label="Enlarge diagram">
+        <span role="img" dangerouslySetInnerHTML={{ __html: svg }} />
+      </button>
+      {open ? (
+        <Lightbox label="Diagram" onClose={() => setOpen(false)}>
+          <div className="lightbox-diagram" dangerouslySetInnerHTML={{ __html: svg }} />
+        </Lightbox>
+      ) : null}
+    </>
+  );
 }

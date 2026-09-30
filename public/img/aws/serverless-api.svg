@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 262" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="262" fill="#ffffff"/>
+  <rect x="15" y="90" width="110" height="60" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="70.0" y="114" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">👤 client</text>
+  <rect x="155" y="80" width="140" height="80" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="225.0" y="104" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">API Gateway</text>
+  <text x="225.0" y="123" font-size="10" fill="#334155" text-anchor="middle">HTTP API</text>
+  <text x="225.0" y="139" font-size="10" fill="#334155" text-anchor="middle">JWT auth · throttling</text>
+  <rect x="335" y="25" width="170" height="55" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="420.0" y="49" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">λ Lambda</text>
+  <text x="420.0" y="68" font-size="10" fill="#334155" text-anchor="middle">POST /products</text>
+  <line x1="295" y1="120" x2="333" y2="52" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="505" y1="52" x2="573" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="335" y="95" width="170" height="55" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="420.0" y="119" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">λ Lambda</text>
+  <text x="420.0" y="138" font-size="10" fill="#334155" text-anchor="middle">GET /products/{id}</text>
+  <line x1="295" y1="120" x2="333" y2="122" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="505" y1="122" x2="573" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="335" y="165" width="170" height="55" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="420.0" y="189" font-size="12.5" font-weight="800" fill="#9a3412" text-anchor="middle">λ Lambda</text>
+  <text x="420.0" y="208" font-size="10" fill="#334155" text-anchor="middle">PUT · DELETE</text>
+  <line x1="295" y1="120" x2="333" y2="192" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="505" y1="192" x2="573" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="575" y="70" width="170" height="60" rx="12" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"/>
+  <text x="660.0" y="94" font-size="13" font-weight="800" fill="#115e59" text-anchor="middle">DynamoDB</text>
+  <text x="660.0" y="113" font-size="11" fill="#334155" text-anchor="middle">Products table</text>
+  <rect x="575" y="165" width="170" height="55" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="660.0" y="189" font-size="12" font-weight="800" fill="#334155" text-anchor="middle">CloudWatch Logs</text>
+  <text x="660.0" y="208" font-size="10" fill="#334155" text-anchor="middle">automatic</text>
+  <line x1="125" y1="120" x2="153" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="380" y="250" font-size="11.5" font-weight="400" fill="#475569" text-anchor="middle">pay per request · scales automatically · described in one SAM template</text>
+</svg>

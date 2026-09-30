@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import ThemeToggle, { themeInitScript } from "@/components/ThemeToggle";
+import SiteNav from "@/components/SiteNav";
+import { themeInitScript } from "@/components/ThemeToggle";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -33,16 +34,7 @@ gtag('config', 'G-WEN0ZL81VV');`}
               <span className="brand-mark">SA</span>
               <span>Software Academy</span>
             </Link>
-            <nav className="nav">
-              <Link href="/#index">Lessons</Link>
-              <Link href="/learn/aws">AWS</Link>
-              <Link href="/learn/programming-languages">Languages</Link>
-              <Link href="/library">Library</Link>
-              <form action="/search" className="nav-search" role="search">
-                <input name="q" type="search" placeholder="Search…" aria-label="Search everything" />
-              </form>
-              <ThemeToggle />
-            </nav>
+            <SiteNav />
           </div>
         </header>
         <main>{children}</main>

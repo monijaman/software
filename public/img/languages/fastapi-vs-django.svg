@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="250" fill="#ffffff"/>
+  <rect x="30" y="20" width="330" height="210" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="195.0" y="48" font-size="20" font-weight="800" fill="#166534" text-anchor="middle">⚡ FastAPI</text>
+  <text x="195" y="80" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">type hints → validation (Pydantic)</text>
+  <text x="195" y="108" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">automatic OpenAPI docs at /docs</text>
+  <text x="195" y="136" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">async-first, Depends() for DI</text>
+  <text x="195" y="164" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">pick your ORM, auth, admin</text>
+  <text x="195" y="192" font-size="12.5" font-weight="700" fill="#166534" text-anchor="middle">JSON APIs · ML serving · microservices</text>
+  <rect x="400" y="20" width="330" height="210" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="565.0" y="48" font-size="20" font-weight="800" fill="#1e40af" text-anchor="middle">🏛️ Django</text>
+  <text x="565" y="80" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">ORM + migrations built in</text>
+  <text x="565" y="108" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">auto-generated admin panel</text>
+  <text x="565" y="136" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">auth, forms, templates, CSRF</text>
+  <text x="565" y="164" font-size="12.5" font-weight="400" fill="#334155" text-anchor="middle">DRF adds JSON APIs</text>
+  <text x="565" y="192" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">content sites · internal tools · CRUD</text>
+</svg>

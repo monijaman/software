@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 295" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="295" fill="#ffffff"/>
+  <text x="380" y="24" font-size="12.5" font-weight="700" fill="#475569" text-anchor="middle">Many goroutines (G) run on a few OS threads (M) through processors (P, one per core)</text>
+  <circle cx="60" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="60" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="130" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="130" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="200" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="200" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="270" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="270" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="340" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="340" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="410" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="410" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="480" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="480" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="550" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="550" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="620" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="620" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <circle cx="690" cy="62" r="18" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="690" y="67" font-size="13" font-weight="800" fill="#155e75" text-anchor="middle">G</text>
+  <rect x="130" y="110" width="120" height="62" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="190.0" y="138" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">P0</text>
+  <text x="190.0" y="160" font-size="10" fill="#334155" text-anchor="middle">local run queue</text>
+  <rect x="130" y="192" width="120" height="62" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="190.0" y="220" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">M0</text>
+  <text x="190.0" y="242" font-size="10" fill="#334155" text-anchor="middle">OS thread → CPU core</text>
+  <line x1="190" y1="172" x2="190" y2="190" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="330" y="110" width="120" height="62" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="390.0" y="138" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">P1</text>
+  <text x="390.0" y="160" font-size="10" fill="#334155" text-anchor="middle">local run queue</text>
+  <rect x="330" y="192" width="120" height="62" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="390.0" y="220" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">M1</text>
+  <text x="390.0" y="242" font-size="10" fill="#334155" text-anchor="middle">OS thread → CPU core</text>
+  <line x1="390" y1="172" x2="390" y2="190" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="530" y="110" width="120" height="62" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="590.0" y="138" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">P2</text>
+  <text x="590.0" y="160" font-size="10" fill="#334155" text-anchor="middle">local run queue</text>
+  <rect x="530" y="192" width="120" height="62" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="590.0" y="220" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">M2</text>
+  <text x="590.0" y="242" font-size="10" fill="#334155" text-anchor="middle">OS thread → CPU core</text>
+  <line x1="590" y1="172" x2="590" y2="190" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="60" y1="80" x2="170" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="130" y1="80" x2="190" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="200" y1="80" x2="210" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="270" y1="80" x2="370" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="340" y1="80" x2="390" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="410" y1="80" x2="400" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="480" y1="80" x2="570" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="550" y1="80" x2="590" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="620" y1="80" x2="600" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <line x1="690" y1="80" x2="610" y2="108" stroke="#94a3b8" stroke-width="1.2"/>
+  <text x="380" y="280" font-size="12" font-weight="400" fill="#334155" text-anchor="middle">A goroutine starts at ~2 KB. When one blocks on I/O, the scheduler runs another.</text>
+</svg>

@@ -84,7 +84,7 @@
     "slug": "aws",
     "title": "AWS for Developers",
     "tagline": "Build, deploy and secure cloud applications",
-    "description": "A practical AWS path for developers: IAM Identity Center and least-privilege policies, VPC networking, EC2 and ECS deployment, ECR images, S3 and CloudFront delivery, RDS, Cognito, API Gateway, Secrets Manager, CloudWatch, SNS and CodeBuild.",
+    "description": "A complete AWS path for developers: global infrastructure, IAM and least privilege, VPC networking, EC2 and Auto Scaling, load balancers and Route 53, S3, CloudFront, ECS on Fargate, RDS, Aurora and DynamoDB, Lambda and API Gateway, SQS/SNS/EventBridge, Cognito, Secrets Manager and KMS, CloudWatch observability, CI/CD with IaC, data pipelines and interview questions.",
     "icon": "☁️",
     "color": "#f97316",
     "cover": "/img/covers/aws.svg"
@@ -93,7 +93,7 @@
     "slug": "programming-languages",
     "title": "Programming Languages",
     "tagline": "Write code with the right tools and mental models",
-    "description": "Practical foundations for JavaScript and TypeScript, Node.js and Express, NestJS, Python, Go and Rust—covering syntax, types, concurrency, frameworks and how to choose a language for a service.",
+    "description": "JavaScript fundamentals and async code, TypeScript in practice, Node.js with Express and NestJS, Python with FastAPI and Django, Go with goroutines and Gin, and Rust ownership, traits and concurrency, plus how to choose a language.",
     "icon": "⌨️",
     "color": "#0891b2",
     "cover": "/img/covers/programming-languages.svg"

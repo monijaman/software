@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 205" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="205" fill="#ffffff"/>
+  <rect x="15" y="25" width="230" height="135" rx="12" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/>
+  <text x="130.0" y="49" font-size="15" font-weight="800" fill="#9f1239" text-anchor="middle">🎫 Cognito</text>
+  <text x="130.0" y="68.0" font-size="10.5" fill="#334155" text-anchor="middle">user pools: sign-up, sign-in, MFA</text>
+  <text x="130.0" y="84.5" font-size="10.5" fill="#334155" text-anchor="middle">ID / access / refresh tokens</text>
+  <text x="130.0" y="101.0" font-size="10.5" fill="#334155" text-anchor="middle">API verifies the access token</text>
+  <text x="130.0" y="117.5" font-size="10.5" fill="#334155" text-anchor="middle">identity pools → AWS creds</text>
+  <rect x="265" y="25" width="230" height="135" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="380.0" y="49" font-size="15" font-weight="800" fill="#854d0e" text-anchor="middle">🗝️ Secrets Manager</text>
+  <text x="380.0" y="68.0" font-size="10.5" fill="#334155" text-anchor="middle">DB passwords, API keys</text>
+  <text x="380.0" y="84.5" font-size="10.5" fill="#334155" text-anchor="middle">automatic rotation</text>
+  <text x="380.0" y="101.0" font-size="10.5" fill="#334155" text-anchor="middle">IAM-scoped GetSecretValue</text>
+  <text x="380.0" y="117.5" font-size="10.5" fill="#334155" text-anchor="middle">Parameter Store for config</text>
+  <rect x="515" y="25" width="230" height="135" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="630.0" y="49" font-size="15" font-weight="800" fill="#5b21b6" text-anchor="middle">🔐 KMS</text>
+  <text x="630.0" y="68.0" font-size="10.5" fill="#334155" text-anchor="middle">keys never leave KMS</text>
+  <text x="630.0" y="84.5" font-size="10.5" fill="#334155" text-anchor="middle">envelope encryption</text>
+  <text x="630.0" y="101.0" font-size="10.5" fill="#334155" text-anchor="middle">key policies + grants</text>
+  <text x="630.0" y="117.5" font-size="10.5" fill="#334155" text-anchor="middle">every use in CloudTrail</text>
+  <text x="380" y="190" font-size="12" font-weight="700" fill="#475569" text-anchor="middle">identity  ·  secrets  ·  encryption: three different jobs</text>
+</svg>

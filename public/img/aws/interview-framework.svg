@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 185" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="185" fill="#ffffff"/>
+  <rect x="15.0" y="30" width="130.0" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="80.0" y="54" font-size="13.5" font-weight="800" fill="#1e40af" text-anchor="middle">1. clarify</text>
+  <text x="80.0" y="73.0" font-size="10.5" fill="#334155" text-anchor="middle">users, scale,</text>
+  <text x="80.0" y="89.5" font-size="10.5" fill="#334155" text-anchor="middle">RTO / RPO, rules</text>
+  <rect x="165.0" y="30" width="130.0" height="100" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="230.0" y="54" font-size="13.5" font-weight="800" fill="#5b21b6" text-anchor="middle">2. sketch</text>
+  <text x="230.0" y="73.0" font-size="10.5" fill="#334155" text-anchor="middle">request path</text>
+  <text x="230.0" y="89.5" font-size="10.5" fill="#334155" text-anchor="middle">data stores</text>
+  <line x1="147.0" y1="80.0" x2="163.0" y2="80.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="315.0" y="30" width="130.0" height="100" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="380.0" y="54" font-size="13.5" font-weight="800" fill="#991b1b" text-anchor="middle">3. failure</text>
+  <text x="380.0" y="73.0" font-size="10.5" fill="#334155" text-anchor="middle">multi-AZ, retries,</text>
+  <text x="380.0" y="89.5" font-size="10.5" fill="#334155" text-anchor="middle">backups, DR</text>
+  <line x1="297.0" y1="80.0" x2="313.0" y2="80.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="465.0" y="30" width="130.0" height="100" rx="12" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/>
+  <text x="530.0" y="54" font-size="13.5" font-weight="800" fill="#9f1239" text-anchor="middle">4. security</text>
+  <text x="530.0" y="73.0" font-size="10.5" fill="#334155" text-anchor="middle">IAM, private,</text>
+  <text x="530.0" y="89.5" font-size="10.5" fill="#334155" text-anchor="middle">encryption</text>
+  <line x1="447.0" y1="80.0" x2="463.0" y2="80.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="615.0" y="30" width="130.0" height="100" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="680.0" y="54" font-size="13.5" font-weight="800" fill="#166534" text-anchor="middle">5. cost + ops</text>
+  <text x="680.0" y="73.0" font-size="10.5" fill="#334155" text-anchor="middle">right-size, IaC,</text>
+  <text x="680.0" y="89.5" font-size="10.5" fill="#334155" text-anchor="middle">observability</text>
+  <line x1="597.0" y1="80.0" x2="613.0" y2="80.0" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="380" y="165" font-size="12.5" font-weight="700" fill="#475569" text-anchor="middle">State the trade-off before you choose: there is rarely one right answer.</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="250" fill="#ffffff"/>
+  <rect x="15" y="95" width="110" height="60" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="70.0" y="119" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">👤 client</text>
+  <rect x="150" y="95" width="120" height="60" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="210.0" y="119" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">Route 53</text>
+  <text x="210.0" y="138" font-size="10" fill="#334155" text-anchor="middle">api.example.com</text>
+  <rect x="295" y="80" width="150" height="90" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="370.0" y="104" font-size="14" font-weight="800" fill="#1e40af" text-anchor="middle">ALB</text>
+  <text x="370.0" y="123" font-size="10" fill="#334155" text-anchor="middle">HTTPS :443 + ACM cert</text>
+  <text x="370.0" y="139" font-size="10" fill="#334155" text-anchor="middle">rules: host / path</text>
+  <line x1="125" y1="125" x2="148" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="270" y1="125" x2="293" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="30" width="150" height="55" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="595.0" y="54" font-size="12.5" font-weight="800" fill="#166534" text-anchor="middle">target AZ a</text>
+  <text x="595.0" y="73" font-size="11" fill="#334155" text-anchor="middle">healthy ✓</text>
+  <line x1="445" y1="125" x2="518" y2="57" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="100" width="150" height="55" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="595.0" y="124" font-size="12.5" font-weight="800" fill="#166534" text-anchor="middle">target AZ b</text>
+  <text x="595.0" y="143" font-size="11" fill="#334155" text-anchor="middle">healthy ✓</text>
+  <line x1="445" y1="125" x2="518" y2="127" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="170" width="150" height="55" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="595.0" y="194" font-size="12.5" font-weight="800" fill="#991b1b" text-anchor="middle">target AZ c</text>
+  <text x="595.0" y="213" font-size="11" fill="#334155" text-anchor="middle">unhealthy ✗</text>
+  <line x1="445" y1="125" x2="518" y2="197" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+  <text x="700" y="235" font-size="10.5" font-weight="400" fill="#475569" text-anchor="end">health check GET /health</text>
+  <text x="220" y="225" font-size="12" font-weight="700" fill="#1e40af" text-anchor="middle">traffic only goes to healthy targets</text>
+</svg>

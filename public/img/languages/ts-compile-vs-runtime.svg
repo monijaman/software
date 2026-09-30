@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="250" fill="#ffffff"/>
+  <text x="200" y="28" font-size="14" font-weight="800" fill="#1e40af" text-anchor="middle">Compile time (tsc / editor)</text>
+  <text x="580" y="28" font-size="14" font-weight="800" fill="#9a3412" text-anchor="middle">Runtime (Node.js / browser)</text>
+  <line x1="390" y1="15" x2="390" y2="245" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 5"/>
+  <rect x="30" y="50" width="150" height="80" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="105.0" y="78" font-size="16" font-weight="800" fill="#1e40af" text-anchor="middle">📝 .ts code</text>
+  <text x="105.0" y="100.0" font-size="11.5" fill="#334155" text-anchor="middle">types + logic</text>
+  <rect x="215" y="50" width="150" height="80" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="290.0" y="78" font-size="16" font-weight="800" fill="#1e40af" text-anchor="middle">🔍 type check</text>
+  <text x="290.0" y="100.0" font-size="11.5" fill="#334155" text-anchor="middle">errors in editor</text>
+  <line x1="180" y1="90" x2="213" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="420" y="50" width="140" height="80" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="490.0" y="78" font-size="16" font-weight="800" fill="#9a3412" text-anchor="middle">📦 .js output</text>
+  <text x="490.0" y="100.0" font-size="11.5" fill="#334155" text-anchor="middle">types erased</text>
+  <line x1="365" y1="90" x2="418" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="391.5" y="83.0" font-size="11" fill="#475569" text-anchor="middle">emit</text>
+  <rect x="420" y="150" width="140" height="80" rx="14" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="490.0" y="178" font-size="16" font-weight="800" fill="#991b1b" text-anchor="middle">🌐 JSON input</text>
+  <text x="490.0" y="200.0" font-size="11.5" fill="#334155" text-anchor="middle">type unknown</text>
+  <rect x="595" y="150" width="145" height="80" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="667.5" y="178" font-size="16" font-weight="800" fill="#166534" text-anchor="middle">🛡️ schema</text>
+  <text x="667.5" y="200" font-size="11" fill="#334155" text-anchor="middle">zod / valibot</text>
+  <text x="667.5" y="218" font-size="11" fill="#334155" text-anchor="middle">now truly typed</text>
+  <line x1="560" y1="190" x2="593" y2="190" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="595" y="50" width="145" height="80" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="667.5" y="78" font-size="16" font-weight="800" fill="#334155" text-anchor="middle">⚙️ runs</text>
+  <text x="667.5" y="100.0" font-size="11.5" fill="#334155" text-anchor="middle">plain JavaScript</text>
+  <line x1="560" y1="90" x2="593" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="200" y="175" font-size="12" font-weight="400" fill="#334155" text-anchor="middle">Types are promises the compiler checks</text>
+  <text x="200" y="195" font-size="12" font-weight="400" fill="#334155" text-anchor="middle">about your own code only.</text>
+</svg>

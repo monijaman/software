@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 232" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="232" fill="#ffffff"/>
+  <rect x="20" y="20" width="170" height="170" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="105.0" y="58" font-size="28" text-anchor="middle">🧰</text>
+  <text x="105.0" y="86" font-size="18" font-weight="800" fill="#1e40af" text-anchor="middle">TypeScript</text>
+  <text x="105.0" y="108.0" font-size="11.5" fill="#334155" text-anchor="middle">multi-tool</text>
+  <text x="105.0" y="126.5" font-size="11.5" fill="#334155" text-anchor="middle">browser + server</text>
+  <text x="105.0" y="145.0" font-size="11.5" fill="#334155" text-anchor="middle">full-stack web, APIs</text>
+  <rect x="205" y="20" width="170" height="170" rx="14" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="290.0" y="58" font-size="28" text-anchor="middle">🔌</text>
+  <text x="290.0" y="86" font-size="18" font-weight="800" fill="#854d0e" text-anchor="middle">Python</text>
+  <text x="290.0" y="108.0" font-size="11.5" fill="#334155" text-anchor="middle">friendly power drill</text>
+  <text x="290.0" y="126.5" font-size="11.5" fill="#334155" text-anchor="middle">readable, huge ecosystem</text>
+  <text x="290.0" y="145.0" font-size="11.5" fill="#334155" text-anchor="middle">automation, data, AI</text>
+  <rect x="390" y="20" width="170" height="170" rx="14" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <text x="475.0" y="58" font-size="28" text-anchor="middle">🔨</text>
+  <text x="475.0" y="86" font-size="18" font-weight="800" fill="#155e75" text-anchor="middle">Go</text>
+  <text x="475.0" y="108.0" font-size="11.5" fill="#334155" text-anchor="middle">nail gun</text>
+  <text x="475.0" y="126.5" font-size="11.5" fill="#334155" text-anchor="middle">goroutines, one binary</text>
+  <text x="475.0" y="145.0" font-size="11.5" fill="#334155" text-anchor="middle">services, cloud tools</text>
+  <rect x="575" y="20" width="170" height="170" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="660.0" y="58" font-size="28" text-anchor="middle">⚙️</text>
+  <text x="660.0" y="86" font-size="18" font-weight="800" fill="#9a3412" text-anchor="middle">Rust</text>
+  <text x="660.0" y="108.0" font-size="11.5" fill="#334155" text-anchor="middle">precision lathe</text>
+  <text x="660.0" y="126.5" font-size="11.5" fill="#334155" text-anchor="middle">ownership, no GC</text>
+  <text x="660.0" y="145.0" font-size="11.5" fill="#334155" text-anchor="middle">performance, systems</text>
+  <text x="380" y="218" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">Choose by team, existing code, runtime needs and operations</text>
+</svg>

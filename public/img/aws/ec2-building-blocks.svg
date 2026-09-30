@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="260" fill="#ffffff"/>
+  <rect x="15" y="15" width="470" height="230" rx="14" fill="#fff7ed" fill-opacity="0.55" stroke="#f97316" stroke-width="1.6"/>
+  <text x="27" y="33" font-size="12" font-weight="700" fill="#9a3412">EC2 instance</text>
+  <rect x="30" y="45" width="135" height="80" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="97.5" y="69" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">💿 AMI</text>
+  <text x="97.5" y="88" font-size="11" fill="#334155" text-anchor="middle">OS + software</text>
+  <rect x="180" y="45" width="135" height="80" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="247.5" y="69" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">⚙️ type</text>
+  <text x="247.5" y="88" font-size="11" fill="#334155" text-anchor="middle">m7g.large</text>
+  <text x="247.5" y="105" font-size="11" fill="#334155" text-anchor="middle">2 vCPU · 8 GiB</text>
+  <rect x="330" y="45" width="140" height="80" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="400.0" y="69" font-size="13" font-weight="800" fill="#991b1b" text-anchor="middle">🛡️ SG</text>
+  <text x="400.0" y="88" font-size="11" fill="#334155" text-anchor="middle">firewall rules</text>
+  <rect x="30" y="145" width="135" height="80" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="97.5" y="169" font-size="13" font-weight="800" fill="#1e40af" text-anchor="middle">💾 EBS</text>
+  <text x="97.5" y="188" font-size="11" fill="#334155" text-anchor="middle">gp3 root volume</text>
+  <text x="97.5" y="205" font-size="11" fill="#334155" text-anchor="middle">snapshots → S3</text>
+  <rect x="180" y="145" width="135" height="80" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="247.5" y="169" font-size="13" font-weight="800" fill="#5b21b6" text-anchor="middle">🔑 IAM role</text>
+  <text x="247.5" y="188" font-size="11" fill="#334155" text-anchor="middle">instance profile</text>
+  <text x="247.5" y="205" font-size="11" fill="#334155" text-anchor="middle">IMDSv2</text>
+  <rect x="330" y="145" width="140" height="80" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="400.0" y="169" font-size="13" font-weight="800" fill="#854d0e" text-anchor="middle">📜 user data</text>
+  <text x="400.0" y="188" font-size="11" fill="#334155" text-anchor="middle">first-boot script</text>
+  <rect x="510" y="15" width="235" height="230" rx="14" fill="#f0fdf4" fill-opacity="0.55" stroke="#22c55e" stroke-width="1.6"/>
+  <text x="522" y="33" font-size="12" font-weight="700" fill="#166534">Auto Scaling group</text>
+  <text x="627" y="50" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">min 2 · desired 3 · max 10</text>
+  <rect x="530" y="65" width="60" height="50" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="560.0" y="89" font-size="11" font-weight="800" fill="#9a3412" text-anchor="middle">EC2</text>
+  <text x="560.0" y="108.0" font-size="9.5" fill="#334155" text-anchor="middle">AZ a</text>
+  <rect x="600" y="65" width="60" height="50" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="630.0" y="89" font-size="11" font-weight="800" fill="#9a3412" text-anchor="middle">EC2</text>
+  <text x="630.0" y="108.0" font-size="9.5" fill="#334155" text-anchor="middle">AZ b</text>
+  <rect x="670" y="65" width="60" height="50" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="700.0" y="89" font-size="11" font-weight="800" fill="#9a3412" text-anchor="middle">EC2</text>
+  <text x="700.0" y="108.0" font-size="9.5" fill="#334155" text-anchor="middle">AZ c</text>
+  <text x="627" y="145" font-size="11" font-weight="400" fill="#334155" text-anchor="middle">replaces unhealthy instances</text>
+  <text x="627" y="165" font-size="11" font-weight="400" fill="#334155" text-anchor="middle">scales on CPU / requests</text>
+  <text x="627" y="185" font-size="11" font-weight="400" fill="#334155" text-anchor="middle">from a launch template</text>
+  <text x="627" y="215" font-size="11" font-weight="600" fill="#166534" text-anchor="middle">On-Demand + Spot mix</text>
+</svg>
