@@ -21,11 +21,15 @@ After pushing changes, SSH into the server and run:
 
 ```bash
 cd /var/www/software
-git pull origin main
-npm install
+git pull
+npm ci
 npm run build
+sudo systemctl restart software-next.service
+sudo systemctl status software-next.service
+Then verify:
+sudo ss -ltnp | grep ':3002'
 # Port 3000 is used by the Kossti Next.js application. Do not stop it.
-PORT=3001 npm start
+PORT=3002 npm start
 ```
 
 Keep the `npm start` process running in that SSH terminal. From a second SSH session, verify Software on port `3001`:
