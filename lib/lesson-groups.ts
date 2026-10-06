@@ -14,7 +14,7 @@ const groupedCategories: Record<string, readonly GroupDefinition[]> = {
     { title: "Core System Design Concepts", description: "Capacity, traffic, APIs, data, caching and communication building blocks.", positions: [7, 8, 10, 11, 23, 24, 25, 26] },
     { title: "Distributed Reliability", description: "Correctness, coordination, overload control, time and scale-oriented data structures.", positions: [2, 3, 6, 9, 27, 28] },
     { title: "Architecture and Operations", description: "Choose system shapes, analytical platforms and safe production releases.", positions: [19, 29, 30] },
-    { title: "Case Studies", description: "Apply the concepts to real production-style design problems.", positions: [4, 5, 13, 14, 15, 16, 17, 18, 20, 21, 22] },
+    { title: "Case Studies", description: "Apply the concepts to real production-style design problems.", positions: [4, 5, 13, 14, 15, 16, 17, 18, 20, 21, 22, 31] },
   ],
   databases: [
     { title: "Database Design & Performance", description: "Relations, normalization, transactions, indexes, query performance and scaling.", positions: [1, 2, 3, 4, 5, 6, 7] },
