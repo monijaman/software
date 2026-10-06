@@ -19,7 +19,7 @@ For an order, the important promise is: stock is never oversold and a customer a
 
 ```text
 Cart -> inventory reserved -> payment pending -> paid -> order confirmed
-                              |                  
+                              |
                               +-> unknown -> reconcile webhook/status query
                               +-> failed  -> release reservation
 ```
