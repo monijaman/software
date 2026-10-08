@@ -1,134 +1,116 @@
 ---
-title: Kubernetes Cluster Architecture
-summary: What's inside a cluster. The control plane (API server, etcd, scheduler, controllers) and the worker nodes (kubelet, container runtime, kube-proxy), and what happens when you run kubectl apply.
+title: Kubernetes Cluster Architecture, Simply
+summary: "Learn the cluster as a small team: the control plane decides, worker nodes run apps, and kubectl is your way to ask."
 level: Beginner
 tags: [kubernetes, architecture, control-plane, nodes, etcd]
 ---
 
-## The big idea
+## The picture to keep in your head
 
-A **restaurant chain**:
-
-- **Head office** (the **control plane**) decides what should happen: menus, how many cooks each branch needs, where new staff go. It keeps the official records.
-- **Branches** (the **worker nodes**) do the actual cooking. Each branch has a **manager** (the **kubelet**) who takes instructions from head office and makes sure the kitchen follows them.
+A Kubernetes **cluster** is a group of servers. Some servers make decisions; other servers run your apps.
 
 ![A Kubernetes cluster: the control plane and worker nodes](/img/kubernetes/architecture.svg)
 
-## The control plane (the brain)
-
-| Component | Role | Analogy |
-| --- | --- | --- |
-| **kube-apiserver** | The front door. Every command (`kubectl`, controllers, nodes) goes through its REST API. Validates and stores objects | Head office reception |
-| **etcd** | A distributed key-value database holding the **entire cluster state** | The official records vault |
-| **kube-scheduler** | Picks **which node** each new pod should run on | HR deciding which branch gets a new cook |
-| **kube-controller-manager** | Runs **control loops** (Deployment, ReplicaSet, Node, Job controllers…) that push actual state toward desired state | Managers checking "do we have enough staff?" |
-| **cloud-controller-manager** | Talks to the cloud provider: load balancers, disks, node lifecycle | Facilities team dealing with landlords |
-
-> ⚠️ **etcd is the heart.** Lose etcd without a backup and you've lost the cluster's entire configuration. Managed Kubernetes services back it up for you.
-
-## Worker nodes (the muscle)
-
-| Component | Role |
+| Part | Simple job |
 | --- | --- |
-| **kubelet** | The node agent. Watches the API server for pods assigned to its node, starts them via the container runtime, and reports their health |
-| **Container runtime** | Actually runs containers: **containerd** or CRI-O (Docker images work fine; Docker itself isn't required) |
-| **kube-proxy** | Programs networking rules so traffic to a **Service** reaches the right pods |
-| **CNI plugin** | Gives every pod its own IP and connects pods across nodes (Calico, Cilium, Flannel, cloud CNIs) |
+| **Control plane** | Receives requests, remembers what you want, and decides where work should run |
+| **Worker node** | A server that actually starts and runs pods |
 
-## What happens on `kubectl apply`? ⭐
+Think of a restaurant company: head office plans and tracks; each restaurant cooks and serves.
+
+## The control plane: the decision team
+
+You do not normally operate these parts one by one. Knowing their jobs helps when you read errors or diagrams.
+
+| Name | Plain-English job |
+| --- | --- |
+| **API server** | The front door. `kubectl` sends requests here. |
+| **etcd** | The cluster’s important notebook: it stores the requested configuration and status. |
+| **Scheduler** | Chooses a worker node for a new pod. |
+| **Controllers** | Watch for missing or broken things and create replacements. |
+
+`etcd` is important because it holds the cluster’s records. This is one reason managed Kubernetes (EKS, GKE, AKS) is usually the right choice: the provider operates and backs up the control plane.
+
+## Worker nodes: where your app runs
+
+Each worker node is a server. It has a few helpers:
+
+| Helper | What it does |
+| --- | --- |
+| **kubelet** | Receives “run this pod” instructions and reports back |
+| **Container runtime** | Downloads images and starts containers |
+| **Networking** | Lets pods talk to each other and lets Services route traffic |
+
+You do not SSH into a node to start your app. You ask Kubernetes, and the node helpers do it.
+
+## What happens after `kubectl apply`?
+
+Suppose you apply a Deployment that asks for three pods:
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant U as 🧑‍💻 kubectl
-    participant A as API server
-    participant E as etcd
-    participant C as Deployment + ReplicaSet controllers
-    participant S as Scheduler
-    participant K as kubelet (node 2)
-    participant R as containerd
-    U->>A: apply Deployment (replicas: 3)
-    A->>E: store desired state
-    C->>A: watch: new Deployment → create ReplicaSet → create 3 Pods
-    A->>E: store 3 Pods (no node yet)
-    S->>A: watch: unscheduled pods → pick nodes → bind pod to node 2
-    K->>A: watch: a pod is assigned to me
-    K->>R: pull image, start container
-    K->>A: report status: Running ✅
+    participant You
+    participant API as API server
+    participant Manager as Deployment controller
+    participant Scheduler
+    participant Node as worker node
+    You->>API: kubectl apply: keep 3 pods
+    API->>API: save the request
+    Manager->>API: create missing pods
+    Scheduler->>API: choose a node for each pod
+    Node->>Node: pull image and start container
+    Node->>API: report pod status
 ```
 
-Notice: **nobody talks to anybody directly except through the API server**, and every component **watches** for changes and reacts. That's what makes Kubernetes so extensible and resilient.
+The key point: components react to the shared record in the API server. You do not need to call the scheduler or node yourself.
 
-## How the scheduler chooses a node
+## How does Kubernetes choose a node?
 
-```mermaid
-flowchart LR
-    P[New pod<br/>needs 500m CPU, 512Mi RAM] --> F["1️⃣ Filter<br/>remove nodes that can't fit it<br/>or don't match rules"]
-    F --> S["2️⃣ Score<br/>rank the rest: spread, free resources,<br/>affinity preferences"]
-    S --> B["3️⃣ Bind<br/>the highest-scoring node wins"]
-```
+For a new pod, the scheduler first removes nodes that cannot run it, then chooses a good remaining node.
 
-Things that influence scheduling:
+The usual questions are simple:
 
-- **Resource requests** (CPU/memory the pod asks for).
-- **nodeSelector / node affinity:** "run only on nodes with a GPU".
-- **Pod affinity / anti-affinity:** "keep replicas of this app on different nodes".
-- **Taints and tolerations:** "this node is reserved for databases, unless a pod tolerates it".
+- Does this node have enough requested CPU and memory?
+- Does the pod require a special node, such as one with a GPU?
+- Should copies be spread across different servers or zones?
 
-## Talking to a cluster: kubectl
+If no node has enough room, the pod stays `Pending`. That is a useful clue, not a mysterious failure.
+
+## `kubectl`: your safe starting commands
+
+`kubectl` is the command-line tool that talks to the API server.
 
 ```bash
-kubectl config get-contexts         # which clusters can I talk to?
-kubectl config use-context prod-eu  # switch cluster
-kubectl get nodes -o wide           # list worker nodes
-kubectl cluster-info                # API server address
-kubectl api-resources               # every object type the cluster understands
+kubectl get nodes                 # What servers are available?
+kubectl get pods -A               # What pods exist in all namespaces?
+kubectl cluster-info              # Which cluster am I connected to?
+kubectl config current-context    # Which cluster/context will commands use?
 ```
 
-`kubectl` reads the cluster address and your credentials from `~/.kube/config`.
+Always check the current context before changing anything important. It is easy to have a development and production cluster in the same config.
 
-## Namespaces: virtual clusters
+## Namespaces: folders inside one cluster
 
-A namespace is a **folder** inside the cluster that groups resources and scopes names, permissions and quotas.
+A **namespace** is like a folder or a separate workspace inside the same cluster. It prevents names and permissions from becoming one big pile.
 
-```mermaid
-flowchart TB
-    subgraph Cluster
-      subgraph NS1["namespace: team-shop"]
-        a1[shop-api] --- a2[shop-web]
-      end
-      subgraph NS2["namespace: team-payments"]
-        b1[payments-api]
-      end
-      subgraph NS3["namespace: kube-system"]
-        c1[CoreDNS] --- c2[kube-proxy]
-      end
-    end
+```text
+cluster
+├── team-shop       → shop-api, shop-web
+├── team-payments   → payments-api
+└── kube-system     → Kubernetes own system components
 ```
 
 ```bash
-kubectl create namespace team-shop
 kubectl get pods -n team-shop
-kubectl get pods --all-namespaces
+kubectl get pods -A
 ```
 
-Common uses: one namespace per team or per environment (`dev`, `staging`), with **ResourceQuotas** and **RBAC** permissions per namespace.
+Use namespaces for teams or environments such as `dev`, `staging`, and `production`.
 
-## Managed vs self-hosted
+## Remember this
 
-| | Managed (EKS, GKE, AKS) | Self-hosted (kubeadm, bare metal) |
-| --- | --- | --- |
-| Control plane | Run, patched and backed up by the cloud | You run it all |
-| Upgrades | A button or a command | Careful manual process |
-| Cost | A small fee + nodes | "Free" + a lot of your time |
-| Best for | Almost everyone ✅ | Special compliance or on-prem needs |
-
-For learning on your laptop: **kind**, **minikube**, **k3d**, or Docker Desktop's built-in Kubernetes.
-
-## Key takeaways
-
-- The **control plane** (API server, etcd, scheduler, controllers) decides and records; **worker nodes** (kubelet, runtime, kube-proxy) run the pods.
-- Everything goes through the **API server**; components **watch** and react through control loops.
-- **etcd** stores the whole cluster state. Back it up.
-- The scheduler filters and scores nodes using resource requests, affinity and taints.
-- **Namespaces** group resources for teams and environments.
+- A cluster is a group of servers.
+- The control plane records and decides; worker nodes run pods.
+- `kubectl` talks to the API server, not directly to nodes.
+- A pod that cannot find room often shows as `Pending`.
+- A namespace is a grouping boundary inside the cluster.

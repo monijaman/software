@@ -1,48 +1,57 @@
 ---
-title: Why Kubernetes?
-summary: From one container on your laptop to hundreds across many servers. What problems Kubernetes solves, the idea of desired state, and when you do and don't need it.
+title: "Kubernetes: Start Here"
+summary: "A plain-English introduction to Kubernetes: what it is, why teams use it, and the few words you need before writing YAML."
 level: Beginner
 tags: [kubernetes, containers, orchestration, devops]
 ---
 
-## The big idea
+## First: the short version
 
-A single musician can play alone. A **100-person orchestra** needs a **conductor**: someone who makes sure every instrument starts on time, replaces a sick violinist, and keeps everyone in sync.
+**Kubernetes (K8s) runs containers for you.**
 
-Docker gives you containers (the musicians). **Kubernetes** (K8s) is the **conductor**: it decides where each container runs, restarts the ones that crash, scales them up and down, and rolls out new versions without stopping the music.
+It runs them on one or many servers, restarts them when they fail, runs more copies when needed, and replaces old versions carefully. You tell it the result you want; it keeps checking and working toward that result.
+
+If that sentence is all you remember today, that is a good start.
 
 ![Kubernetes orchestrates containers across a cluster of machines](/img/kubernetes/orchestra.svg)
 
-> 📘 The name comes from Greek for **helmsman** (the person steering a ship). "K8s" = K + 8 letters + s. Google open-sourced it in 2014, based on its internal system Borg. It is now run by the Cloud Native Computing Foundation (CNCF).
+## A familiar example
 
-## The problems it solves
+Imagine an online shop API. It needs three running copies so the site stays available.
 
-Running one container is easy: `docker run my-app`. Running **production** is not:
+Without Kubernetes, someone must notice when a container dies and start it again. During a busy sale, someone must start extra copies. Deploying a new version can interrupt visitors.
 
-| Problem | Without Kubernetes | With Kubernetes |
-| --- | --- | --- |
-| A container crashes at 3 a.m. | Someone gets paged, SSHes in, restarts it | **Self-healing**: restarted automatically |
-| A server dies | Manually move its containers elsewhere | **Rescheduled** onto healthy nodes |
-| Traffic spikes 10× | Manually start more copies | **Autoscaling** adds replicas |
-| Deploying a new version | Stop old, start new → downtime | **Rolling updates** with zero downtime, and rollback |
-| "Which server has space?" | Spreadsheets and guesswork | **Scheduler** places containers by CPU/memory needs |
-| Service A needs to find service B | Hard-coded IP addresses | **Service discovery** and load balancing built in |
-| Passwords and config | Baked into images or scattered files | **ConfigMaps and Secrets** |
+With Kubernetes, you can say: **“Keep three copies of `shop-api` version 1.8 running.”** Kubernetes does the repetitive work.
 
-## The core idea: desired state ⭐
+| Situation | Kubernetes response |
+| --- | --- |
+| One app copy crashes | Starts a replacement |
+| A server fails | Moves affected work to a healthy server |
+| Traffic grows | Can add more copies automatically |
+| You publish a new version | Replaces copies gradually, then can undo it |
 
-You don't tell Kubernetes *how* to do things step by step. You **declare what you want** in YAML ("I want 3 copies of my API, version 1.8"), and Kubernetes **continuously works to make reality match**.
+## The one idea that explains Kubernetes
+
+Kubernetes stores two things:
+
+1. **Desired state** — what you asked for. Example: “three copies.”
+2. **Actual state** — what is running right now. Example: “only two copies.”
+
+When they differ, Kubernetes tries to close the gap.
 
 ```mermaid
 flowchart LR
-    You["🧑‍💻 You declare<br/>desired state<br/>(YAML)"] --> API[Kubernetes API]
-    API --> Loop{{"🔁 Control loop<br/>observe → compare → act"}}
-    Loop -->|"actual: 2 running<br/>desired: 3"| Act["start 1 more pod"]
-    Act --> Loop
+    A[You: I want 3 copies] --> B[Kubernetes records the request]
+    B --> C{How many are running?}
+    C -->|2| D[Start 1 more]
+    D --> C
+    C -->|3| E[Keep watching]
 ```
 
+This is why Kubernetes is called **declarative**. You say *what the finished situation should be*, not every command needed to get there.
+
 ```yaml
-# "I want 3 replicas of my API, version 1.8"
+# This means: keep three copies of this app running.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,71 +59,60 @@ metadata:
 spec:
   replicas: 3
   selector:
-    matchLabels: { app: shop-api }
+    matchLabels:
+      app: shop-api
   template:
     metadata:
-      labels: { app: shop-api }
+      labels:
+        app: shop-api
     spec:
       containers:
         - name: api
           image: registry.example.com/shop-api:1.8.0
-          ports: [{ containerPort: 3000 }]
 ```
+
+You save that as a YAML file and apply it:
 
 ```bash
-kubectl apply -f deployment.yaml   # "make it so"
+kubectl apply -f shop-api.yaml
 ```
 
-A pod crashes → actual (2) ≠ desired (3) → Kubernetes starts a new one. **No human needed.** This "control loop" idea powers everything in Kubernetes.
+Do not worry about every line yet. The next lessons explain each piece.
 
-| Imperative (how) | Declarative (what) ✅ |
+## The six words you will meet most
+
+| Word | Plain meaning |
 | --- | --- |
-| "Start container A on server 3" | "There should be 3 copies of A" |
-| "Stop version 1, start version 2" | "The version should be 2" |
-| Breaks when reality changes | Keeps fixing reality automatically |
-
-## Key building blocks (a preview)
-
-```mermaid
-flowchart TB
-    U[👥 Users] --> ING["🚪 Ingress<br/>HTTP routing"]
-    ING --> SVC["🔗 Service<br/>stable address + load balancing"]
-    SVC --> P1["📦 Pod"] & P2["📦 Pod"] & P3["📦 Pod"]
-    DEP["📋 Deployment<br/>keeps 3 pods running,<br/>rolls out versions"] -.manages.-> P1 & P2 & P3
-    CM["⚙️ ConfigMap / 🔐 Secret"] -.config.-> P1 & P2 & P3
-```
-
-| Object | One-line meaning | Lesson |
-| --- | --- | --- |
-| **Pod** | The smallest unit: one or more containers running together | Pods |
-| **Deployment** | Keeps N identical pods running; handles rollouts | Deployments |
-| **Service** | A stable name/IP that load-balances across pods | Services & Ingress |
-| **Ingress** | HTTP(S) routing from the internet to services | Services & Ingress |
-| **ConfigMap / Secret** | Configuration and sensitive values | Config & Storage |
-| **PersistentVolume** | Storage that outlives pods | Config & Storage |
-| **HPA** | Autoscaling pods based on load | Scaling & Health |
-
-## Do you actually need Kubernetes?
-
-Kubernetes is powerful, and complex. Be honest about your needs (remember **KISS**).
+| **Cluster** | The whole Kubernetes system: one or more servers working together |
+| **Node** | One server in that cluster |
+| **Pod** | The smallest thing Kubernetes runs; usually one app container |
+| **Deployment** | A manager that keeps the requested number of pods alive |
+| **Service** | A stable internal address for a changing group of pods |
+| **Ingress** | Rules for sending web traffic from the internet to Services |
 
 ```mermaid
-flowchart TD
-    Q1{How many services / containers?} -->|"1-3"| S1["A PaaS: Vercel, Render, Railway,<br/>Fly.io, Heroku, Cloud Run"]
-    Q1 -->|many| Q2{Team to operate it?}
-    Q2 -->|no| S2["Managed K8s (EKS, GKE, AKS)<br/>or serverless containers (ECS Fargate, Cloud Run)"]
-    Q2 -->|yes| S3[Kubernetes ✅]
+flowchart LR
+    U[Visitor] --> I[Ingress]
+    I --> S[Service]
+    S --> P1[Pod: app copy 1]
+    S --> P2[Pod: app copy 2]
+    D[Deployment: keep 2 pods] -.manages.-> P1
+    D -.manages.-> P2
 ```
 
-✅ **Good fit:** many services, several teams, the need for portability across clouds, strong automation of deploys and scaling.
+You do not need to memorize this diagram. Read it left to right: visitor → front door → stable address → app copies.
 
-❌ **Probably overkill:** a single web app, a small team with no ops experience, a prototype. A PaaS gets you to production faster.
+## Do you need Kubernetes?
 
-> 💡 If you do use Kubernetes, use a **managed** control plane (Amazon EKS, Google GKE, Azure AKS). Running the control plane yourself is a job in itself.
+Probably **not yet** if you have one small app and a small team. A platform such as Render, Railway, Vercel, Cloud Run, or a simple Docker server is usually easier.
 
-## Key takeaways
+Kubernetes starts to make sense when you have several services, need reliable rolling deployments and automatic recovery, or have a team ready to operate it. For most real teams, use a managed service such as EKS, GKE, or AKS rather than building the Kubernetes control plane yourself.
 
-- Kubernetes orchestrates containers across many machines: scheduling, self-healing, scaling, rollouts and discovery.
-- You **declare desired state** in YAML; control loops keep reality matching it.
-- Core objects: Pods, Deployments, Services, Ingress, ConfigMaps/Secrets, volumes, autoscalers.
-- It's powerful but complex. Use it when the scale and team justify it, preferably managed.
+## Before the next lesson
+
+- A container is your packaged app.
+- A pod runs that app in Kubernetes.
+- A Deployment keeps the right number of pods alive.
+- Kubernetes repeatedly compares “what I asked for” with “what exists.”
+
+Next, learn where these pieces live: the cluster, its servers, and the control plane.

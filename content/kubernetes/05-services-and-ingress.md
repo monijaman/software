@@ -1,35 +1,27 @@
 ---
-title: Services & Ingress
-summary: Pods come and go, so how does traffic find them? ClusterIP, NodePort and LoadBalancer Services, cluster DNS, Ingress for HTTP routing and TLS, and the newer Gateway API.
-level: Intermediate
+title: "Services and Ingress: Let Traffic Find Your App"
+summary: "Pods change, but your app address should not. Learn Services for internal traffic and Ingress for web traffic."
+level: Beginner
 tags: [kubernetes, service, ingress, networking, dns]
 ---
 
-## The big idea
+## The problem
 
-Pods are like **temporary staff** at a busy help desk: they come and go, and each has a different desk number (IP) every day. Customers can't be expected to track that. So the help desk has **one permanent phone number** that rings whichever staff member is free.
+Pods are replaceable. A replacement pod gets a new IP address. Other apps should not need to discover that new address every time.
 
-A **Service** is that permanent number: a stable name and IP that load-balances across a changing set of pods. An **Ingress** is the building's **reception desk**, which routes visitors from the street to the right department.
+A **Service** gives a group of pods one stable name. An **Ingress** routes HTTP/HTTPS traffic from outside the cluster to a Service.
 
 ![Ingress routes outside HTTP traffic to Services, which load-balance across pods](/img/kubernetes/service-ingress.svg)
 
-## Why Services exist
-
 ```mermaid
 flowchart LR
-    subgraph Without["❌ Calling pods directly"]
-      C1[checkout] -->|"10.244.1.17 ... gone after restart"| P1[pod]
-    end
-    subgraph With["✅ Through a Service"]
-      C2[checkout] -->|"http://shop-api"| S{{"Service shop-api<br/>10.96.12.5"}}
-      S --> Pa[pod]
-      S --> Pb[pod]
-      S --> Pc[pod]
-    end
+    U[Browser] --> I[Ingress]
+    I --> S[Service: shop-api]
+    S --> P1[ready pod]
+    S --> P2[ready pod]
 ```
 
-- Pod IPs **change** every time a pod is recreated.
-- A Service gets a **stable virtual IP and DNS name**, and forwards traffic to all **ready** pods matching its selector.
+## Service: the stable internal address
 
 ```yaml
 apiVersion: v1
@@ -38,152 +30,76 @@ metadata:
   name: shop-api
 spec:
   selector:
-    app: shop-api        # send traffic to pods with this label…
+    app: shop-api
   ports:
-    - port: 80           # …when someone calls shop-api:80
-      targetPort: 3000   # …forward to the container's port 3000
+    - port: 80
+      targetPort: 3000
 ```
 
-Kubernetes keeps an up-to-date list of matching, **ready** pod IPs (the **EndpointSlices**). A pod failing its readiness probe is removed from the list automatically.
+Read this as: “When someone calls `shop-api` on port 80, send the request to port 3000 of ready pods labelled `app: shop-api`.”
 
-## Service DNS
-
-Every Service gets a DNS name from CoreDNS:
+Inside the same namespace, another app can call:
 
 ```text
-<service>.<namespace>.svc.cluster.local
-shop-api.team-shop.svc.cluster.local
+http://shop-api
 ```
 
-From a pod in the **same namespace**, just use `http://shop-api`. From another namespace: `http://shop-api.team-shop`.
+Kubernetes DNS turns that name into the right destination. Do not put pod IP addresses in application configuration.
 
-```js
-// Inside another pod: no IPs anywhere
-const res = await fetch("http://shop-api/products");
-```
+## Service types: pick the simple one first
 
-## Service types
-
-```mermaid
-flowchart TB
-    subgraph CIP["ClusterIP (default): internal only"]
-      i1[pod in cluster] --> s1{{shop-api}} --> p1[pods]
-    end
-    subgraph NP["NodePort: a port on every node"]
-      o2["outside → nodeIP:30080"] --> s2{{service}} --> p2[pods]
-    end
-    subgraph LB["LoadBalancer: a cloud load balancer"]
-      o3["🌍 internet → 34.12.8.9:80"] --> clb[☁️ cloud LB] --> s3{{service}} --> p3[pods]
-    end
-```
-
-| Type | Reachable from | Use for |
+| Type | What it means | Typical use |
 | --- | --- | --- |
-| **ClusterIP** | Inside the cluster only | Service-to-service traffic ✅ (the default) |
-| **NodePort** | `<any node IP>:30000-32767` | Development, bare-metal setups |
-| **LoadBalancer** | The internet, via a cloud load balancer | Exposing one service directly (costs one LB each) |
-| **ExternalName** | A DNS alias to an outside host | Pointing to an external database by a cluster name |
-| **Headless** (`clusterIP: None`) | DNS returns individual pod IPs | StatefulSets, where clients need specific pods |
+| **ClusterIP** | Reachable only inside the cluster | Default; app-to-app traffic |
+| **LoadBalancer** | Cloud creates a public load balancer | Directly expose one service |
+| **NodePort** | Opens a port on each node | Learning or special setups |
 
-## Ingress: HTTP routing into the cluster
+Start with `ClusterIP` for internal services. Use Ingress for most public web traffic.
 
-One cloud load balancer per service gets expensive and messy. An **Ingress** lets **one entry point** route HTTP(S) traffic by **host** and **path** to many services, and terminate TLS.
+## Ingress: one public front door
+
+An Ingress can route different domains and paths to different Services.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: shop
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt   # automatic HTTPS certificates
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts: [shop.example.com, api.shop.example.com]
-      secretName: shop-tls
   rules:
-    - host: shop.example.com
+    - host: api.shop.example.com
       http:
         paths:
           - path: /
             pathType: Prefix
-            backend: { service: { name: shop-web, port: { number: 80 } } }
-    - host: api.shop.example.com
-      http:
-        paths:
-          - path: /orders
-            pathType: Prefix
-            backend: { service: { name: orders-api, port: { number: 80 } } }
-          - path: /products
-            pathType: Prefix
-            backend: { service: { name: catalog-api, port: { number: 80 } } }
+            backend:
+              service:
+                name: shop-api
+                port:
+                  number: 80
 ```
 
-```mermaid
-flowchart LR
-    U[🌍 Users] --> LB[☁️ one cloud LB] --> IC["🚪 Ingress controller<br/>(NGINX / Traefik / cloud)"]
-    IC -->|shop.example.com/| W{{shop-web}}
-    IC -->|api…/orders| O{{orders-api}}
-    IC -->|api…/products| C{{catalog-api}}
-```
+Important: an Ingress YAML file alone does nothing. Your cluster also needs an **Ingress controller** (for example NGINX, Traefik, or a cloud controller) that reads these rules and handles the incoming connections.
 
-> ⚠️ An Ingress resource does nothing by itself. You need an **Ingress controller** running in the cluster (ingress-nginx, Traefik, HAProxy, or your cloud's controller) to act on it.
+HTTPS certificates are often added with `cert-manager`, which can request and renew certificates automatically.
 
-**cert-manager** automatically gets and renews free TLS certificates from Let's Encrypt for your Ingress hosts.
+## When traffic does not arrive
 
-## The Gateway API: Ingress, evolved
-
-The newer **Gateway API** splits responsibilities between roles and supports more features (header matching, traffic splitting for canaries, TCP/gRPC routes) in a standard way.
-
-```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: orders
-spec:
-  parentRefs: [{ name: public-gateway }]
-  hostnames: ["api.shop.example.com"]
-  rules:
-    - matches: [{ path: { type: PathPrefix, value: /orders } }]
-      backendRefs:
-        - { name: orders-api-v1, port: 80, weight: 90 }
-        - { name: orders-api-v2, port: 80, weight: 10 }   # 10% canary
-```
-
-## NetworkPolicies: a firewall between pods
-
-By default, **every pod can talk to every other pod**. NetworkPolicies restrict that (your CNI plugin must support them, e.g. Calico or Cilium).
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: payments-db-only-from-payments
-spec:
-  podSelector: { matchLabels: { app: payments-db } }
-  policyTypes: [Ingress]
-  ingress:
-    - from:
-        - podSelector: { matchLabels: { app: payments-api } }
-      ports: [{ port: 5432 }]
-```
-
-## Debugging connectivity
+Check in this order:
 
 ```bash
-kubectl get svc,endpointslices -n team-shop            # does the service have endpoints?
-kubectl describe svc shop-api                          # selector matches pod labels?
-kubectl run tmp --rm -it --image=busybox:1.36 -- sh    # a throwaway pod…
-wget -qO- http://shop-api/health                       # …to test from inside the cluster
-kubectl port-forward svc/shop-api 8080:80              # reach it from your laptop
+kubectl get pods -l app=shop-api
+kubectl get svc shop-api
+kubectl get endpointslices
+kubectl describe svc shop-api
 ```
 
-Most "service doesn't work" issues are **label mismatches** (the selector doesn't match the pod labels, so there are no endpoints) or pods that aren't **ready**.
+The most common cause is a label mismatch: the Service selects `app: shop-api`, but the pods have a different label. The second common cause is that pods are not ready, so Kubernetes correctly removes them from the Service.
 
-## Key takeaways
+## Remember this
 
-- A **Service** gives a changing set of pods one stable IP and DNS name, and load-balances across **ready** pods.
-- **ClusterIP** for internal traffic, **LoadBalancer** to expose directly, **NodePort** for simple setups.
-- Call services by DNS name: `http://shop-api` (same namespace).
-- **Ingress** (plus an Ingress controller) routes HTTP by host and path and terminates TLS; the **Gateway API** is its successor.
-- Restrict pod-to-pod traffic with **NetworkPolicies**; debug by checking endpoints and labels.
+- Pods change; Services provide a stable name.
+- A Service sends traffic only to ready pods whose labels match its selector.
+- Use Service DNS names, not pod IPs.
+- Ingress is the web-routing rule; an Ingress controller is the software that enforces it.

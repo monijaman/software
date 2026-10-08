@@ -1,22 +1,31 @@
 ---
-title: Pods
-summary: The smallest thing Kubernetes runs. What a pod is, why it can hold several containers, the pod lifecycle, sidecars and init containers, resource requests and limits, and debugging pods.
+title: "Pods: Where Your App Actually Runs"
+summary: "Learn what a pod is, why it is not the same as a container, the common pod statuses, and the first commands to investigate a problem."
 level: Beginner
 tags: [kubernetes, pods, containers, sidecar, resources]
 ---
 
-## The big idea
+## Start with one sentence
 
-Think of a **pod** as a **shared apartment**. The roommates (containers) share the same address (IP), the same front door (network ports), and can share a storage cupboard (volumes). They move in and out **together**.
-
-Most pods have **one** main container. Sometimes a helper lives with it, like a roommate who handles the mail.
+A **pod** is the smallest unit Kubernetes places on a server. It usually contains **one container**: your app.
 
 ![A pod: one or more containers sharing a network address and volumes](/img/kubernetes/pod.svg)
 
-## Your first pod
+Do not think “one pod equals one server.” Many pods can run on the same node.
+
+## Pod versus container
+
+| Thing | Meaning |
+| --- | --- |
+| **Container** | Your packaged program, such as an Nginx or Node.js process |
+| **Pod** | The Kubernetes wrapper that runs one or more containers together |
+| **Node** | The server that hosts pods |
+
+Most application pods have one container. A pod can have helper containers when they truly need to share the same network and lifetime.
+
+## A small pod example
 
 ```yaml
-# pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -33,145 +42,83 @@ spec:
 
 ```bash
 kubectl apply -f pod.yaml
-kubectl get pods                    # NAME   READY   STATUS    RESTARTS   AGE
-                                    # hello  1/1     Running   0          10s
-kubectl port-forward pod/hello 8080:80   # open http://localhost:8080
-kubectl delete pod hello
+kubectl get pods
+kubectl port-forward pod/hello 8080:80
 ```
 
-> ⚠️ **You rarely create pods directly.** A bare pod that dies stays dead. In practice you create a **Deployment** (next lesson), which creates and replaces pods for you.
+Now `http://localhost:8080` reaches Nginx. This is useful for learning, but do not use a bare pod for a real app. If it dies, nothing recreates it. A **Deployment** does that in the next lesson.
 
-## What containers in a pod share
+## What containers in one pod share
 
-| Shared | Meaning |
-| --- | --- |
-| **Network** | One IP address per pod; containers talk via `localhost` |
-| **Volumes** | Mounted storage both containers can read and write |
-| **Lifecycle** | Scheduled on the same node, started and stopped together |
+Containers in the same pod share:
 
-Each pod gets its **own IP**, and every pod can reach every other pod's IP across the cluster (the flat pod network, provided by the CNI plugin).
+- **One network address**: they can call each other through `localhost`.
+- **Optional shared files**: a volume can be mounted into both containers.
+- **One placement and lifetime**: Kubernetes puts them on the same node and stops them together.
 
-## Multi-container patterns
+Use a second container only when it is closely tied to the main app. A log helper is a common example. Two unrelated services should normally be separate Deployments.
 
-### Sidecar
+## Two helper patterns
 
-A helper container that **extends** the main one without changing it.
+**Sidecar:** a helper that runs beside the app for its whole life. Example: a log collector reading shared log files.
+
+**Init container:** a short setup task that must finish before the app starts. Example: waiting for a required service or copying a configuration file.
 
 ```mermaid
 flowchart LR
-    subgraph Pod
-      App["🧑‍💻 app container<br/>writes logs to /var/log"] --> Vol[("shared volume")]
-      Vol --> Side["📤 log-shipper sidecar<br/>sends logs to Loki"]
-    end
+    A[Init container: setup finishes] --> B[App container starts]
+    B --- C[Optional sidecar keeps helping]
 ```
 
-Common sidecars: log shippers, service-mesh proxies (Envoy in Istio), config reloaders, metrics exporters.
+## Pod statuses you will actually see
 
-### Init containers
-
-Run **before** the main containers start, to completion, one after another. Great for setup work.
-
-```yaml
-spec:
-  initContainers:
-    - name: wait-for-db
-      image: busybox:1.36
-      command: ["sh", "-c", "until nc -z postgres 5432; do echo waiting for db; sleep 2; done"]
-    - name: migrate
-      image: registry.example.com/shop-api:1.8.0
-      command: ["npm", "run", "migrate"]
-  containers:
-    - name: api
-      image: registry.example.com/shop-api:1.8.0
-```
-
-```mermaid
-flowchart LR
-    I1["init: wait-for-db ✅"] --> I2["init: migrate ✅"] --> M["main: api 🏃 running"]
-```
-
-## The pod lifecycle
-
-```mermaid
-stateDiagram-v2
-    [*] --> Pending: created, waiting for a node / image pull
-    Pending --> Running: scheduled and containers started
-    Running --> Succeeded: all containers exited 0
-    Running --> Failed: a container exited with an error
-    Running --> Running: container crashed and was restarted
-    Succeeded --> [*]
-    Failed --> [*]
-```
-
-| Status you'll see | What it usually means |
-| --- | --- |
-| `Pending` | No node has enough resources, or the image is still downloading |
-| `ContainerCreating` | Pulling the image, mounting volumes |
-| `Running` | At least one container is running |
-| `CrashLoopBackOff` | The container keeps crashing; Kubernetes waits longer and longer between restarts |
-| `ImagePullBackOff` / `ErrImagePull` | Wrong image name or tag, or no permission to pull it |
-| `OOMKilled` | The container used more memory than its limit |
-| `Completed` | The container finished successfully (typical for Jobs) |
-
-## Resource requests and limits ⭐
-
-Tell Kubernetes how much CPU and memory each container needs:
-
-```yaml
-containers:
-  - name: api
-    image: registry.example.com/shop-api:1.8.0
-    resources:
-      requests:          # guaranteed minimum, used for SCHEDULING
-        cpu: "250m"      # 0.25 of a CPU core
-        memory: "256Mi"
-      limits:            # maximum allowed
-        cpu: "1"
-        memory: "512Mi"
-```
-
-| | Requests | Limits |
+| Status | Usually means | First action |
 | --- | --- | --- |
-| Purpose | The scheduler places the pod on a node that has this much free | A hard cap at runtime |
-| Exceed CPU | – | The container is **throttled** (slowed down) |
-| Exceed memory | – | The container is **killed** (`OOMKilled`) and restarted |
+| `Pending` | Waiting for a node, storage, or enough resources | `kubectl describe pod <name>` |
+| `ContainerCreating` | Downloading image or attaching storage | Wait briefly; then check events |
+| `Running` | Container is running | Check readiness if traffic still fails |
+| `CrashLoopBackOff` | App starts, crashes, and Kubernetes retries it | Read previous logs |
+| `ImagePullBackOff` | Image name, tag, or registry permission is wrong | Check image and registry access |
+| `OOMKilled` | The app used more memory than allowed | Investigate usage; adjust limit if justified |
 
-```mermaid
-flowchart LR
-    subgraph Node["Node: 4 CPU, 8 GiB"]
-      A["pod A<br/>req 1 CPU, 2Gi"]
-      B["pod B<br/>req 2 CPU, 4Gi"]
-      F["free: 1 CPU, 2Gi"]
-    end
-    New["new pod<br/>req 2 CPU"] -.->|doesn't fit| Node
+The exact reason is usually near the bottom of `kubectl describe` under **Events**.
+
+## CPU and memory: requests and limits
+
+Give Kubernetes an honest estimate of what your container needs.
+
+```yaml
+resources:
+  requests:
+    cpu: "250m"       # a quarter of one CPU core for scheduling
+    memory: "256Mi"
+  limits:
+    memory: "512Mi"   # do not use more than this memory
 ```
 
-> 💡 **Always set requests** (otherwise scheduling is guesswork), and always set a **memory limit**. Many teams skip CPU limits to avoid throttling, but keep CPU requests accurate.
+| Setting | Why it matters |
+| --- | --- |
+| **Request** | Helps Kubernetes choose a node with enough capacity |
+| **Memory limit** | Protects the node; exceeding it kills and restarts the container |
+| **CPU limit** | Caps CPU use, but can slow an app when reached |
 
-## Debugging pods: the essential commands
+Start with measured values where possible. A random large request wastes capacity; no request makes scheduling and autoscaling less reliable.
+
+## Four debugging commands to learn first
 
 ```bash
-kubectl get pods -o wide                   # status, node, IP
-kubectl describe pod shop-api-7d9f-xk2p    # events at the bottom explain most problems!
-kubectl logs shop-api-7d9f-xk2p            # container logs
-kubectl logs shop-api-7d9f-xk2p --previous # logs from the crashed previous run
-kubectl logs shop-api-7d9f-xk2p -c sidecar # a specific container
-kubectl exec -it shop-api-7d9f-xk2p -- sh  # shell inside the container
+kubectl get pods -o wide
+kubectl describe pod <pod-name>
+kubectl logs <pod-name> --previous
 kubectl get events --sort-by=.lastTimestamp
 ```
 
-```mermaid
-flowchart TD
-    P{Pod not healthy?} -->|Pending| D1["describe → events:<br/>'Insufficient cpu'? lower requests or add nodes"]
-    P -->|ImagePullBackOff| D2["check image name/tag<br/>and registry credentials"]
-    P -->|CrashLoopBackOff| D3["logs --previous →<br/>app error? missing env var? bad config?"]
-    P -->|OOMKilled| D4["raise the memory limit<br/>or fix a memory leak"]
-```
+Read them in that order: status, explanation/events, application error, then recent cluster events.
 
-## Key takeaways
+## Remember this
 
-- A **pod** is one or more containers sharing an IP, ports and volumes; it's the smallest unit Kubernetes schedules.
-- Don't create bare pods for apps; use Deployments, which replace pods automatically.
-- **Sidecars** extend the main container; **init containers** do setup before it starts.
-- Set **requests** (for scheduling) and **limits** (caps); exceeding memory → `OOMKilled`.
-- `kubectl describe` and `kubectl logs --previous` solve most pod mysteries.
+- A pod usually runs one app container.
+- A pod is not durable: use a Deployment to recreate it.
+- Containers in a pod share network and can share files.
+- `describe` and logs explain most pod failures.
+- Requests help placement; memory limits protect the node.
