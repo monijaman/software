@@ -18,3 +18,11 @@ tags: [system-design, geohash, quadtree, bloom-filter, hyperloglog, merkle-tree]
 | Merkle tree | Which replicated blocks differ? | Tree maintenance |
 
 Use an approximation only where its error is safe and measurable. Never use a Bloom-filter positive as proof of authorization or inventory ownership.
+
+## Examples that show the trade-off
+
+A crawler uses a Bloom filter before its durable visited table: “definitely absent” avoids a lookup, while “maybe present” asks the database. A music app uses HyperLogLog for approximate daily unique listeners; a small error is acceptable for dashboards but not billing. A replication system uses a Merkle tree to identify which blocks differ without sending every block.
+
+For nearby drivers, query the driver cell plus neighboring cells because a rider near a border may be close to a driver in the next cell. The spatial index finds candidates; the assignment transaction still chooses one driver safely.
+
+Write down each approximation's false-positive/false-negative direction, error bound, refresh cycle and fallback. If you cannot explain what a wrong answer does to a user, do not use it.

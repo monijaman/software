@@ -18,3 +18,17 @@ tags: [system-design, api, websocket, tcp, udp, proxy]
 | Loss-tolerant media | UDP/QUIC | App tolerates loss/reordering |
 
 A forward proxy represents clients. A reverse proxy represents servers: it can terminate TLS, route, cache and rate-limit. A queue is not a WebSocket, and a WebSocket is not a durable message log.
+
+## Pick from the user interaction
+
+A “save profile” request needs one answer now: HTTP REST is a clear fit. A mobile chat needs the server to push messages: use a WebSocket for live delivery, but save messages durably before acknowledgment. A video thumbnail conversion may take minutes: return a job ID and process it through a queue rather than hold an HTTP request open.
+
+## Real-time connection checklist
+
+- Authenticate when connecting and re-check authorization for sensitive subscriptions.
+- Heartbeat and remove dead connections; mobile networks disappear silently.
+- Put connection state/presence in shared ephemeral storage, not one gateway's memory.
+- Define reconnect behavior: client resumes from durable cursor or sequence number.
+- Apply per-user and per-room limits to prevent one room from consuming all connections.
+
+WebSockets reduce polling, but they do not provide guaranteed delivery, persistence, ordering across servers, or offline history by themselves.

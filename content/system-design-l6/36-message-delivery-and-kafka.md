@@ -36,3 +36,13 @@ Do not promise global ordering unless you can name the ordering key. Partitionin
 After bounded retries, place an unprocessable message in a **dead-letter queue (DLQ)** with error and attempt data. A DLQ is not a trash can: alert on it, fix/replay it and expire it deliberately.
 
 Events should have a schema version. Add optional fields compatibly first; do not silently change what `amount` means. Consumers can be older than producers during a gradual deployment.
+
+## Consumer behavior that survives crashes
+
+Read an event, validate its schema, then make the business write idempotent before committing its offset/acknowledgment. If the process crashes after the write but before acknowledgement, it will receive the event again; the unique event ID or conditional state update makes the second attempt harmless.
+
+For an order, partition by `order_id`. That preserves the history of one order while allowing many orders in parallel. A message for order A can overtake one for order B and that is usually fine. Global ordering is costly and rarely a product requirement.
+
+## DLQ procedure
+
+Do not automatically replay a poison message forever. Store its payload reference, error, attempts, consumer version and original position. Alert an owner, fix the code/data, replay in a controlled way, and measure the DLQ's oldest age. A growing DLQ is customer work stuck out of sight.

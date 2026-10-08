@@ -17,3 +17,20 @@ Create short-lived multipart upload URLs so app servers never proxy huge files. 
 | Device sync | Versioned change feed/conflict policy |
 
 Object-store durability still needs recovery testing.
+
+## Upload safely, without making the API a pipe
+
+The API should authenticate the user, create a file record in `PENDING` state, and issue a short-lived upload URL limited to one object name, size and content type. The browser uploads directly to object storage. A worker then scans the object, verifies size/type, creates derivatives, and marks it `READY`. Downloads check the file ACL and issue a short-lived read URL.
+
+Do not trust a filename or client-provided MIME type. Keep new objects private, quarantine suspicious files, and never serve a file before scanning if users can share it.
+
+## Important failure cases
+
+| Event | Recovery |
+| --- | --- |
+| Browser drops mid-upload | Resume multipart upload or expire incomplete parts. |
+| Object uploaded but DB update lost | Reconcile storage inventory with pending records. |
+| Scan fails | Keep object inaccessible; notify owner with safe reason. |
+| User retries upload | Idempotent file/session key returns the existing session. |
+
+Use metadata in a database for names, owners and permissions; object storage holds bytes. Test restore of deleted/corrupted objects, not just storage-provider durability claims.

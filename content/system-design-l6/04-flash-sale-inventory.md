@@ -30,3 +30,21 @@ WHERE sku = :sku AND available > 0;
 Zero rows means sold out. Never separately “check available” then decrement: concurrent requests race.
 
 Give every purchase an idempotency key, reconcile reservations/orders/payments, and isolate sale traffic from browsing and recommendations.
+
+## End-to-end example
+
+For the last concert ticket, the client submits `purchase_key=abc`. The inventory service performs one database transaction: conditionally reduce `available`, insert `reservation(abc, expires_at)`, and write an outbox event. Only after that commit does the user see “reserved for 10 minutes.” Payment uses the same purchase key. On success, reservation becomes `SOLD`; on expiry, a single guarded job returns stock only if it is still reserved.
+
+Never make expiry a blind `available = available + 1`: a late expiry job could return a ticket already paid for. Update by reservation ID and expected state.
+
+## Hot-key protection without lying about truth
+
+| Layer | Job |
+| --- | --- |
+| CDN/rate limit/waiting room | Reduces bots and admission spikes. |
+| Cache | Serves product pages and sold-out banner. |
+| Queue | Smooths eligible attempts; does not hold stock. |
+| Durable inventory owner | Atomically decides reservation. |
+| Reconciler | Finds expired/unknown payment states. |
+
+Test with concurrent buyers, duplicate requests, worker crashes before/after payment, and an expiry race. Success means zero oversells, not merely a low error rate.

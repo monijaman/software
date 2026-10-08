@@ -15,3 +15,17 @@ tags: [system-design, batch, streaming, normalization, denormalization]
 | Denormalized read model | Measured read path is costly | Duplicates must stay in sync |
 
 Streams need an ordering key, idempotency, retention and DLQ. Batch jobs need isolation so reporting cannot starve checkout. A denormalized projection needs an owner and a measurable freshness delay.
+
+## One order, two useful models
+
+The order database is normalized: `orders`, `order_items`, `payments`. It protects money and inventory with constraints. The customer order-history screen may use a denormalized projection with title, thumbnail, total and status. It is faster to read, but may lag by a minute.
+
+Write the source of truth first, then publish an outbox event and build the projection idempotently. When a bug is found, rebuild the projection from retained events or source tables. Do not make the projection the only copy of important state.
+
+| Question | Batch | Stream |
+| --- | --- | --- |
+| Result needed | Hourly/daily is okay | Seconds/minutes matter |
+| Main risk | Reporting hurts production | Duplicate or late events |
+| Proof | Completion, row counts, freshness | Lag, event age, dedupe rate |
+
+Both styles need schema versioning, data-quality checks and an owner for failed records.

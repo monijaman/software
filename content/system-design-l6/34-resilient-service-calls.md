@@ -37,3 +37,20 @@ Retrying a non-idempotent `charge card` request with a new key can charge twice.
 ## What to watch
 
 Watch timeout rate, retry count, circuit state, queue age, rejected requests, dependency latency and recovery time. A retry that looks successful in one service can still be the traffic spike that crashes the next service.
+
+## Apply the patterns in the right order
+
+First propagate one end-to-end deadline. Give each dependency a smaller budget. Bound concurrency so a slow email provider cannot occupy every request worker. Then decide whether the work can be retried safely: a payment create needs an idempotency key; a GET may be retried with backoff and jitter; an invalid request should never retry.
+
+When failure is sustained, a circuit breaker stops futile calls for a short window and permits limited probes later. Return a useful degraded result only when it is honest: cached product details may be okay; a payment result must be “processing/unknown” until reconciled.
+
+## Example dependency policy
+
+| Dependency | Timeout | Retry | Fallback |
+| --- | --- | --- | --- |
+| Product image | Short | Usually no | Placeholder |
+| Inventory read | Short | Bounded | Temporarily unavailable |
+| Payment create | Strict | Same idempotency key | `UNKNOWN`, reconcile |
+| Receipt email | Async | Durable worker | Deliver later |
+
+Patterns work together. A breaker without bounded queues still lets backlog grow; retries without idempotency still duplicate effects.

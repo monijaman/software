@@ -32,3 +32,22 @@ An airport is not judged only on sunny days. It must keep people safe during a s
 5. Explain metrics, mitigation, and the durable fix.
 
 > 💡 A good trade-off is specific: “I accept a few seconds of stale playback position to keep playback available” is stronger than “eventual consistency is fine.”
+
+## Walk through a complete example
+
+**Prompt:** “Design checkout for a ticket sale.” Start with a plain contract: a buyer can reserve one seat, pay once, and receive a clear result. The important rule is not “use Kafka”; it is **one seat is sold at most once and one payment intent causes at most one charge**.
+
+Then size the risky moment, not the daily average. If 500,000 people arrive in five minutes, identify the seat-reservation write as the first limit. Keep browsing, recommendations, email, and analytics away from that write path. A queue can smooth non-critical work, but it cannot decide who owns the last seat.
+
+Finally tell the failure story: payment may succeed while the response is lost. Save a durable payment attempt with an idempotency key, mark a timeout `UNKNOWN`, and reconcile it with the provider instead of charging again.
+
+## What a strong design review asks
+
+| Ask | Good answer |
+| --- | --- |
+| What owns truth? | The reservation/payment database, not cache or a dashboard. |
+| What may be stale? | Browse counts and recommendations, not seat ownership. |
+| What is shed first? | Analytics, email, previews, then low-priority browse traffic. |
+| How do we know it works? | Reservation conflicts, charge reconciliation age, checkout success and p99. |
+
+Use this loop for every lesson: name the promise, show the normal path, break one dependency, then explain recovery and evidence.

@@ -26,3 +26,18 @@ Orders must not disappear, but the restaurant discovery feed can temporarily sho
 ## A backup is unproven until restored
 
 Keep encrypted backups, document who can trigger failover, practice restoration, and verify the full external path after a drill. A green database replica alone does not prove DNS, credentials, queues, webhooks and clients will recover correctly.
+
+## Choose the simplest truthful posture
+
+Active-passive means one region accepts writes. Replicate data and promote the standby during a disaster. It is easier to reason about and often the right answer for money/order workflows. Active-active means multiple regions write concurrently; it needs conflict resolution, request routing and careful ownership. Do not choose it only because it sounds more available.
+
+| Promise | Design consequence |
+| --- | --- |
+| RPO = 0 for orders | Synchronous/stronger replication or refuse uncertain writes. |
+| RPO = 5 minutes for analytics | Async replication/restore may be acceptable. |
+| RTO = 15 minutes | Automated, rehearsed promotion and routing. |
+| RTO = hours | Manual recovery may be acceptable if documented. |
+
+## Run a drill like a product test
+
+Fail the primary path in a safe environment, promote/recover, then create an order, read it, send a webhook, process a queue message and verify access controls. Measure real RPO/RTO. A backup that has never been restored is only a hope.

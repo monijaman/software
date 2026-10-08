@@ -27,3 +27,19 @@ If p50 is normal but p99 grows, a smaller group is queued, locked, paused, or wa
 5. Fix root cause and alert on the leading signal.
 
 > ⚠️ Do not scale first. More app servers can mean more borrowers for the same exhausted connection pool. Prove where the wait lives.
+
+## Example investigation
+
+At 10:00, checkout p99 rises from 500 ms to 5 s but p50 stays near 300 ms. A trace shows only slow requests spend four seconds acquiring a database connection. Database CPU is 40%, so “add database CPU” is not an evidence-based fix. Pool metrics show all connections are borrowed by a reporting endpoint introduced that morning.
+
+Mitigation: limit/report traffic and reserve a pool for checkout. Durable fix: move reports to a replica or asynchronous warehouse, set per-route concurrency, and alert on pool wait before customer latency rises.
+
+## Useful evidence order
+
+1. Compare p50/p95/p99 and error rate over the same window.
+2. Segment by route, region, release, tenant, status code and dependency.
+3. Compare a healthy and a slow trace; find added waiting time.
+4. Inspect the owning resource: queue, pool, lock, query plan, network or CPU pause.
+5. Change one reversible control and verify the predicted metric moves.
+
+Record the trigger, leading signal, mitigation and prevention in the incident note. “Restarted it” is not a root cause.

@@ -30,3 +30,26 @@ For every prompt, first say: who uses it, the scale, the most important correctn
 5. **Proof:** monitor reservation count, oversell attempts, queue age, payment reconciliation age and checkout p99.
 
 That five-part answer is more valuable than saying only “Redis, Kafka and microservices.”
+
+## Reusable case-study worksheet
+
+For any system, fill in this short worksheet before choosing technology:
+
+1. **User promise:** what does success look like, and what delay/staleness is visible?
+2. **Authoritative owner:** which table/service makes the final decision?
+3. **Peak:** when does load concentrate, and which read/write becomes hot first?
+4. **Failure story:** what happens if a process crashes after an external call or an event is delivered twice?
+5. **Recovery:** who reconciles `UNKNOWN`/stuck work, using which durable evidence?
+6. **Proof:** which user-facing SLO and leading saturation metric show safety?
+
+## Mini examples
+
+| Prompt | Invariant | First degradation |
+| --- | --- | --- |
+| Chat | Acked messages are durable and per-conversation ordered | Presence can be stale. |
+| File upload | Unscanned object is never publicly served | Thumbnail generation is delayed. |
+| Crawler | Respect host policy and do not loop forever | Low-priority URLs wait. |
+| Feed | Original post is not lost | Timeline may be seconds behind. |
+| Multi-region order | No duplicate charge/order | Browsing uses stale cache. |
+
+Practice telling one normal flow, one failure flow and one metric for each prompt. That is how a design becomes an operable system instead of a diagram.

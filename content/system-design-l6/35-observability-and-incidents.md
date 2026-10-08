@@ -38,3 +38,18 @@ An L6 incident loop is simple:
 5. Write the timeline, root cause, durable fix and a prevention signal.
 
 The goal is not to find someone to blame. It is to make the next failure smaller and easier to see.
+
+## A practical incident timeline
+
+At 14:05 an SLO alert says checkout failures are burning budget 20 times too fast. The incident lead confirms the symptom, assigns communication and investigation roles, and freezes unrelated deploys. Traces show inventory calls waiting; pool metrics show saturation; logs tie it to a new report query. The immediate mitigation disables the report. The team verifies an actual checkout, not only `/health`.
+
+After recovery, record when the customer impact started/ended, what changed, why safeguards missed it, and the durable prevention: pool isolation, query index, leading alert and tested rollback. Avoid claiming a cause without evidence.
+
+## Telemetry checklist
+
+- Metrics: traffic, errors, latency percentiles, saturation and business success.
+- Traces: one propagated context through HTTP, queues and background jobs.
+- Logs: structured, searchable events with no secrets or unnecessary private data.
+- Runbooks: owner, safe mitigation, rollback, verification and escalation path.
+
+Observability is successful when a new on-call engineer can answer “who is hurt, where is time spent, and what change is safe?”

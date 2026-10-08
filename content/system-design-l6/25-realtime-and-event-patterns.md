@@ -16,3 +16,13 @@ tags: [system-design, sse, webhooks, webrtc, pubsub, cdc, events]
 | CDC | Publish committed database changes | Use an outbox/transaction log, not app guesses |
 
 Delivery is usually at-least-once. Include event ID, schema version, ordering key and trace context; consumers deduplicate and send exhausted failures to a DLQ.
+
+## A reliable order event
+
+In the same transaction that creates an order, write `outbox(OrderPlaced, order_id, version, event_id)`. A publisher reads unsent rows and publishes them; it may publish twice after a crash. Consumers store processed `event_id` or use a unique business write, so the observable effect happens once.
+
+Partition by `order_id` when order history must remain ordered. Do not promise one global order across all orders. A consumer receiving version 8 after version 9 should detect the stale version rather than overwrite newer state.
+
+## Event contract rules
+
+Add fields as optional first. Keep the meaning of existing fields stable. Include producer/schema version and a migration window. Retain events long enough for recovery/rebuild, but do not treat an event topic as an ungoverned dumping ground for personal data.
