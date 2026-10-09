@@ -75,7 +75,7 @@
     "slug": "kubernetes",
     "title": "Kubernetes",
     "tagline": "Run containers at scale",
-    "description": "Containers to orchestration: cluster architecture, Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, storage, autoscaling, health probes and Helm.",
+    "description": "From first Pod to production: cluster architecture, Deployments, Services and Ingress, storage, probes and Helm, then StatefulSets, Jobs, scheduling, networking and NetworkPolicies, troubleshooting, RBAC and security, CRDs and operators, GitOps, observability, upgrades and interview questions.",
     "icon": "☸️",
     "color": "#2563eb",
     "cover": "/img/covers/kubernetes.svg"

@@ -72,6 +72,8 @@
 }
 
 html {
+  /* Raise the shared typographic scale by one pixel for all inherited/rem text. */
+  font-size: 17px;
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
@@ -87,7 +89,7 @@ body {
 }
 
 p {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 a {
