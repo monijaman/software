@@ -84,7 +84,7 @@
     "slug": "aws",
     "title": "AWS for Developers",
     "tagline": "Build, deploy and secure cloud applications",
-    "description": "A complete AWS path for developers: global infrastructure, IAM and least privilege, VPC networking, EC2 and Auto Scaling, load balancers and Route 53, S3, CloudFront, ECS on Fargate, RDS, Aurora and DynamoDB, Lambda and API Gateway, SQS/SNS/EventBridge, Cognito, Secrets Manager and KMS, CloudWatch observability, CI/CD with IaC, data pipelines and interview questions.",
+    "description": "A complete AWS path for developers: global infrastructure, IAM and least privilege, VPC networking, EC2 and Auto Scaling, load balancers and Route 53, S3, CloudFront, ECS on Fargate, RDS, Aurora and DynamoDB, Lambda and API Gateway, SQS/SNS/EventBridge, Cognito, Secrets Manager and KMS, CloudWatch observability, CI/CD with IaC, data pipelines and interview questions, then deeper topics: IAM policy evaluation and cross-account access, VPC endpoints and Transit Gateway, DynamoDB modeling and RDS scaling, event-driven patterns and Step Functions, multi-account governance and security operations, disaster recovery, ECS and EKS at scale, and cost optimization with the Well-Architected Framework.",
     "icon": "☁️",
     "color": "#f97316",
     "cover": "/img/covers/aws.svg"
