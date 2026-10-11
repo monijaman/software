@@ -1,9 +1,43 @@
 ---
-title: "L6 Design Casebook: Eight Systems and Their Hard Part"
+title: "L6 Design Casebook: Nine Systems and Their Hard Part"
 summary: "A readable map from common interview prompts to the correctness rule that makes each production design difficult."
 level: Advanced
 tags: [system-design, interview, url-shortener, checkout, feed, streaming, crawler]
 ---
+
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+You are preparing for an interview and can name Redis, Kafka and sharding, but struggle to explain how a user request succeeds or recovers.
+
+## T — Task: requirements and success criteria
+
+Build a casebook of complete scenarios with STAR. Each answer needs a user, constraints, an authoritative owner and one failure window.
+
+## A — Action: design the normal path
+
+1. Choose one linked case below and state its Situation and Task before drawing anything.
+
+2. Walk its Action as ordered durable state transitions, then inject a crash or hot-key overload.
+
+3. State its Result as measurable acceptance criteria and discuss what changes at ten times the load. Use actual measurements only when you have actual evidence.
+
+### Walk through a failure and recovery
+
+An answer says “use a queue” but never identifies who owns the last inventory unit. Ask what happens with two concurrent consumers; the missing atomic ownership rule becomes visible immediately.
+
+## R — Result: how to validate the design
+
+For each practice answer, require a normal flow, a failure/recovery flow, a specific tradeoff and a testable outcome. These are study scenarios; none of the proposed targets should be presented as historical production results.
+
+### Check your understanding
+
+Give a three-minute STAR answer for checkout without naming a technology until the requirements are clear.
+
+---
+
+## Concepts and implementation details
 
 ## Do not begin with a diagram
 
@@ -21,15 +55,31 @@ For every prompt, first say: who uses it, the scale, the most important correctn
 | Collaborative editor | Send text changes | Concurrent edits and offline merge | Two users insert at once; OT/CRDT rules converge safely. |
 | Logging platform | Store logs | High-volume ingest, retention and searchable queries | Put writes in partitions; index only useful fields. |
 
-## Example answer: flash sale
+## Choose a complete STAR walkthrough
 
-1. **Invariant:** sold quantity plus active reservations never exceeds stock.
-2. **Write path:** atomically create a short reservation; enqueue payment work with an idempotency key.
-3. **Failure:** a payment timeout is `UNKNOWN`, so reconcile it before releasing/reserving again.
-4. **Overload:** queue nonessential emails and shed product recommendations first.
-5. **Proof:** monitor reservation count, oversell attempts, queue age, payment reconciliation age and checkout p99.
+Each linked lesson starts with the scenario, requirements, design steps, failure recovery and validation criteria. Read one end to end before comparing patterns.
 
-That five-part answer is more valuable than saying only “Redis, Kafka and microservices.”
+| Case | Situation | Task | Key action | Result to validate |
+| --- | --- | --- | --- | --- |
+| [Short links](./url-shortener) | A campaign goes viral | Fast redirects and prompt abuse disablement | Cache durable mappings with bounded fallback | Hot-link latency and disablement delay |
+| [Checkout](./ecommerce-checkout) | Payment succeeds before the API crashes | One charge and a recoverable order | Durable intent, reservation and reconciliation | No duplicate charge or oversell |
+| [Feed](./social-media-feed) | A celebrity posts to ten million followers | Fresh feeds without unbounded fan-out | Hybrid fan-out with read-time visibility checks | Feed latency, freshness and privacy |
+| [Files](./file-storage) | A large upload drops mid-transfer | Resume safely and enforce sharing | Multipart upload with verified publication | Completion success and revocation delay |
+| [Streaming](./premiere-streaming) | Millions press Play together | Fast playback with bounded origin traffic | Prepared variants, CDN and shield tiers | Startup time, buffering and origin egress |
+| [Crawler](./web-crawler) | One host dominates the URL frontier | Crawl without loops or host overload | Host scheduling and durable task identities | Politeness, useful yield and queue age |
+| [Flash sale](./flash-sale-inventory) | Millions compete for limited stock | Never sell the last unit twice | Atomic reservation and payment-aware expiry | Stock conservation under races and crashes |
+| [Editing](./collaborative-document-editing) | Concurrent/offline edits cross a failover | Converge and preserve acknowledged edits | Stable operation IDs, merge rules and fencing | Convergence and durable recovery |
+| [Telemetry](./logging-and-monitoring-platform) | Incident logs overwhelm indexing | Preserve critical signals without blocking apps | Bounded agents, durable ingestion and tiered storage | Critical-event retention and search freshness |
+
+## Example STAR answer: flash sale
+
+**Situation:** One thousand phones go on sale while ten million buyers are interested. Two buyers may see the same cached “one left” value.
+
+**Task:** Confirmed sales plus active reservations must never exceed stock. The system must show a clear waiting, rejected, pending or confirmed outcome.
+
+**Action:** Admit a bounded number of buyers, atomically reserve against durable inventory, and persist a stable payment intent. If payment times out after possible acceptance, reconcile before releasing stock. Send receipts through an outbox after confirmation.
+
+**Result:** Race requests for the final unit, retry the same intent and crash after provider acceptance. Require one stock owner and no second charge; monitor queue age, unresolved payment age and customer completion latency. These are acceptance criteria to test, not an invented success story.
 
 ## Reusable case-study worksheet
 

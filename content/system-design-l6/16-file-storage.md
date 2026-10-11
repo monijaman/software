@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, file-storage, object-storage, uploads, sync]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A team uploads 2 GB video files from unreliable laptops and shares folders with contractors. A contractor’s access is revoked midway through a download workflow.
+
+## T — Task: requirements and success criteria
+
+Support resumable uploads, publish only verified files, and enforce access at the metadata and object boundaries.
+
+## A — Action: design the normal path
+
+1. Create an upload session with owner, expected size, object key and expiry. Return narrowly scoped multipart upload authorization.
+
+2. Send bytes directly to object storage. On completion verify parts/checksum and scan before marking the metadata version readable.
+
+3. Use versioned metadata and change cursors for synchronization. Authorize download requests and choose signed-link lifetimes consistent with the revocation promise.
+
+### Walk through a failure and recovery
+
+An upload finishes but metadata finalization crashes. A reconciler checks the object/session and retries finalization; a lifecycle policy removes abandoned parts. Already-issued signed URLs may remain usable until expiry, so immediate revocation needs stronger enforcement.
+
+## R — Result: how to validate the design
+
+Test interrupted uploads, duplicate completion and revoked sharing. Measure completion success, orphan storage and revocation delay; require that quarantined files never become downloadable.
+
+### Check your understanding
+
+What makes an upload complete: stored bytes, verified checksum or published metadata?
+
+---
+
+## Concepts and implementation details
+
 ![File storage: multipart uploads go to object storage; the API owns metadata, sharing and versioned changes](/img/system-design-l6/file-storage.svg)
 
 Create short-lived multipart upload URLs so app servers never proxy huge files. On completion validate checksums, commit metadata, and emit a versioned change event.

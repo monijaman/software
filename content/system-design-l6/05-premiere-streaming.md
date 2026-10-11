@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, video, cdn, streaming, caching]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+Two million viewers press Play for a premiere in the same minute. Video averages 5 Mb/s, so payload demand is roughly 10 Tb/s.
+
+## T — Task: requirements and success criteria
+
+Start playback quickly and avoid origin overload. Authorization must remain correct; playback progress may lag.
+
+## A — Action: design the normal path
+
+1. Transcode before launch into several bitrate variants and publish manifests plus immutable segments.
+
+2. Serve video through CDN edges and regional shields. At a 99% byte hit ratio the origin still needs about 100 Gb/s; size the miss path explicitly.
+
+3. Keep entitlement checks and signed playback access in a separate control plane. Warm popular assets and stagger nonessential progress writes.
+
+### Walk through a failure and recovery
+
+An edge cache is cold after a regional shift. Request coalescing and origin limits bound duplicate segment fetches; adaptive bitrate reduces buffering but does not replace origin protection.
+
+## R — Result: how to validate the design
+
+Use cold-cache launch drills and region-shift drills. Set explicit targets for time to first frame and rebuffering, then measure origin egress and control-plane saturation against them.
+
+### Check your understanding
+
+How does a 95% CDN hit ratio change the required origin bandwidth?
+
+---
+
+## Concepts and implementation details
+
 ## The big idea
 
 At 8:00 PM millions press Play. Sending every byte through application servers is like making every cinema customer collect a film reel from one warehouse. Put copies close to viewers before the doors open.

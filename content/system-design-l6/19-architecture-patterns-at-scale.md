@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, architecture, microservices, serverless, event-driven, p2p]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A twelve-person team runs a growing marketplace. Deployments conflict, but the business still changes checkout rules every week.
+
+## T — Task: requirements and success criteria
+
+Choose an architecture that improves ownership and failure isolation without exceeding the team’s operating capacity.
+
+## A — Action: design the normal path
+
+1. Start with modules for catalog, checkout and fulfillment, with explicit interfaces and data ownership.
+
+2. Extract a service only when independent scaling, releases or ownership justify its network and operational costs.
+
+3. Use events for durable asynchronous work and serverless for suitable bursty tasks. Record deadlines, contracts and recovery ownership across every new boundary.
+
+### Walk through a failure and recovery
+
+A catalog outage must not make a confirmed payment disappear. Splitting deployments does not automatically isolate shared database pools, synchronous dependency chains or unbounded retries.
+
+## R — Result: how to validate the design
+
+Compare deployment lead time, recovery time, on-call load and checkout availability before/after a boundary change. Success is a measurable operating improvement, not the count of microservices.
+
+### Check your understanding
+
+Which component would you extract first, and what measurement justifies it?
+
+---
+
+## Concepts and implementation details
+
 ![Architecture patterns: central services, independently deployed services, event functions and decentralized peers](/img/system-design-l6/architecture-patterns.svg)
 
 | Style | Good fit | Main cost |
