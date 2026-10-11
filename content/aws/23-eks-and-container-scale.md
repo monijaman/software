@@ -22,10 +22,12 @@ Neither is "more advanced". Choose ECS unless you have a concrete reason for Kub
 ### Deployment safety
 
 ```json
+{
 "deploymentConfiguration": {
   "minimumHealthyPercent": 100,
   "maximumPercent": 200,
   "deploymentCircuitBreaker": { "enable": true, "rollback": true }
+}
 }
 ```
 
@@ -125,6 +127,30 @@ For user access to the cluster, use **EKS access entries** and map IAM principal
 | Cost-sensitive steady workload | ECS on EC2 or EKS with Karpenter plus Savings Plans |
 | Need Helm charts, operators, portability | EKS |
 | Event-driven, spiky, short tasks | Lambda or Fargate tasks |
+
+## Worked scaling incident: more Pods but no capacity
+
+The API's horizontal scaler requests ten replicas. Some remain Pending. Increasing the desired replica count does not create compute automatically: inspect scheduling events, resource requests, node capacity, availability-zone constraints, and available subnet addresses.
+
+Requests guide placement; limits constrain usage. Understated requests can pack workloads too densely. A memory limit breach can terminate a container, while a CPU limit can throttle it. Size requests from representative measurements and account for startup behavior.
+
+### Separate three kinds of identity
+
+| Identity | Purpose |
+| --- | --- |
+| Cluster/operator access | Who may change Kubernetes resources |
+| Kubernetes service account and RBAC | What a workload may do through Kubernetes APIs |
+| Workload IAM role | What its SDK may do through AWS APIs |
+
+Do not give all application Pods the worker node's broad permissions. EKS Pod Identity associates an IAM role with a service account and namespace; IRSA is another established option. Verify platform support and prerequisites for your chosen compute. See [EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html).
+
+### Safe rollout and shutdown
+
+Start a new replica, wait for readiness, route traffic, then drain the old replica. Handle termination by stopping new work, finishing or safely abandoning in-flight work, and exiting within the configured grace period. Durable queue jobs should be acknowledged only after their intended result is established.
+
+In ECS, examine service deployment events, healthy targets, and task-definition revisions. In EKS, examine rollout status, Pod events, readiness, and disruption constraints. The platform differs, but safe replacement still requires capacity and a correct shutdown contract.
+
+**Exercise:** Draw the response to one lost node or task host. Name how replacements are scheduled, how routing excludes unhealthy copies, what happens to ongoing requests, and where state survives. Demonstrate the design in a lab before depending on it for a production incident.
 
 ## Remember this
 

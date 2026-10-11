@@ -96,6 +96,8 @@ The folder-to-topic mapping for the library lives in `LIBRARY_RULES` in `scripts
 
 Terraform is available at `/learn/terraform` with 16 lessons from beginner to advanced. The path covers a cloud-free local lab, HCL, variables, AWS storage, dependencies, loops, modules, remote state, environments, imports, tests, secrets, CI/CD, recovery, and a production capstone. Source lessons are in `content/terraform/`; run `npm run seed` or the standard dev/build commands to load them into the site and search index.
 
+AWS is available at `/learn/aws` with 24 detailed lessons. The path includes guided labs, a book-shop architecture, worked permission and networking investigations, deployment troubleshooting, transaction and idempotency examples, a recovery drill, and cost exercises. Advanced lessons link to AWS documentation for policy evaluation, endpoint configuration, database consistency, workflow guarantees, and workload identity. Source lessons are in `content/aws/`; run `npm run build` to seed the search index and generate the updated pages before restarting the service.
+
 ## Adding or editing a lesson
 
 AI & Machine Learning is available at `/learn/ai` with 15 lessons. The path covers an introduction and developer roadmap, machine learning, data preparation, neural networks, LLMs, prompting, RAG, agents, evaluation, and production, plus runnable Python math and training labs, real-world specialties, and a document-assistant capstone. Source lessons live in `content/ai/`; `npm run seed` or `npm run build` loads them into lesson pages and full-text search.

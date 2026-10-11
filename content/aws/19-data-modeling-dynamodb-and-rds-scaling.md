@@ -56,12 +56,12 @@ aws dynamodb query --table-name shop \
 
 | Feature | Use |
 | --- | --- |
-| **TTL** | Auto-expire sessions or temporary data for free |
+| **TTL** | Background expiry cleanup; not an immediate authorization check |
 | **Streams** | Trigger Lambda on changes; build projections |
 | **Transactions** | All-or-nothing across up to 100 items |
 | **Conditional writes** | Optimistic locking: `attribute_not_exists(PK)` |
 | **DAX** | In-memory cache for microsecond reads |
-| **Global tables** | Multi-region active-active replication |
+| **Global tables** | Multi-region replication with a selected consistency mode |
 | **PITR** | Point-in-time recovery for the last 35 days |
 
 ## Relational scaling on RDS and Aurora
@@ -70,8 +70,9 @@ aws dynamodb query --table-name shop \
 flowchart LR
     App --> P[RDS Proxy]
     P --> W[(Primary / writer)]
-    P --> R1[(Read replica)]
-    P --> R2[(Read replica)]
+    App --> RE[Explicit reader endpoint]
+    RE --> R1[(Read replica)]
+    RE --> R2[(Read replica)]
     W -. sync .-> S[(Multi-AZ standby)]
 ```
 
@@ -95,7 +96,7 @@ Lambda and autoscaling containers can open thousands of connections and exhaust 
 - **Aurora Serverless v2** scales capacity in fine steps for variable load.
 - **Aurora Global Database** replicates to other regions with typically under a second of lag, for low-latency reads and disaster recovery.
 - **ElastiCache** (Redis or Valkey) absorbs repeated reads.
-- Fix queries first: use **Performance Insights**, add indexes, and check slow-query logs before buying a bigger instance.
+- Fix queries first: use [CloudWatch Database Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Database-Insights.html), add indexes, and check slow-query logs before buying a bigger instance.
 
 ## Backups and recovery
 
@@ -115,6 +116,35 @@ Restores create a new database, so plan the endpoint switch. Test restores regul
 | Joins, ad-hoc queries, transactions | Aurora or RDS |
 | Variable relational load | Aurora Serverless v2 |
 | Sub-millisecond repeated reads | ElastiCache or DAX |
+
+## Worked conditional update: reserve the last book
+
+A stock item has key `BOOK#42` and an integer `stock`. Two customers race for the final copy. A separate read followed by an unconditional update is unsafe: both can observe one remaining item.
+
+In a dedicated sample table with that key schema, an atomic conditional update can decrement only when stock remains:
+
+```bash
+aws dynamodb update-item --table-name academy-stock \
+  --key '{"PK":{"S":"BOOK#42"}}' \
+  --update-expression 'SET stock = stock - :one' \
+  --condition-expression 'stock >= :one' \
+  --expression-attribute-values '{":one":{"N":"1"}}' \
+  --return-values ALL_NEW --profile academy
+```
+
+This assumes an existing numeric stock field. A failed condition is an expected business outcome; it is not a reason to retry unconditionally. If you must reserve stock and create an order together, design an appropriate transaction. A stock decrement alone is not idempotent if a caller retries after losing the response.
+
+### Pagination and index freshness
+
+A query can return a page plus a continuation key. Continue using that key when the client needs more results; do not assume one request returns all records. Apply authorization to every page and bound requested result sizes.
+
+GSIs are eventually consistent. Immediately querying an index after writing an order may not show it yet. For read-after-write behavior, use a suitable primary-key read or an explicit pending state rather than treating a missing index result as a failed write. See [read consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html).
+
+### RDS scaling exercise
+
+Calculate your connection budget across app replicas and workers. A proxy can help with pooling, but it does not make an inefficient query fast or automatically distribute writes and reads. Ordinary RDS instance proxies target the writer, not a separately replicated read replica; supported cluster configurations can provide dedicated read-only proxy endpoints. Check [RDS Proxy endpoints](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-endpoints.html).
+
+**Deliverable:** document one immediate-consistency operation, one lag-tolerant reporting operation, and the endpoint each uses. Restore a sample backup to a new database, verify records and permissions, then remove the dedicated recovery resources.
 
 ## Remember this
 

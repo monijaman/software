@@ -110,6 +110,37 @@ Use the **AWS Well-Architected Tool** to run structured reviews, record risks an
 - **Serverless versus containers**: serverless wins for spiky or low traffic; steady heavy load is often cheaper on containers or instances.
 - **Commitment versus flexibility**: Savings Plans save money but reduce agility.
 
+## Worked cost review: cost per accepted order
+
+A monthly bill alone cannot show whether efficiency improved. Suppose a hypothetical application costs 300 currency units to process 10,000 accepted orders. Its cost per accepted order is 0.03. If next month's bill is 450 for 20,000 accepted orders, total spend increased while unit cost fell to 0.0225.
+
+Use a denominator that reflects useful work, and report reliability alongside it. A cheaper system that loses orders has not improved. These values illustrate arithmetic; they are not AWS prices.
+
+### Investigate before purchasing a commitment
+
+1. Compare costs by service, account, Region, and usage type.
+2. Connect the change to traffic, releases, data movement, and retention.
+3. Remove unused resources and improve inefficient work.
+4. Measure the resulting steady baseline over a representative period.
+5. Only then evaluate commitments and their utilization risk.
+
+### An architecture tradeoff exercise
+
+Compare a private container service using NAT with one using selected VPC endpoints. List hourly infrastructure, processed data, cross-AZ transfer, and necessary third-party access. Endpoints may remove some NAT traffic but cannot replace every external dependency. Use current regional prices and real traffic volumes; a slogan such as “private endpoints are always cheaper” is inadequate.
+
+### A review with measurable outcomes
+
+| Pillar | Question for the shop | Evidence |
+| --- | --- | --- |
+| Operational excellence | Can another developer recover it? | Tested runbook |
+| Security | Are access paths scoped? | Permission tests and findings |
+| Reliability | Can it withstand a component loss? | Failure drill and restore timing |
+| Performance efficiency | Where is the bottleneck? | Latency and utilization measurements |
+| Cost optimization | What is the useful unit cost? | Attributed usage and accepted orders |
+| Sustainability | Is unnecessary work avoided? | Reduced idle capacity and redundant processing |
+
+**Deliverable:** propose one improvement, forecast its effects, implement it in a suitable lab or controlled release, then compare cost, latency, and errors. Document the tradeoff instead of claiming success from a lower bill alone.
+
 ## Remember this
 
 - Tag, measure, and alert before optimizing.

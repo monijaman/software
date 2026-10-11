@@ -33,7 +33,7 @@ Typical split:
 
 ## AWS Organizations and SCPs
 
-**Service Control Policies** set the maximum permissions for every principal in an account, including the root user. They are guardrails, not grants.
+**Service Control Policies** constrain principals in member accounts, including their root users. Management-account principals and service-linked roles are exceptions. They are guardrails, not grants.
 
 ```json
 {
@@ -97,7 +97,7 @@ flowchart LR
 - Require **IMDSv2** on EC2.
 - Disable root access keys and enable MFA on the root user.
 - Use **customer managed KMS keys** with key policies for sensitive data.
-- Tag everything (owner, environment, cost-center) and enforce with **tag policies**.
+- Tag resources with owner, environment, and cost-center. Tag policies standardize supported tags; they do not by themselves guarantee that every resource is tagged. Add appropriate creation controls and compliance checks.
 
 ## Incident response outline
 
@@ -109,9 +109,34 @@ flowchart LR
 
 Prepare in advance with runbooks and a dedicated, pre-approved **break-glass role**.
 
+## Worked account onboarding: a new payments team
+
+Before creating the account, define its owner, environment, organizational unit, access groups, billing tags, Region policy, logging, and recovery contact. Apply a baseline through repeatable provisioning rather than relying on a checklist someone must remember each time.
+
+### A useful verification matrix
+
+| Control | Positive verification | Negative verification |
+| --- | --- | --- |
+| Developer access | Assigned user assumes intended role | Unassigned user cannot access it |
+| Logging | Expected test API activity is captured | Workload role cannot erase archive |
+| Resource access | App can reach its designated secret | App cannot read another team's secret |
+| Deployment | Approved pipeline changes its stack | Unapproved workflow cannot assume deploy role |
+
+Use a sandbox OU for guardrail tests. SCPs restrict member-account principals, including member root, but do not restrict the management account or service-linked roles. A root-level attachment is not a universal control over every identity. See [Organizations integration behavior](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html).
+
+### Investigate a suspicious credential use
+
+Record the finding ID, account, principal, resource, time window, and observed API activity. Preserve evidence in the protected archive. Determine whether the credential belongs to a person, workload, or integration before choosing containment: removing a key or restricting a role can also interrupt legitimate traffic.
+
+Changing trust prevents future assumptions but is not a complete strategy for sessions already issued. Follow tested session-revocation procedures and verify the relevant policy enforcement. Replacing a security group also does not justify assuming every existing connection has instantly ended.
+
+### Exercise
+
+Write a runbook for unauthorized S3 reads. Include triage, scoped containment, log evidence, affected data assessment, recovery, and verification. Run it using sample findings and harmless test objects. State who approves automated disruptive containment and how the service is restored afterward.
+
 ## Remember this
 
 - Use many accounts grouped into OUs; keep the management account empty of workloads.
-- SCPs are guardrails that cap every principal, including root.
+- SCPs constrain member-account principals, with management-account and service-linked-role exceptions.
 - Centralize CloudTrail and Config in a protected log archive account.
 - Automate response with EventBridge, and keep a tested incident runbook.

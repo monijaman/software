@@ -24,7 +24,7 @@ flowchart LR
     A -.->|NAT gateway, paid| I[Internet]
 ```
 
-Quick win: add a **gateway endpoint for S3** to every VPC. ECR image layers are stored in S3, so this alone often reduces NAT bills significantly.
+Consider an S3 gateway endpoint for VPCs that access S3. ECR image pulls can also require ECR API and registry connectivity; an S3 endpoint alone does not establish the entire private image-pull path.
 
 Endpoint policies restrict what can be done through an endpoint:
 
@@ -83,7 +83,7 @@ Use **Route 53 Resolver** inbound and outbound endpoints to resolve DNS names ac
 
 ## IPv6 and egress
 
-An **egress-only internet gateway** lets IPv6 instances reach out without accepting inbound connections, like NAT for IPv6 without the cost. Consider one NAT gateway per AZ for resilience, balanced against cost in non-production.
+An **egress-only internet gateway** lets IPv6 instances reach out without accepting inbound connections, without IPv4-style address translation. Consider one NAT gateway per AZ for resilience, balanced against cost in non-production.
 
 ## Troubleshooting with VPC Flow Logs
 
@@ -106,9 +106,36 @@ Checklist when "it cannot connect":
 4. DNS resolves to the expected private IP.
 5. The service is listening on the right interface and port.
 
+## Worked private-service path: a task reads a secret
+
+A private app calls the Secrets Manager regional hostname over HTTPS. With an interface endpoint and private DNS configured, that hostname resolves to endpoint network-interface addresses in your VPC. The task needs a reachable endpoint, an endpoint security group allowing port 443 from the task, and appropriate IAM and resource permissions.
+
+An endpoint does not grant access by itself. Its policy restricts the path; the workload still needs authorization. See [interface endpoint configuration](https://docs.aws.amazon.com/vpc/latest/privatelink/interface-endpoints.html).
+
+### Diagnose by separating DNS, TCP, and authorization
+
+| Symptom | Likely area to investigate |
+| --- | --- |
+| Hostname resolves to unexpected addresses | Private DNS and VPC DNS settings |
+| HTTPS connection times out | Endpoint placement, groups, ACLs, and routes |
+| AWS returns AccessDenied | Identity, resource, endpoint, and key policies |
+| Image pull fails but secret retrieval works | ECR-related dependencies and their network paths |
+
+Use the actual task's network environment. Successful access from a developer laptop does not prove private subnet access.
+
+### Transit Gateway: routing is not automatic isolation
+
+Imagine production, staging, and shared-services VPCs. Document which pairs should communicate before creating attachments. Separate route-table association and propagation decisions so staging is not accidentally granted a production path. Check return routes as well as the initial direction.
+
+PrivateLink is useful when you want to expose a service rather than share general network reachability. Peering and Transit Gateway connect networks and require broader route planning.
+
+### Exercise and cleanup
+
+Draw the private path to a secret, an S3 object, and a third-party API. Name the endpoint or egress mechanism for each. Inspect a lab's endpoint DNS, security groups, and policy separately, then remove unused interface endpoints, NAT gateways, logs, and dedicated attachments after the lab. Compare the costs of the architecture using current regional prices rather than assuming every private path is cheaper.
+
 ## Remember this
 
-- Gateway endpoints for S3 and DynamoDB are free; add them everywhere.
+- Evaluate gateway endpoints for S3 and DynamoDB where their routing and policy fit the workload.
 - Peering is not transitive; Transit Gateway scales hub and spoke; PrivateLink shares one service.
 - Security groups are stateful; NACLs are stateless.
 - Use Flow Logs and Reachability Analyzer instead of guessing.
