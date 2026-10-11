@@ -99,6 +99,15 @@
     "cover": "/img/covers/terraform.svg"
   },
   {
+    "slug": "ai",
+    "title": "AI & Machine Learning",
+    "tagline": "Understand models and build useful AI systems",
+    "description": "A practical path through AI foundations, machine learning, data preparation, neural networks, transformers and LLMs, prompt design, embeddings and RAG, tool-using agents, evaluation, safety, and production operations. Start with the roadmap, then follow the lessons in order or jump to the skills your project needs.",
+    "icon": "✳️",
+    "color": "#16a34a",
+    "cover": "/img/covers/ai.svg"
+  },
+  {
     "slug": "programming-languages",
     "title": "Programming Languages",
     "tagline": "Write code with the right tools and mental models",

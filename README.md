@@ -98,6 +98,8 @@ Terraform is available at `/learn/terraform` with 16 lessons from beginner to ad
 
 ## Adding or editing a lesson
 
+AI & Machine Learning is available at `/learn/ai` with 15 lessons. The path covers an introduction and developer roadmap, machine learning, data preparation, neural networks, LLMs, prompting, RAG, agents, evaluation, and production, plus runnable Python math and training labs, real-world specialties, and a document-assistant capstone. Source lessons live in `content/ai/`; `npm run seed` or `npm run build` loads them into lesson pages and full-text search.
+
 1. Create `content/<topic>/NN-some-slug.md`. The number sets the order; the rest becomes the URL.
 2. Add the frontmatter. Quote any value that contains `: `.
 
