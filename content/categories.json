@@ -90,6 +90,15 @@
     "cover": "/img/covers/aws.svg"
   },
   {
+    "slug": "terraform",
+    "title": "Terraform",
+    "tagline": "Infrastructure as code, from first plan to production",
+    "description": "Learn Terraform from beginner to advanced with hands-on examples: a local first project, HCL, variables, providers, AWS resources, dependencies, loops, modules, remote state and locking, environment isolation, imports and refactoring, testing, secrets, CI/CD, troubleshooting, and a production capstone.",
+    "icon": "🏗️",
+    "color": "#7c3aed",
+    "cover": "/img/covers/terraform.svg"
+  },
+  {
     "slug": "programming-languages",
     "title": "Programming Languages",
     "tagline": "Write code with the right tools and mental models",

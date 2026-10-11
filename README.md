@@ -94,6 +94,8 @@ The notes in `Theoretical` were reviewed and organised into this learning path:
 
 The folder-to-topic mapping for the library lives in `LIBRARY_RULES` in `scripts/seed.mjs`.
 
+Terraform is available at `/learn/terraform` with 16 lessons from beginner to advanced. The path covers a cloud-free local lab, HCL, variables, AWS storage, dependencies, loops, modules, remote state, environments, imports, tests, secrets, CI/CD, recovery, and a production capstone. Source lessons are in `content/terraform/`; run `npm run seed` or the standard dev/build commands to load them into the site and search index.
+
 ## Adding or editing a lesson
 
 1. Create `content/<topic>/NN-some-slug.md`. The number sets the order; the rest becomes the URL.
