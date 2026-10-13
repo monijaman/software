@@ -16,6 +16,12 @@ const groupedCategories: Record<string, readonly GroupDefinition[]> = {
     { title: "Architecture and Operations", description: "Choose system shapes, analytical platforms and safe production releases.", positions: [19, 29, 30] },
     { title: "Case Studies", description: "Apply the concepts to real production-style design problems.", positions: [4, 5, 13, 14, 15, 16, 17, 18, 20, 21, 22, 31] },
   ],
+  aws: [
+    { title: "AWS Foundations", description: "Core services every developer uses to build, deploy and secure applications.", positions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
+    { title: "Advanced AWS", description: "Policy evaluation, hybrid networking, data modeling, governance, resilience, containers at scale and cost.", positions: [17, 18, 19, 20, 21, 22, 23, 24] },
+    { title: "Interview Prep", description: "Short, correct answers to common AWS interview questions.", positions: [16] },
+    { title: "Practical Project", description: "Set up a real containerized app end to end: ECR, EKS, Pod Identity, RDS, ingress, CI/CD and troubleshooting.", positions: [25] },
+  ],
   databases: [
     { title: "Database Design & Performance", description: "Relations, normalization, transactions, indexes, query performance and scaling.", positions: [1, 2, 3, 4, 5, 6, 7] },
     { title: "Database Interview Prep", description: "Thirty DBMS interview questions with detailed answers and SQL practice.", positions: [8, 9, 10, 11, 12] },
