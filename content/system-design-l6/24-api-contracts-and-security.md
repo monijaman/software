@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, api, gateway, auth, oauth, jwt, security]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A customer can fetch their own invoices through a mobile API. A malicious client changes the invoice ID and tries another tenant’s record.
+
+## T — Task: requirements and success criteria
+
+Keep the API compatible with older clients and enforce authorization for every resource, even when the caller is authenticated.
+
+## A — Action: design the normal path
+
+1. Define versioned request/response contracts, validation rules, pagination and stable error semantics.
+
+2. Validate identity at the boundary, then check tenant and resource permissions inside the owning service. A valid token does not grant access to every ID.
+
+3. For mutations, define idempotency scope and reject mismatched key reuse. Apply per-identity limits and avoid recording credentials or sensitive payloads in logs.
+
+### Walk through a failure and recovery
+
+A gateway validates a JWT but the invoice service trusts any invoice ID. The fix is an ownership-scoped query or policy check at the resource boundary, not another token check alone.
+
+## R — Result: how to validate the design
+
+Run cross-tenant access tests, old-client contract checks and repeated mutation requests. Require no unauthorized reads/writes and track policy denials without exposing private resource existence.
+
+### Check your understanding
+
+What changes when permission is revoked before a token expires?
+
+---
+
+## Concepts and implementation details
+
 ![API boundary: a gateway applies authentication, authorization, rate limits and routing before services enforce resource-level policy](/img/system-design-l6/api-security.svg)
 
 Define resource/command contracts, error shapes, pagination, idempotency and compatibility before implementation. JSON is common; Protobuf is compact and typed for gRPC. Version deliberately and evolve fields additively where possible.

@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, staff, l6, reliability, interviews]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A concert releases 50,000 seats at noon. Half a million buyers open the site in five minutes; some double-click Pay and others refresh after a timeout.
+
+## T — Task: requirements and success criteria
+
+Design a checkout where a seat has at most one owner and each payment intent produces at most one charge. Browsing may show stale availability; a confirmed seat may not.
+
+## A — Action: design the normal path
+
+1. Estimate arrival rate: 500,000 / 300 ≈ 1,667 buyers/s before retries. Separate cached browsing from reservation writes.
+
+2. Use a conditional seat reservation in the authoritative database; a queue only controls admission.
+
+3. Persist a payment intent before contacting the provider. Commit confirmation and an outbox event together so receipt work can retry independently.
+
+### Walk through a failure and recovery
+
+The provider charges a buyer but the API crashes. On retry, look up the same intent and reconcile the provider outcome. Keep the seat reserved while the outcome is unresolved; releasing it blindly can sell a paid seat twice.
+
+## R — Result: how to validate the design
+
+Run concurrent last-seat requests and inject a crash after provider acceptance. Require one seat owner, no second charge, and recovery of every unresolved intent within a defined reconciliation deadline.
+
+### Check your understanding
+
+If arrival rate triples, which work can wait and which database write must remain atomic?
+
+---
+
+## Concepts and implementation details
+
 ## The big idea
 
 An L6 answer is not a list of technologies. It explains **what must never break**, what peak load changes, and how the system behaves when a dependency fails.

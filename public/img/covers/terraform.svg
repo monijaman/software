@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Segoe UI,system-ui,sans-serif">
+  <rect width="760" height="330" rx="24" fill="#f5f3ff"/>
+  <circle cx="660" cy="40" r="125" fill="#ede9fe"/>
+  <g stroke="#7c3aed" stroke-width="3" fill="#fff">
+    <rect x="55" y="78" width="175" height="105" rx="16"/>
+    <rect x="290" y="78" width="175" height="105" rx="16"/>
+    <rect x="525" y="78" width="175" height="105" rx="16"/>
+  </g>
+  <g fill="#5b21b6" text-anchor="middle" font-size="22" font-weight="700">
+    <text x="142" y="122">CODE</text><text x="377" y="122">PLAN</text><text x="612" y="122">APPLY</text>
+  </g>
+  <g fill="#6d28d9" text-anchor="middle" font-size="14">
+    <text x="142" y="153">Describe resources</text><text x="377" y="153">Review changes</text><text x="612" y="153">Build infrastructure</text>
+  </g>
+  <g stroke="#7c3aed" stroke-width="4" fill="none"><path d="M238 130h40m-10-8 10 8-10 8"/><path d="M473 130h40m-10-8 10 8-10 8"/></g>
+  <text x="380" y="255" text-anchor="middle" font-size="32" font-weight="800" fill="#4c1d95">Terraform</text>
+  <text x="380" y="288" text-anchor="middle" font-size="18" fill="#6d28d9">From your first file to production infrastructure</text>
+</svg>

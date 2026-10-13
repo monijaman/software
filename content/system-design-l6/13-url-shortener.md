@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, url-shortener, redirects, analytics]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A marketing team creates short links for campaigns. One link goes viral at 10,000 redirects/s, while the security team must disable malicious destinations promptly.
+
+## T — Task: requirements and success criteria
+
+Keep redirect p99 below a proposed 100 ms target while resolving only valid, unexpired mappings. Analytics may arrive minutes later.
+
+## A — Action: design the normal path
+
+1. Expose POST /links and GET /{code}. Validate destinations and write a unique code, owner, status, expiry and destination durably.
+
+2. Read cache before storage and return a redirect. Use collision-checked random codes or encoded allocated IDs; choose based on enumeration risk.
+
+3. Send click events asynchronously. Bound redirect caching and define active invalidation for disablement; long browser-cached permanent redirects undermine fast revocation.
+
+### Walk through a failure and recovery
+
+The cache fails during a viral campaign. Limit fallback concurrency and coalesce misses instead of sending all 10,000 requests/s to storage. A disabled link must not remain served indefinitely from an edge cache.
+
+## R — Result: how to validate the design
+
+Load-test a hot code, remove the cache and disable that code during traffic. Measure redirect latency, storage fallback rate and disablement propagation. State whether analytics loss is tolerated under overload.
+
+### Check your understanding
+
+When would you choose a temporary redirect instead of a permanently cached redirect?
+
+---
+
+## Concepts and implementation details
+
 A short code must resolve to its intended unexpired destination or safely fail.
 
 ![URL shortener: durable mappings, cache-backed redirects and asynchronous analytics](/img/system-design-l6/url-shortener.svg)

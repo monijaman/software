@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, ecommerce, checkout, inventory, payments]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A buyer orders the last pair of shoes. Inventory reserves it, payment succeeds, and the order service crashes before showing confirmation.
+
+## T — Task: requirements and success criteria
+
+Produce a recoverable order outcome without overselling or double charging across separate inventory and payment systems.
+
+## A — Action: design the normal path
+
+1. Create an order intent with immutable payable amount and stable request identity. Reserve stock with an authoritative conditional transition.
+
+2. Persist workflow state and use the same payment identity on retries. Model intermediate states explicitly rather than hiding them inside a long HTTP request.
+
+3. Confirm the order and write an outbox event locally; fulfillment and receipts consume it idempotently. Compensation handles defined failures, not every timeout.
+
+### Walk through a failure and recovery
+
+After an ambiguous payment response, mark payment pending and reconcile. Do not release stock or refund based only on a transport timeout. A workflow worker resumes from durable state after the API restarts.
+
+## R — Result: how to validate the design
+
+Crash at each state boundary and retry every command. Require one order/charge per intent and inventory conservation; monitor oldest pending order, compensation failures and reconciliation differences.
+
+### Check your understanding
+
+When is it safe to cancel a reservation after a payment timeout?
+
+---
+
+## Concepts and implementation details
+
 ![Checkout: catalog/search are read paths while inventory, payment and order transitions are owned and idempotent](/img/system-design-l6/ecommerce-checkout.svg)
 
 Catalog, search and recommendations can be cached and eventually consistent. Checkout cannot: reserve inventory atomically, create/get a payment attempt with an idempotency key, then commit an order and publish an outbox event.

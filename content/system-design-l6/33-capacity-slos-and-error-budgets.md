@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, capacity, slo, sli, error-budget, availability]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A checkout endpoint processes 1,000 requests/s at peak and has a proposed monthly 99.9% time-based availability target.
+
+## T — Task: requirements and success criteria
+
+Turn user promises into capacity headroom, measurable SLIs and a policy for consuming the error budget.
+
+## A — Action: design the normal path
+
+1. Define successful valid requests and latency buckets, including timeouts. Keep request-based and time-based availability calculations distinct.
+
+2. For a 30-day month, 0.1% unavailable time is 43.2 minutes. For request-based SLOs, calculate the allowed failed fraction from eligible requests instead.
+
+3. Load-test peaks and degraded dependency scenarios. Use multi-window budget burn signals to decide when to slow risky releases and prioritize reliability.
+
+### Walk through a failure and recovery
+
+A service returns fast 500 responses, so latency looks good while checkout fails. Count success and latency together, and compare budget consumption to traffic distribution rather than assuming all downtime has equal customer impact.
+
+## R — Result: how to validate the design
+
+Produce a capacity curve showing throughput, good-request latency and failures. Validate alert behavior during a brief spike and sustained outage; targets are useful only when they lead to a clear operating decision.
+
+### Check your understanding
+
+How many failed requests are allowed among ten million eligible requests at 99.9% success?
+
+---
+
+## Concepts and implementation details
+
 ## Start with a promise, not a server count
 
 An **SLI** is what we measure. An **SLO** is the target we promise ourselves. An **error budget** is how much failure that promise permits.

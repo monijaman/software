@@ -19,8 +19,8 @@ export default function HomePage() {
               Learn the big ideas <span className="gradient-text">the easy way</span>.
             </h1>
             <p className="lead">
-              Short lessons with diagrams, real-life analogies and small code examples, from clean code and SOLID to Kafka and
-              Kubernetes.
+              Short lessons with diagrams, real-life analogies and small code examples, from clean code and SOLID to AI,
+              Kafka and Kubernetes.
             </p>
             <div className="hero-actions">
               {first && (

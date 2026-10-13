@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, multi-region, disaster-recovery, rpo, rto, failover]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+An order platform loses its primary region. The standby has asynchronous replicas that are 20 seconds behind and customers retry pending purchases.
+
+## T — Task: requirements and success criteria
+
+Define acceptable data loss and recovery time, then recover without two active writers charging or confirming the same order.
+
+## A — Action: design the normal path
+
+1. Set RPO and RTO per data class. Acknowledged orders may require stronger replication than analytics or browse caches.
+
+2. Fence the former writer before promoting a new authority. Route traffic only after data and service readiness checks.
+
+3. Retain independent backups and rehearse restore, reconciliation and failback. Multi-region deployment and recoverable backups solve different failures.
+
+### Walk through a failure and recovery
+
+The original region returns while the standby is accepting writes. Prevent it from resuming authority automatically, reconcile uncertain provider outcomes and resolve divergent records before failback.
+
+## R — Result: how to validate the design
+
+Run regional-loss and backup-restore drills. Measure actual recovered data loss, customer recovery time and duplicate intents; an untested standby is not evidence that RPO/RTO targets are achievable.
+
+### Check your understanding
+
+Can a 20-second asynchronous replica satisfy an RPO of zero?
+
+---
+
+## Concepts and implementation details
+
 ## Two promises before architecture
 
 - **RPO (Recovery Point Objective):** maximum acceptable data loss. RPO of five minutes means up to five minutes of accepted writes may be lost in a disaster.

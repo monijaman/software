@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, resilience, retries, circuit-breaker, bulkhead, load-shedding]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+An API has three retrying layers. Each layer permits three total attempts, and a failing downstream request can trigger up to 27 attempts.
+
+## T — Task: requirements and success criteria
+
+Contain dependency failure with bounded time, concurrency and retry amplification.
+
+## A — Action: design the normal path
+
+1. Carry one deadline through the call chain and retry at one responsible layer using a shared attempt budget.
+
+2. Require idempotency before retrying writes; apply exponential backoff with jitter for appropriate transient failures.
+
+3. Use bulkheads to isolate resources, circuit breakers to reduce repeated failing calls and load shedding before queues exceed useful deadlines.
+
+### Walk through a failure and recovery
+
+The downstream service recovers and every client retries together. Jitter, limited half-open probes and bounded concurrency prevent a synchronized recovery surge. A breaker without admission control still leaves queues vulnerable.
+
+## R — Result: how to validate the design
+
+Test partial failure and recovery under peak load. Measure attempts per original request, queue age, successful throughput and unrelated-endpoint latency; a low downstream call count with universal rejection is not success.
+
+### Check your understanding
+
+What is the maximum amplification if four layers each make three attempts?
+
+---
+
+## Concepts and implementation details
+
 ## The restaurant kitchen example
 
 If the dessert station is slow, the restaurant should not let every waiter stand in its doorway. Give dessert a small waiting area, serve main meals, and temporarily stop accepting new dessert orders if necessary.

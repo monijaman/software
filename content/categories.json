@@ -90,6 +90,24 @@
     "cover": "/img/covers/aws.svg"
   },
   {
+    "slug": "terraform",
+    "title": "Terraform",
+    "tagline": "Infrastructure as code, from first plan to production",
+    "description": "Learn Terraform from beginner to advanced with hands-on examples: a local first project, HCL, variables, providers, AWS resources, dependencies, loops, modules, remote state and locking, environment isolation, imports and refactoring, testing, secrets, CI/CD, troubleshooting, and a production capstone.",
+    "icon": "🏗️",
+    "color": "#7c3aed",
+    "cover": "/img/covers/terraform.svg"
+  },
+  {
+    "slug": "ai",
+    "title": "AI & Machine Learning",
+    "tagline": "Understand models and build useful AI systems",
+    "description": "A practical path through AI foundations, machine learning, data preparation, neural networks, transformers and LLMs, prompt design, embeddings and RAG, tool-using agents, evaluation, safety, and production operations. Start with the roadmap, then follow the lessons in order or jump to the skills your project needs.",
+    "icon": "✳️",
+    "color": "#16a34a",
+    "cover": "/img/covers/ai.svg"
+  },
+  {
     "slug": "programming-languages",
     "title": "Programming Languages",
     "tagline": "Write code with the right tools and mental models",
@@ -101,8 +119,8 @@
   {
     "slug": "system-design-l6",
     "title": "System Design L6",
-    "tagline": "Design for scale, failure and recovery",
-    "description": "Staff-level system-design case studies: define correctness, find bottlenecks, recover safely and limit blast radius.",
+    "tagline": "Understand the scenario. Design the system. Prove it works.",
+    "description": "Learn system design through worked STAR scenarios: Situation, Task, Action and Result. Trace requests, compare tradeoffs, recover from failures and validate every design.",
     "icon": "🧭",
     "color": "#7c3aed",
     "cover": "/img/covers/system-design-l6.svg"

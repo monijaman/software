@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, consensus, raft, heartbeats, gossip, checksums]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+Three scheduler nodes coordinate work. A network pause makes two nodes suspect the current leader is dead, although it is still running.
+
+## T — Task: requirements and success criteria
+
+Prevent conflicting task ownership while detecting failures quickly enough to recover work.
+
+## A — Action: design the normal path
+
+1. Use quorum-backed agreement for leader terms and durable decisions. A heartbeat timeout is suspicion, not proof of death.
+
+2. Attach an increasing fencing token to work and require the destination to reject older tokens.
+
+3. Use gossip for membership dissemination where temporary disagreement is acceptable. Checksums detect data corruption; they do not elect a leader or prove an operation committed.
+
+### Walk through a failure and recovery
+
+The old leader resumes after a new leader starts. A lease alone cannot stop its delayed write. The receiving store must check the fencing token as part of the write.
+
+## R — Result: how to validate the design
+
+Pause the leader, elect another and resume the old process. Verify stale writes are rejected and ownership recovers within the target interval. Observe term changes, quorum loss and fencing rejections.
+
+### Check your understanding
+
+What happens when the scheduler uses only a Redis lock with a TTL?
+
+---
+
+## Concepts and implementation details
+
 ## Different problems, different tools
 
 ![Distributed coordination: leader agreement, heartbeats, gossip membership and checksums solve different failure questions](/img/system-design-l6/coordination.svg)

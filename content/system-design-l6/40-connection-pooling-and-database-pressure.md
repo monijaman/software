@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, databases, PostgreSQL, MySQL, connection-pooling, performance, observability]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A Node.js service has ten instances, each with a 20-connection pool. Traffic grows and autoscaling doubles the application instances, but the database allows only 250 connections.
+
+## T — Task: requirements and success criteria
+
+Bound database concurrency and reserve capacity for operations rather than equating logged-in users with required database connections.
+
+## A — Action: design the normal path
+
+1. Count all pools: 10 × 20 = 200 before admin sessions or workers; doubling instances would request 400.
+
+2. Estimate active query demand using throughput × connection-holding time. At 1,000 queries/s and 20 ms, average demand is about 20 busy connections before headroom and burst effects.
+
+3. Set a fleet-wide connection budget, bounded wait queue and short transactions. Tune from database saturation and query behavior, not user count alone.
+
+### Walk through a failure and recovery
+
+A slow transaction holds connections for two seconds. The pool becomes a queue and callers time out. Adding connections can increase locks and I/O contention; first remove the measured query/transaction bottleneck and limit admission.
+
+## R — Result: how to validate the design
+
+Load-test with slow queries and maximum instance count. Measure pool acquisition wait, active connections, DB CPU/I/O, throughput and rejection rate; require recovery after the slow work ends.
+
+### Check your understanding
+
+How many connections may each of twenty instances use if fifty of 250 are reserved?
+
+---
+
+## Concepts and implementation details
+
 ## The misconception
 
 If 10,000 users are using an application, it is tempting to imagine 10,000 database connections too:

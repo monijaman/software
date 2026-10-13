@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, mapreduce, etl, data-lake, warehouse, lambda, kappa]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A retailer receives 50 million purchase and browsing events/day. Finance needs reproducible daily totals; operations wants a dashboard no more than two minutes behind.
+
+## T — Task: requirements and success criteria
+
+Build analytical views with defined freshness, lineage and correction rules, keeping raw evidence available for replay.
+
+## A — Action: design the normal path
+
+1. Land immutable raw events with IDs and schema versions. Separate ingestion from transformations.
+
+2. Create curated datasets with event-time handling and deduplication, then load warehouse models optimized for reporting.
+
+3. Use streaming for freshness and bounded backfills for repair. Partition by query patterns and constrain scan cost; avoid two independent business-rule implementations where possible.
+
+### Walk through a failure and recovery
+
+A transformation bug doubles yesterday’s revenue. Correct the transformation and replay the raw partition into a versioned output. Publish the replacement atomically instead of exposing a half-rebuilt report.
+
+## R — Result: how to validate the design
+
+Reconcile reported totals against transactional records and test a full backfill. Measure freshness, missing/duplicate input and cost per workload; rapid dashboards with wrong revenue are a failure.
+
+### Check your understanding
+
+What evidence must be retained to rebuild a month of reports?
+
+---
+
+## Concepts and implementation details
+
 ![Analytics pipeline: raw events land durably, ETL/stream processing creates curated lake and warehouse datasets](/img/system-design-l6/big-data.svg)
 
 MapReduce partitions large batch work into map, shuffle and reduce stages. ETL extracts, transforms and loads curated data. A data lake holds raw/flexible data; a warehouse optimizes governed analytical queries; a lakehouse combines lake storage with warehouse-style tables.

@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, interviews, requirements, capacity, trade-offs]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+An interviewer asks “Design a messaging app.” There is no stated audience, load, group size, delivery promise or retention policy.
+
+## T — Task: requirements and success criteria
+
+Turn the ambiguous prompt into a defensible design within 45 minutes. Explain decisions with STAR rather than reciting a technology list.
+
+## A — Action: design the normal path
+
+1. Situation: ask who uses it and which workload matters. Task: agree on durable messages, ordering scope, latency and exclusions.
+
+2. Action: estimate peak traffic, define APIs and data keys, and draw one send/read path. Spend the deep dive on the highest-risk failure.
+
+3. Result: describe the tests and metrics that would validate the design. Reserve time for the limits and the next scaling step.
+
+### Walk through a failure and recovery
+
+A gateway crashes after persistence but before acknowledgment. Explain how the client retries the same message ID and fetches missing messages by cursor. This demonstrates the design more clearly than adding another box.
+
+## R — Result: how to validate the design
+
+A good answer has explicit assumptions, an authoritative store, one normal flow, one failure flow and measurable targets. In a hypothetical interview, results are proposed validation criteria, not invented production achievements.
+
+### Check your understanding
+
+Practice a two-minute STAR answer for chat, then identify one assumption that would change the architecture.
+
+---
+
+## Concepts and implementation details
+
 ![Interview flow: clarify requirements, estimate scale, draw the core path, then deep dive into risks and recovery](/img/system-design-l6/interview-framework.svg)
 
 1. **Clarify** users, core flows, scope, latency, availability and consistency.

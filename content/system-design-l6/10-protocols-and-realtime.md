@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, api, websocket, tcp, udp, proxy]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A delivery app needs order creation, live driver positions and internal price calculation. These interactions have different latency and delivery needs.
+
+## T — Task: requirements and success criteria
+
+Choose communication by interaction semantics, including reconnects and overload, rather than using one protocol everywhere.
+
+## A — Action: design the normal path
+
+1. Use request/response APIs for creating orders, with explicit errors and idempotency. Internal RPC can give typed contracts and deadlines.
+
+2. Use SSE for a one-way order-status stream or WebSockets for bidirectional interaction. Persistent connections still need authentication, bounded buffers and reconnect behavior.
+
+3. Use durable queues for work that must survive process failure. TCP transports ordered bytes within a connection; it does not provide durable business delivery.
+
+### Walk through a failure and recovery
+
+A mobile connection drops after receiving only some updates. Reconnect with a cursor and fetch authoritative state. A live socket is a transport, not a replacement for stored orders or messages.
+
+## R — Result: how to validate the design
+
+Test disconnects, slow clients and rolling restarts. Measure reconnect success, update lag, buffer growth and command success separately; dropping stale location samples can be acceptable while losing an order is not.
+
+### Check your understanding
+
+Would driver positions and payment commands use the same retry policy?
+
+---
+
+## Concepts and implementation details
+
 ![Communication choices: reverse proxy at the edge, request APIs, queues and persistent real-time connections](/img/system-design-l6/protocols-realtime.svg)
 
 | Need | Good starting point | Trade-off |

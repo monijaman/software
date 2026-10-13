@@ -1,9 +1,43 @@
 ---
-title: "Exactly-Once Payment Processing"
+title: "Payment Retries: Prevent Duplicate Charges"
 summary: "Safe payment retries need a durable idempotency record, atomic state transition and provider-side deduplication."
 level: Advanced
 tags: [system-design, payments, idempotency, reliability]
 ---
+
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A customer pays for a ৳2,000 order. Their mobile connection drops after the payment provider accepts the charge, and the browser retries.
+
+## T — Task: requirements and success criteria
+
+Return a stable outcome for one payment intent despite retries and crashes. “Exactly once” is a business goal, not a guarantee supplied by an HTTP request.
+
+## A — Action: design the normal path
+
+1. Persist an intent with a unique key, amount, currency and request hash. Reject the same key with different parameters.
+
+2. Claim work atomically and send a stable provider idempotency key. A client key alone cannot protect two different keys for the same order; enforce the order’s payable state too.
+
+3. Record confirmed outcomes and publish order events through an outbox. Keep provider keys and attempt history for the documented retry window.
+
+### Walk through a failure and recovery
+
+A worker dies after charging but before saving success. A replacement queries the provider using the existing intent identity. If the provider has no usable deduplication or lookup contract, hold ambiguous attempts for reconciliation rather than claiming an unconditional at-most-once guarantee.
+
+## R — Result: how to validate the design
+
+Duplicate-request and crash-injection tests must yield one provider charge per payable intent. Track unknown-attempt age and reconcile database/provider totals; a low API latency alone proves nothing about charge safety.
+
+### Check your understanding
+
+What prevents two tabs from creating different payment keys for the same order?
+
+---
+
+## Concepts and implementation details
 
 ## The invariant
 

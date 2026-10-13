@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, sse, webhooks, webrtc, pubsub, cdc, events]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+A merchant dashboard needs live order status, and partners need webhook notifications. Some partners are offline for hours.
+
+## T — Task: requirements and success criteria
+
+Push fresh updates to browsers while providing durable, retryable partner delivery with a defined ordering scope.
+
+## A — Action: design the normal path
+
+1. Commit order changes and an outbox entry together, then publish a versioned event with an ID.
+
+2. Use SSE with resumable cursors for one-way dashboard updates; use WebSockets when the interaction needs bidirectional messages.
+
+3. Track webhook attempts durably, sign requests, bound retry age and concurrency, and deduplicate at consumers. CDC can capture database changes but does not automatically create a stable business contract.
+
+### Walk through a failure and recovery
+
+A partner returns success but the connection closes before the sender sees it. Retry the same event ID and require idempotent handling. On browser reconnect, read missing events or refresh current state after the resume window expires.
+
+## R — Result: how to validate the design
+
+Test duplicate events, long partner outages and expired cursors. Measure delivery age, browser freshness, dead-letter count and signature failures; live transport success alone does not prove durable processing.
+
+### Check your understanding
+
+How will a consumer distinguish a duplicate from a newer order version?
+
+---
+
+## Concepts and implementation details
+
 ![Event patterns: an event stream can feed pub-sub consumers, webhook delivery, server-sent updates and database change capture](/img/system-design-l6/realtime-events.svg)
 
 | Pattern | Best for | Key rule |

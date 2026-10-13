@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, backpressure, timeouts, retries, resilience]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+An order API calls a shipping service that normally takes 80 ms. During an incident it takes three seconds; retries occupy every worker and healthy endpoints become slow.
+
+## T — Task: requirements and success criteria
+
+Keep the order API responsive within a 500 ms request budget and bound resources consumed by shipping work.
+
+## A — Action: design the normal path
+
+1. Allocate the end-to-end deadline across queue wait, shipping and response processing. Cancel obsolete work where supported.
+
+2. Cap shipping concurrency and queue length independently of other dependencies. Reject excess work or return a clear pending state.
+
+3. Retry only transient failures and safe operations, with jitter, a retry budget and one designated retry layer.
+
+### Walk through a failure and recovery
+
+A shipping timeout leaves the remote outcome uncertain. Do not retry a non-idempotent label purchase with a new identity. Circuit breaking reduces repeated calls, while half-open probes determine whether recovery is real.
+
+## R — Result: how to validate the design
+
+Under a deliberately slow shipping dependency, verify bounded in-flight requests, stable unrelated-endpoint latency, and recovery without a retry surge. Measure queue age and rejected work alongside timeout counts.
+
+### Check your understanding
+
+At 200 calls/s and three-second latency, how many calls accumulate without a cap?
+
+---
+
+## Concepts and implementation details
+
 ## The big idea
 
 A queue is a restaurant waiting area. When it is full, taking more names creates a longer, less predictable wait; it does not create more tables.

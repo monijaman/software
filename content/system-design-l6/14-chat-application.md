@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, chat, websocket, messaging, presence]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+Alice sends “Meet at 6” on a weak connection. Bob is online on two devices, and Alice retries because her acknowledgment never arrives.
+
+## T — Task: requirements and success criteria
+
+Persist each accepted message once per sender identity and preserve a defined per-conversation order. Online presence can be stale.
+
+## A — Action: design the normal path
+
+1. POST or send a command containing conversation ID and client message ID. Enforce membership before writing.
+
+2. Persist the message with a conversation cursor and acknowledge only after the chosen durability boundary. Deduplicate retries with a unique constraint.
+
+3. Fan out through gateways and notify offline devices separately. Devices resume from their last durable cursor; receipt state and presence are distinct from message storage.
+
+### Walk through a failure and recovery
+
+The gateway dies after persistence but before ack. Alice retries the same message ID, receives the stored outcome and does not create a duplicate. Bob fetches by cursor after reconnect even if live fan-out failed.
+
+## R — Result: how to validate the design
+
+Test crash-after-commit, duplicate sends and reconnect gaps. Require no acknowledged-message loss under the declared failure model; measure delivery lag and per-conversation ordering violations.
+
+### Check your understanding
+
+How would a group with 100,000 members change the fan-out path?
+
+---
+
+## Concepts and implementation details
+
 ![Chat separates durable conversation storage from WebSocket fan-out, presence and offline push paths](/img/system-design-l6/chat.svg)
 
 Persist a message before acknowledging it, then publish a durable event for recipients. A client idempotency key makes reconnect/retry safe. Order messages by conversation key, not globally.

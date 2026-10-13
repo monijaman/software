@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <rect width="640" height="400" rx="24" fill="#10271D"/>
+  <path d="M0 320 160 210l108 63 151-151 221 128v150H0z" fill="#17452E"/>
+  <path d="m146 226 86-78 82 53 105-92 95 55" stroke="#A3E635" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M228 201v88m86-88v57m105-149v165m95-110v76" stroke="#79D89A" stroke-width="3" stroke-dasharray="6 9"/>
+  <circle cx="146" cy="226" r="11" fill="#F7F7E8"/>
+  <circle cx="232" cy="148" r="11" fill="#A3E635"/>
+  <circle cx="314" cy="201" r="11" fill="#F7F7E8"/>
+  <circle cx="419" cy="109" r="11" fill="#A3E635"/>
+  <circle cx="514" cy="164" r="11" fill="#F7F7E8"/>
+  <rect x="54" y="62" width="132" height="42" rx="21" fill="#D9F99D"/>
+  <text x="120" y="89" fill="#10271D" font-family="ui-monospace,monospace" font-size="18" font-weight="700" text-anchor="middle">LEARN / BUILD</text>
+  <text x="54" y="352" fill="#F7F7E8" font-family="ui-monospace,monospace" font-size="22" font-weight="700">DATA → MODELS → SYSTEMS</text>
+</svg>

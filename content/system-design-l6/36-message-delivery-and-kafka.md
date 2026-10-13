@@ -5,6 +5,40 @@ level: Advanced
 tags: [system-design, kafka, queues, dlq, delivery, schema-evolution]
 ---
 
+> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+
+## S — Situation: the problem in context
+
+An order event consumer updates a shipment record and crashes before committing its stream offset. A malformed event later blocks a partition.
+
+## T — Task: requirements and success criteria
+
+Process retries safely, preserve the needed ordering scope and recover poison messages without silently losing business work.
+
+## A — Action: design the normal path
+
+1. Choose queues for independently leased tasks or a retained log for replay and ordered partition streams.
+
+2. Key related events by order ID and deduplicate durable side effects with event ID. Commit a local effect plus processing marker atomically where possible.
+
+3. Bound retries and quarantine poison events with original payload, error and metadata. Define who repairs and replays them, and what happens to later dependent events.
+
+### Walk through a failure and recovery
+
+After the crash, the same event is delivered again. The stored processing marker prevents a second local effect. Kafka transaction guarantees do not automatically cover an external email or payment call.
+
+## R — Result: how to validate the design
+
+Test crash-before-offset, duplicate delivery, out-of-order versions and dead-letter replay. Measure consumer lag, oldest failed event and duplicate side effects; a DLQ is pending repair, not successful processing.
+
+### Check your understanding
+
+If event version 4 fails, is it safe to process version 5 for that order?
+
+---
+
+## Concepts and implementation details
+
 ## A queue is not always Kafka
 
 A work queue usually means "one worker should handle this job." Kafka is a durable, partitioned event log: several consumer groups can independently read the same event and replay history. Both can decouple services, but they solve different problems.
