@@ -113,9 +113,42 @@ Memory is limited, so something must go:
 
 In Redis: `maxmemory 2gb` and `maxmemory-policy allkeys-lru`.
 
-## Classic caching problems
+## Five caching mistakes that cause stale or slow systems
 
-### 1. Cache stampede (thundering herd)
+Caching is fast only when its failure behaviour is designed too. These are the five mistakes to recognize before they reach production.
+
+### 1. No TTL: the cache never forgets
+
+Without a **TTL** (time to live), `product:42` can stay in Redis forever—even after the product changes or after the application changes the shape of the cached JSON.
+
+```js
+// Risky: this value has no expiry.
+await redis.set("product:42", JSON.stringify(product));
+
+// Safer: choose a freshness window that matches the data.
+await redis.set("product:42", JSON.stringify(product), { EX: 300 });
+```
+
+**Fix:** give cache entries a deliberate TTL. A five-minute TTL may suit a product catalogue; a user's permission or payment state may need deletion on every write, a much shorter TTL, or no cache at all. A TTL limits how long a missed invalidation can lie to a reader; it does not replace invalidation.
+
+### 2. No invalidation strategy: the database changes, the cache does not
+
+This is the most common stale-data bug: the write path updates PostgreSQL, then returns success while Redis still holds the old value.
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant DB as Database
+    participant Cache as Redis
+    App->>DB: UPDATE product 42
+    DB-->>App: saved
+    App->>Cache: DEL product:42
+    Note over Cache: Next read loads the new value
+```
+
+**Fix:** decide what every write does to every affected key. With cache-aside, the safe default is **write to the durable database first, then delete the cache key**. If one update affects a product, its category list, and a search result, invalidate all three key families. In a multi-service system, publish a durable `product.updated` event so other caches can invalidate too.
+
+### 3. Cache stampede: one expiry becomes thousands of database queries
 
 A popular key expires; 10,000 requests miss at the same moment and **all** hit the database.
 
@@ -125,15 +158,37 @@ flowchart LR
     R1 & R2 & R3 & R4 --> DB[("💥 Database overwhelmed")]
 ```
 
-**Fixes:** a lock so only one request rebuilds the value (others wait or get the stale copy), refreshing hot keys *before* they expire, and adding random **jitter** to TTLs so keys don't all expire together.
+**Fix:** use a short lock or request coalescing so one request rebuilds the value. The others wait briefly or receive the last known good value. Also add random **jitter** to TTLs so many keys do not expire together, and refresh genuinely hot keys before they expire. A lock is an optimization, not a reason to make the database unavailable.
 
-### 2. Cache penetration
+### 4. Caching errors and empty results carelessly
 
-Requests for IDs that **don't exist** always miss and always hit the DB (sometimes an attack). **Fix:** cache the "not found" result briefly, or use a **Bloom filter** to reject IDs that certainly don't exist.
+An outage response, a timeout, or an accidental empty list is not the same as "there are no results." If you cache a transient `500` response, users keep seeing an outage after the dependency has recovered. If you cache every empty result for a long time, newly created data can appear missing.
 
-### 3. Hot key
+```js
+const product = await db.products.findById(id);
 
-One key (a celebrity's profile) gets so much traffic it overloads a single Redis node. **Fix:** a small in-process cache in front of Redis, or replicate the key.
+if (product) {
+  await redis.set(`product:${id}`, JSON.stringify(product), { EX: 300 });
+} else {
+  // Negative caching protects the DB from repeated misses, but briefly.
+  await redis.set(`product:${id}`, "NOT_FOUND", { EX: 30 });
+}
+// Do not cache thrown database errors or 5xx responses as normal data.
+```
+
+**Fix:** cache successful values normally. Negative-cache a confirmed "not found" result only for a short TTL; never treat a timeout, permission error, or `500` as a real empty result. For huge ID spaces or abusive traffic, a Bloom filter can reject IDs that definitely do not exist before the database query.
+
+### 5. Treating the cache as the source of truth
+
+Redis can restart, evict keys when memory is full, or fail over. If losing it loses orders, balances, or customer records, it was not a cache—it was an under-protected primary database.
+
+**Fix:** write authoritative business data to a durable store such as PostgreSQL first. Redis accelerates reads, rate limits, sessions, and derived values; the application must be able to rebuild cached values from durable data. Test this directly: flush a non-production cache and confirm the application becomes slower temporarily, not incorrect or unavailable.
+
+### Two related symptoms
+
+**Cache penetration:** requests for IDs that **do not exist** always miss and always hit the DB (sometimes an attack). Short negative caching, as above, or a Bloom filter helps.
+
+**Hot key:** one key (a celebrity's profile) gets so much traffic it overloads a single Redis node. Use a small in-process cache in front of Redis, replicate the value where appropriate, and measure the key before changing the design.
 
 ## Redis: more than a cache
 
