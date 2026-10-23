@@ -82,7 +82,7 @@ The notes in `Theoretical` were reviewed and organised into this learning path:
 | 1 | Clean Code (incl. KISS, DRY, YAGNI) | 10 | `Principles/CLEAN-CODE-Architecture`, `Code Refactoring Techniques` |
 | 2 | SOLID Principles | 6 | `Principles/solid` |
 | 3 | Design Patterns | 6 | `Principles/Design Pattern` |
-| 4 | Software Architecture (Layered, MVC/MVVM, Clean, Hexagonal, Onion, DDD, event-driven, microkernel, serverless, vertical slices, modular monolith) | 13 | `Principles/CLEAN-CODE-Architecture`, `Backend-guru/Architecture Patterns`, `Frontend-guru/Frontend-Arthitecture` |
+| 4 | Software Architecture (Layered, MVC/MVVM, Clean, Hexagonal, Onion, DDD, event-driven, microkernel, serverless, vertical slices, modular monolith, C4 diagrams) | 14 | `Principles/CLEAN-CODE-Architecture`, `Backend-guru/Architecture Patterns`, `Frontend-guru/Frontend-Arthitecture` |
 | 5 | Data Structures & Algorithms | 14 | `Principles/DSA`, `PDFS` problems |
 | 6 | Backend Engineering | 12 | `Backend-guru`, `Database`, `DevOps/Docker`, `Languages` |
 | 7 | Frontend Engineering | 11 | `Frontend-guru`, `React`, `Redux`, `VueJs`, `Languages/TypeScript` |
@@ -121,6 +121,10 @@ AI & Machine Learning is available at `/learn/ai` with 15 lessons. The path cove
 4. Run `npm run seed` (or restart `npm run dev`).
 
 Reading time is calculated automatically. To add a whole new topic, add an entry to `content/categories.json` and create its folder.
+
+## Architecture documentation
+
+The C4 system-context and container-diagram conventions, reusable Mermaid templates, worked Acme Shop example, and pull-request review checklist are in [docs/architecture/c4-context-and-container.md](docs/architecture/c4-context-and-container.md). The matching interactive lesson is available at `/learn/software-architecture/c4-context-and-container-diagrams`.
 
 ### Mermaid tips
 
