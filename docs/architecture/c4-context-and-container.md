@@ -1,8 +1,8 @@
-# C4 system-context and container diagrams
+# C4 architecture diagrams
 
-This is the team reference for documenting a system at the first two C4 levels. It is intentionally small: it should be easy to update in the same pull request as an architecture change.
+This is the team reference for documenting a system at all four C4 levels. It is intentionally small: it should be easy to update in the same pull request as an architecture change.
 
-For the teaching version, see the [C4 Context and Container Diagrams lesson](/learn/software-architecture/c4-context-and-container-diagrams).
+For the teaching version, see the [C4 Architecture Diagrams lesson](/learn/software-architecture/c4-context-and-container-diagrams).
 
 ## What each diagram is for
 
@@ -10,6 +10,8 @@ For the teaching version, see the [C4 Context and Container Diagrams lesson](/le
 | --- | --- | --- | --- |
 | System context | Product, developers, partners, new team members | People, one system boundary, external software systems, meaningful relationships | Internal applications, databases, endpoints, classes, infrastructure details |
 | Container | Developers, operations, security reviewers | Major applications, databases, queues, workers, responsibilities and important protocols | Tables, topics, classes, functions, Pods, every library |
+| Component | Developers changing one important container | Modules/components, their responsibilities, important interfaces and collaborators | Every file, DTO, private helper and framework detail |
+| Code | Maintainers of a complex or risky component | Stable classes, interfaces, packages, functions or domain relationships | A complete inventory of implementation details |
 
 In C4, a **container** is a separately running or separately deployable responsibility. It is not automatically a Docker container.
 
@@ -21,6 +23,8 @@ In C4, a **container** is a separately running or separately deployable responsi
 - Name the technology only when it helps a reader make an architectural decision.
 - Start with five to ten boxes. Split a diagram when it no longer fits on one screen or needs a paragraph to explain.
 - Use the same people, external systems and ownership boundary in both diagrams. The container view only expands the system box.
+- Draw a component diagram for one selected container; do not let it turn into another whole-system diagram.
+- Treat Level 4 as optional. Use it for complex, risky or shared internals, and delete it if keeping it current is less useful than reading the source.
 
 ## Authoring workflow
 
@@ -30,6 +34,8 @@ In C4, a **container** is a separately running or separately deployable responsi
 4. List major deployables and data stores inside the owned system boundary.
 5. Draw the container view and trace a real journey, such as "customer places an order."
 6. Put the source beside the system it describes, review it with the implementation change, and update it when boundaries or integrations change.
+7. If a container has non-obvious internal responsibilities, draw a Level 3 component diagram for one real request or event journey.
+8. Add a Level 4 code diagram only where a stable implementation shape helps maintainers change that component safely.
 
 ## Mermaid templates
 
@@ -65,6 +71,52 @@ flowchart LR
 
     User -->|Uses HTTPS| UI
     API -->|HTTPS or events| External
+```
+
+### Component view
+
+```mermaid
+flowchart LR
+    Caller["Another container"]
+    External["Database, queue or external system"]
+
+    subgraph Container["Selected application container"]
+      Entry["Controller or consumer<br/>Receives input"]
+      UseCase["Application component<br/>Coordinates one use case"]
+      Adapter["Repository or gateway adapter<br/>Handles external detail"]
+
+      Entry -->|Calls| UseCase
+      UseCase -->|Uses| Adapter
+    end
+
+    Caller -->|HTTP or event| Entry
+    Adapter -->|SQL, HTTPS or event| External
+```
+
+### Code view
+
+Use a class, package or dependency diagram for one complex component. Focus on stable responsibilities and interfaces, rather than listing every method.
+
+```mermaid
+classDiagram
+    class UseCase {
+      +execute(command) Result
+    }
+    class Gateway {
+      <<interface>>
+      +perform(input) Result
+    }
+    class ExternalGateway {
+      +perform(input) Result
+    }
+    class Repository {
+      <<interface>>
+      +save(entity) void
+    }
+
+    UseCase --> Gateway : uses
+    UseCase --> Repository : saves
+    ExternalGateway ..|> Gateway : implements
 ```
 
 ## Worked example: Acme Shop
@@ -131,4 +183,4 @@ Use this checklist when the system boundary, an integration or a major deployabl
 
 ## When these diagrams are not enough
 
-Create a **component diagram** when a container has several important modules and a developer needs to understand their responsibilities. Use sequence diagrams for time-ordered flows such as checkout, password reset or retry behaviour. Use an ADR for a decision and its trade-offs; a diagram shows structure, but it does not preserve *why* the choice was made.
+Use a **sequence diagram** for time-ordered flows such as checkout, password reset or retry behaviour. Use an ADR for a decision and its trade-offs; a diagram shows structure, but it does not preserve *why* the choice was made.

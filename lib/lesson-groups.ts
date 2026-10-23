@@ -26,6 +26,11 @@ const groupedCategories: Record<string, readonly GroupDefinition[]> = {
     { title: "Database Design & Performance", description: "Relations, normalization, transactions, indexes, query performance and scaling.", positions: [1, 2, 3, 4, 5, 6, 7] },
     { title: "Database Interview Prep", description: "Thirty DBMS interview questions with detailed answers and SQL practice.", positions: [8, 9, 10, 11, 12] },
   ],
+  "software-architecture": [
+    { title: "Beginner Foundations", description: "Start with the core vocabulary, common application structure, and C4 diagrams for explaining a system.", positions: [1, 2, 14] },
+    { title: "Intermediate Architecture Patterns", description: "Compare boundaries, domain modelling, communication styles and practical trade-offs.", positions: [3, 4, 5, 6, 7, 9, 10, 11, 12, 13] },
+    { title: "Advanced Domain Design", description: "Apply tactical DDD patterns to model complex business rules safely.", positions: [8] },
+  ],
 };
 
 export function groupLessons(categorySlug: string, lessons: LessonSummary[]): LessonGroup[] {
