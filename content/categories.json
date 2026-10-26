@@ -120,7 +120,7 @@
     "slug": "system-design-l6",
     "title": "System Design L6",
     "tagline": "Understand the scenario. Design the system. Prove it works.",
-    "description": "Learn system design through worked STAR scenarios: Situation, Task, Action and Result. Trace requests, compare tradeoffs, recover from failures and validate every design.",
+    "description": "Learn system design through realistic production scenarios. Trace requests, compare tradeoffs, recover from failures and validate every design.",
     "icon": "🧭",
     "color": "#7c3aed",
     "cover": "/img/covers/system-design-l6.svg"

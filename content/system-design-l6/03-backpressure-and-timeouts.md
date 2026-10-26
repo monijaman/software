@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, backpressure, timeouts, retries, resilience]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 An order API calls a shipping service that normally takes 80 ms. During an incident it takes three seconds; retries occupy every worker and healthy endpoints become slow.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Keep the order API responsive within a 500 ms request budget and bound resources consumed by shipping work.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Allocate the end-to-end deadline across queue wait, shipping and response processing. Cancel obsolete work where supported.
 
@@ -27,7 +25,7 @@ Keep the order API responsive within a 500 ms request budget and bound resources
 
 A shipping timeout leaves the remote outcome uncertain. Do not retry a non-idempotent label purchase with a new identity. Circuit breaking reduces repeated calls, while half-open probes determine whether recovery is real.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Under a deliberately slow shipping dependency, verify bounded in-flight requests, stable unrelated-endpoint latency, and recovery without a retry surge. Measure queue age and rejected work alongside timeout counts.
 

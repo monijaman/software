@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, consensus, raft, heartbeats, gossip, checksums]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Three scheduler nodes coordinate work. A network pause makes two nodes suspect the current leader is dead, although it is still running.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Prevent conflicting task ownership while detecting failures quickly enough to recover work.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Use quorum-backed agreement for leader terms and durable decisions. A heartbeat timeout is suspicion, not proof of death.
 
@@ -27,7 +25,7 @@ Prevent conflicting task ownership while detecting failures quickly enough to re
 
 The old leader resumes after a new leader starts. A lease alone cannot stop its delayed write. The receiving store must check the fencing token as part of the write.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Pause the leader, elect another and resume the old process. Verify stale writes are rejected and ownership recovers within the target interval. Observe term changes, quorum loss and fencing rejections.
 

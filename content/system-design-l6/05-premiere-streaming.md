@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, video, cdn, streaming, caching]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Two million viewers press Play for a premiere in the same minute. Video averages 5 Mb/s, so payload demand is roughly 10 Tb/s.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Start playback quickly and avoid origin overload. Authorization must remain correct; playback progress may lag.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Transcode before launch into several bitrate variants and publish manifests plus immutable segments.
 
@@ -27,7 +25,7 @@ Start playback quickly and avoid origin overload. Authorization must remain corr
 
 An edge cache is cold after a regional shift. Request coalescing and origin limits bound duplicate segment fetches; adaptive bitrate reduces buffering but does not replace origin protection.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Use cold-cache launch drills and region-shift drills. Set explicit targets for time to first frame and rebuffering, then measure origin egress and control-plane saturation against them.
 

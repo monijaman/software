@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, capacity, availability, latency, cap]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A retailer serves 20 million reads/day, with a peak ten times the daily average. A network partition separates two database replicas during a stock update.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Size traffic and choose a partition-time policy per operation rather than assigning one consistency label to the whole product.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Calculate average load: 20,000,000 / 86,400 ≈ 231 reads/s; a 10× peak is about 2,315 reads/s. Estimate bytes, concurrency and growth separately.
 
@@ -27,7 +25,7 @@ Size traffic and choose a partition-time policy per operation rather than assign
 
 Both sides believe the last unit is available. Permitting independent reservation writes violates the stock invariant. A partition policy must state which requests stop and what users see.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Partition drills must preserve stock ownership while measuring browse availability and reservation rejection. CAP discusses behavior during partitions; it does not mean a healthy system permanently chooses only two desirable properties.
 

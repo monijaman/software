@@ -1,105 +1,116 @@
 ---
-title: "L6 Design Casebook: Nine Systems and Their Hard Part"
-summary: "A readable map from common interview prompts to the correctness rule that makes each production design difficult."
+title: "L6 Production Debugging Casebook"
+summary: "Ten practical production incidents: investigate the evidence, identify the real cause and make the system safer."
 level: Advanced
-tags: [system-design, interview, url-shortener, checkout, feed, streaming, crawler]
+tags: [system-design, production, incidents, latency, kafka, databases, resilience]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
+## How to use these drills
 
-## S — Situation: the problem in context
+Start with the symptom, not your favorite technology. For each drill, name the evidence to collect, the most likely mechanism, the immediate safe mitigation, and the durable change. The scenarios are teaching examples, not claims about a specific production system.
 
-You are preparing for an interview and can name Redis, Kafka and sharding, but struggle to explain how a user request succeeds or recovers.
+## 1. A daily 2 PM p99 spike with ordinary logs
 
-## T — Task: requirements and success criteria
+**Start with time correlation.** A sharp daily boundary strongly suggests scheduled work, traffic shape, cache expiry, backups, reporting, ETL, certificate work, or a third-party batch—not random application code.
 
-Build a casebook of complete scenarios with STAR. Each answer needs a user, constraints, an authoritative owner and one failure window.
+1. Put p50, p95, p99, throughput, error rate, pod CPU, GC pauses, pool wait, database locks, query latency and downstream latency on the same 1:45–2:15 timeline.
+2. Compare one slow distributed trace with a healthy trace for the same route. Find the span that gained time: queue wait, database acquisition, SQL, remote call, lock, or GC.
+3. Check cron jobs, Kubernetes Jobs, `@Scheduled` jobs, report generation, backups, autoscaling events, cache TTL cohorts and deployment history at that exact minute.
+4. Segment by route, tenant, region and pod. “No unusual logs” does not rule out waiting: a request can be slow while no exception is written.
 
-## A — Action: design the normal path
+If reports are borrowing every database connection, isolate their pool or move them to a replica/warehouse. Alert on the leading signal—pool wait, queue age, lock wait or scheduled-job duration—before customer p99 rises. See [latency investigation](./debugging-latency) and [observability](./observability-and-incidents).
 
-1. Choose one linked case below and state its Situation and Task before drawing anything.
+## 2. Twelve partitions and fifteen consumers
 
-2. Walk its Action as ordered durable state transitions, then inject a crash or hot-key overload.
+Only **twelve** consumers can actively read in one consumer group: a partition is assigned to at most one group member at a time. The other **three are idle**. They stay in the group, send heartbeats, and can take a partition if an active consumer leaves or if partitions are added.
 
-3. State its Result as measurable acceptance criteria and discuss what changes at ten times the load. Use actual measurements only when you have actual evidence.
+They do not make a twelve-partition topic process faster. Useful alternatives are to reduce the group to twelve, keep limited spare capacity deliberately, or increase partitions only after checking key distribution, ordering requirements and the operational cost of repartitioning. See [Kafka delivery](./message-delivery-and-kafka).
 
-### Walk through a failure and recovery
+## 3. One scheduled job on three pods
 
-An answer says “use a queue” but never identifies who owns the last inventory unit. Ask what happens with two concurrent consumers; the missing atomic ownership rule becomes visible immediately.
+Without coordination, **three reports are dispatched**: each pod starts its own scheduler and executes the same job.
 
-## R — Result: how to validate the design
+Make the job single-owner. Common patterns are a Kubernetes `CronJob` with one intended execution, a database-backed lock/lease with expiry, a scheduler lock library backed by a shared store, or a queue with one idempotent report job. The report send itself should have an idempotency key, because a lock holder can crash after dispatching but before recording completion.
 
-For each practice answer, require a normal flow, a failure/recovery flow, a specific tradeoff and a testable outcome. These are study scenarios; none of the proposed targets should be presented as historical production results.
+## 4. Every Tomcat thread waits in `HikariPool.getConnection`
 
-### Check your understanding
+The root cause is **not automatically “Hikari is broken” or “the pool is too small.”** Every request is waiting because no connection is available; the actual cause is whatever keeps existing connections checked out.
 
-Give a three-minute STAR answer for checkout without naming a technology until the requirements are clear.
+Look for a slow or blocked SQL query, lock contention, a transaction held open while doing remote I/O, a leaked connection, a database outage/saturation, or a long report consuming the shared pool. Separate pool-acquisition time from query execution time, inspect active transactions and lock waits, and capture connection-leak stack traces if enabled. Increasing pool size can make database contention worse. See [connection pooling](./connection-pooling-and-database-pressure).
 
----
+## 5. Post-full-GC heap remains at 70% and rises daily
 
-## Concepts and implementation details
+Suspect a **retained-memory leak** or an unbounded cache/queue: full GC removes unreachable objects, so memory that remains is still reachable. A small daily rise points to an accumulating reference, such as request/session data, listeners, static maps, metrics labels, retries, thread-local state, or an in-memory queue.
 
-## Do not begin with a diagram
+Capture a heap dump after full GC at a healthy baseline and again after growth. Compare dominator trees, retained size and growth by class; keep GC logs, allocation profiling/JFR, container memory limits and workload/request counts alongside the dumps. Do not diagnose only from total heap percentage: distinguish live heap, native memory, direct buffers and a too-small heap/container limit.
 
-For every prompt, first say: who uses it, the scale, the most important correctness rule, the failure you are designing for, and the measure that proves it works.
+## 6. Rename a live column with zero downtime
 
-| System | Easy first answer | L6 hard part | Simple example |
-| --- | --- | --- | --- |
-| URL shortener | Key-value lookup | Abuse, custom aliases, hot links and expiration | Cache `xY7` but rate-limit a bot creating 10,000 links. |
-| E-commerce checkout | Call payment then save order | No duplicate charge or oversold item | One idempotency key covers every browser retry. |
-| Social feed | Store posts and followers | Fan-out for celebrities and ranking freshness | Fan out normal creators; pull a celebrity feed on read. |
-| File storage | Upload file to server | Secure large uploads and sharing | Browser uploads directly using a short-lived scoped URL. |
-| Video streaming | Save a video | Transcoding, adaptive bitrate and CDN delivery | Slow networks receive 480p segments instead of buffering 4K. |
-| Web crawler | Fetch pages in a loop | Politeness, dedupe and retries | One host queue prevents 1,000 concurrent requests to one site. |
-| Flash sale | Decrement stock | Never oversell under retries and spikes | Atomic reservation expires if payment is not completed. |
-| Collaborative editor | Send text changes | Concurrent edits and offline merge | Two users insert at once; OT/CRDT rules converge safely. |
-| Logging platform | Store logs | High-volume ingest, retention and searchable queries | Put writes in partitions; index only useful fields. |
+Use an **expand–migrate–contract** sequence. Never rename the only live column first.
 
-## Choose a complete STAR walkthrough
+1. Add `new_column` as nullable (or with a compatible default) using an online-safe migration for the database engine.
+2. Deploy code that writes both columns and reads `new_column` with fallback to `old_column`.
+3. Backfill old rows in small, throttled, restartable batches; monitor locks, replication lag and error rate.
+4. Validate that new writes and reads agree, then deploy code that reads only `new_column` while still dual-writing briefly.
+5. After every old application version and long-running worker is gone, stop writing `old_column`.
+6. In a later migration window, remove the old column and compatibility code.
 
-Each linked lesson starts with the scenario, requirements, design steps, failure recovery and validation criteria. Read one end to end before comparing patterns.
+The overlap protects rolling deploys, retries and delayed workers. Keep a rollback path until the destructive final step.
 
-| Case | Situation | Task | Key action | Result to validate |
-| --- | --- | --- | --- | --- |
-| [Short links](./url-shortener) | A campaign goes viral | Fast redirects and prompt abuse disablement | Cache durable mappings with bounded fallback | Hot-link latency and disablement delay |
-| [Checkout](./ecommerce-checkout) | Payment succeeds before the API crashes | One charge and a recoverable order | Durable intent, reservation and reconciliation | No duplicate charge or oversell |
-| [Feed](./social-media-feed) | A celebrity posts to ten million followers | Fresh feeds without unbounded fan-out | Hybrid fan-out with read-time visibility checks | Feed latency, freshness and privacy |
-| [Files](./file-storage) | A large upload drops mid-transfer | Resume safely and enforce sharing | Multipart upload with verified publication | Completion success and revocation delay |
-| [Streaming](./premiere-streaming) | Millions press Play together | Fast playback with bounded origin traffic | Prepared variants, CDN and shield tiers | Startup time, buffering and origin egress |
-| [Crawler](./web-crawler) | One host dominates the URL frontier | Crawl without loops or host overload | Host scheduling and durable task identities | Politeness, useful yield and queue age |
-| [Flash sale](./flash-sale-inventory) | Millions compete for limited stock | Never sell the last unit twice | Atomic reservation and payment-aware expiry | Stock conservation under races and crashes |
-| [Editing](./collaborative-document-editing) | Concurrent/offline edits cross a failover | Converge and preserve acknowledged edits | Stable operation IDs, merge rules and fencing | Convergence and durable recovery |
-| [Telemetry](./logging-and-monitoring-platform) | Incident logs overwhelm indexing | Preserve critical signals without blocking apps | Bounded agents, durable ingestion and tiered storage | Critical-event retention and search freshness |
+## 7. `OFFSET 100000` takes four seconds
 
-## Example STAR answer: flash sale
+The database still has to find, sort and discard roughly 100,000 earlier rows before returning the page. An index may help find the beginning, but it does not make skipped rows free; concurrent inserts can also cause duplicates or gaps between pages.
 
-**Situation:** One thousand phones go on sale while ten million buyers are interested. Two buyers may see the same cached “one left” value.
+Replace deep offset pagination with **keyset (cursor) pagination** on a stable, indexed ordering key:
 
-**Task:** Confirmed sales plus active reservations must never exceed stock. The system must show a clear waiting, rejected, pending or confirmed outcome.
+```sql
+-- First page
+SELECT id, created_at, title
+FROM posts
+ORDER BY created_at DESC, id DESC
+LIMIT 50;
 
-**Action:** Admit a bounded number of buyers, atomically reserve against durable inventory, and persist a stable payment intent. If payment times out after possible acceptance, reconcile before releasing stock. Send receipts through an outbox after confirmation.
+-- Next page: cursor contains the last (created_at, id)
+SELECT id, created_at, title
+FROM posts
+WHERE (created_at, id) < (:last_created_at, :last_id)
+ORDER BY created_at DESC, id DESC
+LIMIT 50;
+```
 
-**Result:** Race requests for the final unit, retry the same intent and crash after provider acceptance. Require one stock owner and no second charge; monitor queue age, unresolved payment age and customer completion latency. These are acceptance criteria to test, not an invented success story.
+Use a matching composite index such as `(created_at DESC, id DESC)`. Offset remains reasonable for small pages or a bounded admin list where exact random page jumps matter more than deep-scroll performance.
 
-## Reusable case-study worksheet
+## 8. Two consumers process one message after a rebalance
 
-For any system, fill in this short worksheet before choosing technology:
+Kafka normally permits **at-least-once delivery**. A consumer may finish the business action but lose its session, crash, or fail before committing its offset. The group rebalances, another consumer receives the uncommitted offset, and both may appear to process the record. Long processing that exceeds `max.poll.interval.ms` can trigger the same pattern.
 
-1. **User promise:** what does success look like, and what delay/staleness is visible?
-2. **Authoritative owner:** which table/service makes the final decision?
-3. **Peak:** when does load concentrate, and which read/write becomes hot first?
-4. **Failure story:** what happens if a process crashes after an external call or an event is delivered twice?
-5. **Recovery:** who reconciles `UNKNOWN`/stuck work, using which durable evidence?
-6. **Proof:** which user-facing SLO and leading saturation metric show safety?
+Prevent duplicate *effects*, not duplicate delivery: make the database write idempotent with a unique event ID or conditional state version, commit the offset only after the durable effect, and tune polling/processing so the consumer remains healthy. Do not treat a rebalance as proof that Kafka violated its assignment rule. See [message delivery](./message-delivery-and-kafka).
 
-## Mini examples
+## 9. A ten-second dependency call cascades into your outage
 
-| Prompt | Invariant | First degradation |
-| --- | --- | --- |
-| Chat | Acked messages are durable and per-conversation ordered | Presence can be stale. |
-| File upload | Unscanned object is never publicly served | Thumbnail generation is delayed. |
-| Crawler | Respect host policy and do not loop forever | Low-priority URLs wait. |
-| Feed | Original post is not lost | Timeline may be seconds behind. |
-| Multi-region order | No duplicate charge/order | Browsing uses stale cache. |
+Three controls should stop this from consuming all of your service:
 
-Practice telling one normal flow, one failure flow and one metric for each prompt. That is how a design becomes an operable system instead of a diagram.
+1. **Timeouts and deadline propagation:** fail the dependency call before it consumes the entire request budget.
+2. **Bounded concurrency/bulkheads:** give that dependency a small pool, queue or semaphore so its slow calls cannot occupy every request thread or connection.
+3. **Circuit breaker with a safe fallback or load shedding:** stop sending likely-to-fail calls for a short recovery window and return cached, partial, queued or explicit unavailable behavior.
+
+Retries need strict limits and jitter; retrying a ten-second failure across every request can amplify the outage. See [resilient service calls](./resilient-service-calls).
+
+## 10. An added index makes a query slower
+
+An index changes the optimizer's choices; it does not guarantee a faster plan. The new index may have low selectivity, stale statistics, poor column order, extra heap lookups/random I/O, an expensive sort, or increased write/maintenance pressure. The optimizer can also choose the index when a sequential scan would be cheaper for a large result set.
+
+Compare `EXPLAIN (ANALYZE, BUFFERS)` before and after with production-like parameters. Check actual versus estimated row counts, rows filtered, index/heap reads, sort spills and query parameters. Fix the access pattern or index definition only when the measured plan supports it; run `ANALYZE` when statistics are stale, and remove an unused harmful index after verifying its dependencies. See [database scaling](./database-internals-and-scaling).
+
+## Reusable incident worksheet
+
+For any production symptom, record:
+
+1. **Impact:** which user path, what percent of traffic, and which SLO changed?
+2. **Time boundary:** what changed immediately before the symptom, and is it periodic?
+3. **Wait location:** where does a slow trace spend additional time?
+4. **Resource owner:** which queue, pool, lock, process or dependency owns the bottleneck?
+5. **Safe mitigation:** what reversible limit, rollback, isolation or load-shed action reduces impact now?
+6. **Proof:** which leading and customer-facing metrics must improve before closure?
+
+That sequence keeps an incident response evidence-led: reduce harm first, prove the mechanism, then make the permanent fix.

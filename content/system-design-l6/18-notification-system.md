@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, notifications, queues, retries, providers]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A marketplace sends password resets, order receipts and promotional pushes. A promotion generates one million messages while the email provider slows down.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Protect urgent messages, honor preferences and make delivery attempts auditable. Provider acceptance and user receipt are different outcomes.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Create a durable notification intent with recipient, template version, channel and business-event identity.
 
@@ -27,7 +25,7 @@ Protect urgent messages, honor preferences and make delivery attempts auditable.
 
 A provider accepts an email but the response times out. Sending immediately through another provider can duplicate it. Define channel-specific duplicate tolerance and retain uncertain attempts for lookup or controlled retry.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Overload the bulk lane and inject provider timeouts. Measure urgent-message queue age, accepted delivery rate, duplicate complaints and unknown-attempt age; do not call provider acceptance proof of inbox delivery.
 

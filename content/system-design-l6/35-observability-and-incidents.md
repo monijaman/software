@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, observability, logs, metrics, tracing, incident-response]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Customers report checkout failures after a release. The homepage is healthy and host CPU graphs show no obvious spike.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Find the customer-visible failure, mitigate it and prove recovery using connected metrics, traces and logs.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Start with endpoint success rate and latency split by release, region and dependency. Identify the incident’s scope.
 
@@ -27,7 +25,7 @@ Find the customer-visible failure, mitigate it and prove recovery using connecte
 
 A downstream timeout occurs after payment acceptance. Logs need the stable intent ID to distinguish a transport failure from a failed charge. Restarting every service obscures evidence and may trigger duplicate work.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Run a fault drill and measure detection, mitigation and recovery times. Confirm customer success and drain stuck work before closing the incident; write follow-up actions against the demonstrated cause.
 

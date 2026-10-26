@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, ride-sharing, geospatial, matching, realtime]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Two nearby riders request a car at the same moment. The geo index lists the same driver as available, but its location is already ten seconds old.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Assign a driver to at most one active ride and find suitable candidates without treating location search as authoritative ownership.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Stream driver locations into a spatial index with timestamp and availability hints. Search neighboring cells and compute actual distance.
 
@@ -27,7 +25,7 @@ Assign a driver to at most one active ride and find suitable candidates without 
 
 The driver accepts after the assignment lease expired and another ride owns the driver. Check the assignment version before accepting; a delayed message must not revive stale ownership.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Simulate simultaneous riders, stale locations and delayed accepts. Require one active assignment per driver; measure match latency, stale-candidate rate and lease-expiry recovery.
 

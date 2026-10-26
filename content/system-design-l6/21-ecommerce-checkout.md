@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, ecommerce, checkout, inventory, payments]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A buyer orders the last pair of shoes. Inventory reserves it, payment succeeds, and the order service crashes before showing confirmation.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Produce a recoverable order outcome without overselling or double charging across separate inventory and payment systems.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Create an order intent with immutable payable amount and stable request identity. Reserve stock with an authoritative conditional transition.
 
@@ -27,7 +25,7 @@ Produce a recoverable order outcome without overselling or double charging acros
 
 After an ambiguous payment response, mark payment pending and reconcile. Do not release stock or refund based only on a transport timeout. A workflow worker resumes from durable state after the API restarts.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Crash at each state boundary and retry every command. Require one order/charge per intent and inventory conservation; monitor oldest pending order, compensation failures and reconciliation differences.
 

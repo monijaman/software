@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, api, websocket, tcp, udp, proxy]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A delivery app needs order creation, live driver positions and internal price calculation. These interactions have different latency and delivery needs.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Choose communication by interaction semantics, including reconnects and overload, rather than using one protocol everywhere.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Use request/response APIs for creating orders, with explicit errors and idempotency. Internal RPC can give typed contracts and deadlines.
 
@@ -27,7 +25,7 @@ Choose communication by interaction semantics, including reconnects and overload
 
 A mobile connection drops after receiving only some updates. Reconnect with a cursor and fetch authoritative state. A live socket is a transport, not a replacement for stored orders or messages.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test disconnects, slow clients and rolling restarts. Measure reconnect success, update lag, buffer growth and command success separately; dropping stale location samples can be acceptable while losing an order is not.
 

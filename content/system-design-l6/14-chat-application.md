@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, chat, websocket, messaging, presence]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Alice sends “Meet at 6” on a weak connection. Bob is online on two devices, and Alice retries because her acknowledgment never arrives.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Persist each accepted message once per sender identity and preserve a defined per-conversation order. Online presence can be stale.
 
-## A — Action: design the normal path
+## Practical response
 
 1. POST or send a command containing conversation ID and client message ID. Enforce membership before writing.
 
@@ -27,7 +25,7 @@ Persist each accepted message once per sender identity and preserve a defined pe
 
 The gateway dies after persistence but before ack. Alice retries the same message ID, receives the stored outcome and does not create a duplicate. Bob fetches by cursor after reconnect even if live fan-out failed.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test crash-after-commit, duplicate sends and reconnect gaps. Require no acknowledged-message loss under the declared failure model; measure delivery lag and per-conversation ordering violations.
 

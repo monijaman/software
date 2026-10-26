@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, social-feed, fanout, caching, consistency]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A social app has ordinary accounts with 200 followers and a celebrity with ten million. The celebrity posts during the evening traffic peak.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Build a fresh, fast home feed without making one post trigger an unbounded synchronous fan-out. Enforce privacy and deletion rules.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Store each post durably before scheduling fan-out. Precompute inbox entries for ordinary authors using bounded workers.
 
@@ -27,7 +25,7 @@ Build a fresh, fast home feed without making one post trigger an unbounded synch
 
 Fan-out lags ten minutes after a celebrity post. The hybrid read path includes the celebrity’s recent posts without waiting for millions of inbox writes; older cached inbox entries still require visibility checks.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Load-test celebrity publishing and feed reads together. Measure feed p99, post-to-feed lag, fan-out backlog and privacy violations; freshness is a target, while unauthorized exposure is a correctness failure.
 

@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, geohash, quadtree, bloom-filter, hyperloglog, merkle-tree]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A location service must find nearby drivers, count distinct visitors and avoid repeating fetches across billions of URLs.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Choose data structures by query and acceptable error rather than treating every large set as an exact in-memory collection.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Use geohash or spatial trees to narrow location candidates, search neighboring cells, then compute exact distance.
 
@@ -27,7 +25,7 @@ Choose data structures by query and acceptable error rather than treating every 
 
 A driver lies across a cell boundary and disappears from a same-cell search. Expand neighboring candidates before distance filtering. A Bloom-filter false positive must not silently discard a must-process record.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Compare answers against an exact baseline on boundary cases and representative data. Measure memory, query latency, false-positive rate and count error; “smaller” is useful only if the error contract is satisfied.
 

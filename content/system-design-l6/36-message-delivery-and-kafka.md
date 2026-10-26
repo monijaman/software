@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, kafka, queues, dlq, delivery, schema-evolution]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 An order event consumer updates a shipment record and crashes before committing its stream offset. A malformed event later blocks a partition.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Process retries safely, preserve the needed ordering scope and recover poison messages without silently losing business work.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Choose queues for independently leased tasks or a retained log for replay and ordered partition streams.
 
@@ -27,7 +25,7 @@ Process retries safely, preserve the needed ordering scope and recover poison me
 
 After the crash, the same event is delivered again. The stored processing marker prevents a second local effect. Kafka transaction guarantees do not automatically cover an external email or payment call.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test crash-before-offset, duplicate delivery, out-of-order versions and dead-letter replay. Measure consumer lag, oldest failed event and duplicate side effects; a DLQ is pending repair, not successful processing.
 

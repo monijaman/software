@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, databases, PostgreSQL, MySQL, connection-pooling, performance, observability]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A Node.js service has ten instances, each with a 20-connection pool. Traffic grows and autoscaling doubles the application instances, but the database allows only 250 connections.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Bound database concurrency and reserve capacity for operations rather than equating logged-in users with required database connections.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Count all pools: 10 × 20 = 200 before admin sessions or workers; doubling instances would request 400.
 
@@ -27,7 +25,7 @@ Bound database concurrency and reserve capacity for operations rather than equat
 
 A slow transaction holds connections for two seconds. The pool becomes a queue and callers time out. Adding connections can increase locks and I/O contention; first remove the measured query/transaction bottleneck and limit admission.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Load-test with slow queries and maximum instance count. Measure pool acquisition wait, active connections, DB CPU/I/O, throughput and rejection rate; require recovery after the slow work ends.
 

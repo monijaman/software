@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, api, gateway, auth, oauth, jwt, security]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A customer can fetch their own invoices through a mobile API. A malicious client changes the invoice ID and tries another tenant’s record.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Keep the API compatible with older clients and enforce authorization for every resource, even when the caller is authenticated.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Define versioned request/response contracts, validation rules, pagination and stable error semantics.
 
@@ -27,7 +25,7 @@ Keep the API compatible with older clients and enforce authorization for every r
 
 A gateway validates a JWT but the invoice service trusts any invoice ID. The fix is an ownership-scoped query or policy check at the resource boundary, not another token check alone.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Run cross-tenant access tests, old-client contract checks and repeated mutation requests. Require no unauthorized reads/writes and track policy denials without exposing private resource existence.
 

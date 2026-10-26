@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, sse, webhooks, webrtc, pubsub, cdc, events]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A merchant dashboard needs live order status, and partners need webhook notifications. Some partners are offline for hours.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Push fresh updates to browsers while providing durable, retryable partner delivery with a defined ordering scope.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Commit order changes and an outbox entry together, then publish a versioned event with an ID.
 
@@ -27,7 +25,7 @@ Push fresh updates to browsers while providing durable, retryable partner delive
 
 A partner returns success but the connection closes before the sender sees it. Retry the same event ID and require idempotent handling. On browser reconnect, read missing events or refresh current state after the resume window expires.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test duplicate events, long partner outages and expired cursors. Measure delivery age, browser freshness, dead-letter count and signature failures; live transport success alone does not prove durable processing.
 

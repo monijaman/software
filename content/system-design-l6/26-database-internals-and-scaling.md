@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, databases, btree, lsm, replication, connection-pooling]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 An order database handles short writes and account-history reads. Adding read replicas reduces traffic, but a buyer sometimes cannot see an order immediately after creating it.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Scale reads while preserving the specific consistency promise for read-after-write and protecting database resources.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Inspect query plans and index selectivity before introducing more infrastructure. Bound connection pools and transaction duration.
 
@@ -27,7 +25,7 @@ Scale reads while preserving the specific consistency promise for read-after-wri
 
 A replica falls 30 seconds behind. A cache or replica may show “no order” after a successful write. Route this critical read to authoritative state and shed optional history traffic if the writer is overloaded.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Benchmark realistic queries and write bursts; measure replication lag, pool wait, compaction or I/O pressure, and confirmation correctness. More replicas do not increase the single-writer write budget automatically.
 

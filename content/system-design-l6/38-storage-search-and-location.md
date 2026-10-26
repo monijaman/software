@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, object-storage, search, geospatial, presigned-url]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A property app stores listing photos, searches descriptions and shows homes within two kilometers. Deleted listings must stop appearing promptly.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Use suitable read systems while preserving one authoritative listing lifecycle and bounded stale exposure.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Store photo bytes in object storage and keep ownership plus publication state in transactional metadata.
 
@@ -27,7 +25,7 @@ Use suitable read systems while preserving one authoritative listing lifecycle a
 
 The search index misses a deletion event and returns an old listing. Filter against current visibility or enforce a bounded deletion-propagation path; replaying index updates must ignore older listing versions.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test index lag, deletion and interrupted upload together. Measure search freshness, location correctness, orphan bytes and deletion delay rather than only query speed.
 

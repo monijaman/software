@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, file-storage, object-storage, uploads, sync]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A team uploads 2 GB video files from unreliable laptops and shares folders with contractors. A contractor’s access is revoked midway through a download workflow.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Support resumable uploads, publish only verified files, and enforce access at the metadata and object boundaries.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Create an upload session with owner, expected size, object key and expiry. Return narrowly scoped multipart upload authorization.
 
@@ -27,7 +25,7 @@ Support resumable uploads, publish only verified files, and enforce access at th
 
 An upload finishes but metadata finalization crashes. A reconciler checks the object/session and retries finalization; a lifecycle policy removes abandoned parts. Already-issued signed URLs may remain usable until expiry, so immediate revocation needs stronger enforcement.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test interrupted uploads, duplicate completion and revoked sharing. Measure completion success, orphan storage and revocation delay; require that quarantined files never become downloadable.
 

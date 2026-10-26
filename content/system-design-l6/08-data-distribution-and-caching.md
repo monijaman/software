@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, caching, sharding, consistent-hashing, databases]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A product catalog has 100,000 reads/s, but one celebrity-endorsed product attracts half the traffic. Its price changes during the rush.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Reduce read cost while defining how quickly price and disablement changes become visible. Avoid confusing cache placement with durable data ownership.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Cache product reads with a defined freshness bound and coalesce concurrent cache misses.
 
@@ -27,7 +25,7 @@ Reduce read cost while defining how quickly price and disablement changes become
 
 The cache node holding the hot product dies. A bounded database fallback, request coalescing and TTL jitter prevent every request from reloading the same row. Critical disablement needs an explicit propagation bound.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Measure hit ratio per hot key, origin request rate, miss latency and stale-value duration. Test node loss and price updates together; a high overall hit ratio may hide one overloaded shard.
 

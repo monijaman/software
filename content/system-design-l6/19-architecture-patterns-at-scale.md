@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, architecture, microservices, serverless, event-driven, p2p]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A twelve-person team runs a growing marketplace. Deployments conflict, but the business still changes checkout rules every week.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Choose an architecture that improves ownership and failure isolation without exceeding the team’s operating capacity.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Start with modules for catalog, checkout and fulfillment, with explicit interfaces and data ownership.
 
@@ -27,7 +25,7 @@ Choose an architecture that improves ownership and failure isolation without exc
 
 A catalog outage must not make a confirmed payment disappear. Splitting deployments does not automatically isolate shared database pools, synchronous dependency chains or unbounded retries.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Compare deployment lead time, recovery time, on-call load and checkout availability before/after a boundary change. Success is a measurable operating improvement, not the count of microservices.
 

@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, staff, l6, reliability, interviews]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A concert releases 50,000 seats at noon. Half a million buyers open the site in five minutes; some double-click Pay and others refresh after a timeout.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Design a checkout where a seat has at most one owner and each payment intent produces at most one charge. Browsing may show stale availability; a confirmed seat may not.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Estimate arrival rate: 500,000 / 300 ≈ 1,667 buyers/s before retries. Separate cached browsing from reservation writes.
 
@@ -27,7 +25,7 @@ Design a checkout where a seat has at most one owner and each payment intent pro
 
 The provider charges a buyer but the API crashes. On retry, look up the same intent and reconcile the provider outcome. Keep the seat reserved while the outcome is unresolved; releasing it blindly can sell a paid seat twice.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Run concurrent last-seat requests and inject a crash after provider acceptance. Require one seat owner, no second charge, and recovery of every unresolved intent within a defined reconciliation deadline.
 

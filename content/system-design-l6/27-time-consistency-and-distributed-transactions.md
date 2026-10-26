@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, clocks, lamport, vector-clocks, locks, saga, crdt]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Two regions edit an account and process an order. Their wall clocks differ, and a paused worker resumes after its lease expires.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Define ordering and ownership without trusting wall-clock timestamps to establish all causal or financial truth.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Use monotonic clocks for local elapsed durations, and versions or logical clocks for the ordering the domain actually requires.
 
@@ -27,7 +25,7 @@ Define ordering and ownership without trusting wall-clock timestamps to establis
 
 The old worker writes after a new worker acquired ownership. A timestamp check or expired lock in the old worker is insufficient; reject its stale fencing token at the destination.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Inject clock skew, process pauses and duplicate saga messages. Require valid state transitions and no stale-owner writes; measure unresolved workflow age and compensation failures.
 

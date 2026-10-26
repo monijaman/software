@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, flash-sale, inventory, queues, consistency]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A store has 1,000 discounted phones and ten million interested buyers. The visible stock counter is cached and thousands of buyers try to purchase the last phone.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Never let confirmed sales plus active reservations exceed available inventory. Give rejected or waiting buyers an honest status.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Protect the entry point with rate limits and a bounded waiting room. Admission controls pressure but grants no inventory ownership.
 
@@ -27,7 +25,7 @@ Never let confirmed sales plus active reservations exceed available inventory. G
 
 A payment times out just before reservation expiry. The expiry worker must coordinate with the payment state and reconcile an ambiguous charge. Blindly returning this unit to stock can create a paid customer with no phone.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Race many buyers for one unit, repeat reservation requests, and crash the payment worker. Require zero oversell and no duplicate reservations; report waiting time, rejection rate and unresolved-payment age.
 

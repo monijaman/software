@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, deployment, canary, feature-flags, observability, tls, secrets]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A new checkout release changes an order column and payment behavior. Old and new instances must coexist during deployment.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Ship the change while bounding customer impact and preserving a viable rollback or forward-repair path.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Use an expand-and-contract migration: add compatible fields, deploy compatible readers/writers, backfill, then remove old usage in a later release.
 
@@ -27,7 +25,7 @@ Ship the change while bounding customer impact and preserving a viable rollback 
 
 The canary increases duplicate payment attempts while HTTP success stays high. Stop rollout using business metrics and disable the new path. A destructive schema migration can prevent binary rollback, so compatibility must be designed beforehand.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Exercise rollback with mixed versions and verify migration compatibility. Measure customer failures, detection time, recovery time and invariant violations; a deployment finishing successfully is not a customer outcome.
 

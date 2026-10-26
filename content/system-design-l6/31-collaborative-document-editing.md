@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, collaboration, crdt, operational-transformation, websocket, fencing-tokens]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Two editors change the same paragraph. One works offline, while the document’s sequencing server fails and another takes over.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Converge edits across reconnects and preserve acknowledged operations, while keeping cursor presence lightweight and temporary.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Assign stable operation IDs and define a tested OT or CRDT merge model. Separate text operations from presence updates.
 
@@ -27,7 +25,7 @@ Converge edits across reconnects and preserve acknowledged operations, while kee
 
 The old sequencer resumes after failover. Reject its stale writes using the storage-enforced fence. An offline client replays known IDs and new edits without applying already-accepted operations twice.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test concurrent insert/delete, duplicate operations, offline merge and leader loss. Require convergence and no acknowledged-edit loss within the declared durability model; measure sync lag and compaction recovery.
 

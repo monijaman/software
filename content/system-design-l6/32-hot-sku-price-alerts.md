@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, notifications, Kafka, fan-out, idempotency, backpressure, consistency]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A product falls from ₹5,000 to ₹3,999 and has ten million watchers. Another price change arrives 800 ms later while the email provider is rate-limiting.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Notify the defined eligible audience without locking the price update or starving urgent notifications. Decide whether alerts are per version or coalesced.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Commit one product version and an outbox event in a small transaction. Snapshot or version audience selection so eligibility is reproducible.
 
@@ -27,7 +25,7 @@ Notify the defined eligible audience without locking the price update or starvin
 
 A range worker dies halfway through its page. Resume from durable progress with deduplication; never repeat a ten-million-row scan inside the price transaction. Provider timeouts remain ambiguous unless the channel offers lookup or deduplication.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 At 10,000 accepted alerts/s, ten million deliveries need at least 1,000 seconds, about 16.7 minutes before overhead. Test this capacity assumption and track oldest eligible alert, duplicates and urgent-lane latency.
 

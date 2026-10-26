@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, mapreduce, etl, data-lake, warehouse, lambda, kappa]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A retailer receives 50 million purchase and browsing events/day. Finance needs reproducible daily totals; operations wants a dashboard no more than two minutes behind.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Build analytical views with defined freshness, lineage and correction rules, keeping raw evidence available for replay.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Land immutable raw events with IDs and schema versions. Separate ingestion from transformations.
 
@@ -27,7 +25,7 @@ Build analytical views with defined freshness, lineage and correction rules, kee
 
 A transformation bug doubles yesterday’s revenue. Correct the transformation and replay the raw partition into a versioned output. Publish the replacement atomically instead of exposing a half-rebuilt report.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Reconcile reported totals against transactional records and test a full backfill. Measure freshness, missing/duplicate input and cost per workload; rapid dashboards with wrong revenue are a failure.
 

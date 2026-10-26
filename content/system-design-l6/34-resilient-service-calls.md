@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, resilience, retries, circuit-breaker, bulkhead, load-shedding]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 An API has three retrying layers. Each layer permits three total attempts, and a failing downstream request can trigger up to 27 attempts.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Contain dependency failure with bounded time, concurrency and retry amplification.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Carry one deadline through the call chain and retry at one responsible layer using a shared attempt budget.
 
@@ -27,7 +25,7 @@ Contain dependency failure with bounded time, concurrency and retry amplificatio
 
 The downstream service recovers and every client retries together. Jitter, limited half-open probes and bounded concurrency prevent a synchronized recovery surge. A breaker without admission control still leaves queues vulnerable.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test partial failure and recovery under peak load. Measure attempts per original request, queue age, successful throughput and unrelated-endpoint latency; a low downstream call count with universal rejection is not success.
 

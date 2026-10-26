@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, batch, streaming, normalization, denormalization]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A marketplace needs yesterday’s financial report and a fraud signal within five seconds of a purchase. Events can arrive late or twice.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Provide reproducible financial totals and fresh risk signals using explicit data ownership and lateness rules.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Keep transactional purchase records authoritative and normalized where constraints matter.
 
@@ -27,7 +25,7 @@ Provide reproducible financial totals and fresh risk signals using explicit data
 
 An event arrives a day late after a daily report was published. Recompute or publish a correction according to the reporting contract; silently ignoring it makes totals disagree with the source.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Replay the same input twice and require identical financial totals. Measure stream freshness, late-event count and reconciliation differences; streaming speed is useful only when outputs are correct.
 

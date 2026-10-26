@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, latency, observability, incidents, databases]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 After a release, checkout p99 rises from 300 ms to 2 s while CPU stays at 35%. The team wants to add application instances.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Identify where the extra time is spent, mitigate safely and verify that the chosen fix addresses the bottleneck.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Compare before/after traces for the same endpoint and split latency into pool wait, SQL execution and downstream time.
 
@@ -27,7 +25,7 @@ Identify where the extra time is spent, mitigate safely and verify that the chos
 
 A missing index makes one query hold connections longer. Pool wait grows for otherwise fast requests. Raising pool size masks queueing briefly but can increase database execution time further.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Compare p95/p99, throughput, pool wait and lock wait under the same load before and after the fix. Require improved successful-request latency without moving errors or waits to another layer.
 

@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, networking, dns, anycast, load-balancing]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 Customers in Dhaka and London reach the same API. One region fails, but some browsers continue using cached DNS answers.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Route users to healthy capacity and explain the limits of DNS, connection health and application readiness.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Trace DNS resolution, connection establishment, TLS termination, reverse proxy and backend selection as separate steps.
 
@@ -27,7 +25,7 @@ Route users to healthy capacity and explain the limits of DNS, connection health
 
 A DNS record changes but clients retain its previous answer or an existing connection. Failover must include connection errors, retry behavior and healthy old endpoints where possible; DNS TTL is not a universal recovery deadline.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Run regional outage tests from several client networks. Measure connection failure rate, routing convergence, spare capacity and user-visible recovery time rather than only checking a green load balancer.
 

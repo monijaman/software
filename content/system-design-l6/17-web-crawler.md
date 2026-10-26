@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, web-crawler, queues, scheduling, bloom-filter]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A search product wants to crawl 100 million pages. One site has a million near-identical URLs and responds with rate-limit errors.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Discover useful pages without overwhelming hosts, looping forever or retrying failed URLs without bounds.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Normalize conservatively, record durable URL identity and schedule a frontier by host. Honor host policy and configured crawl limits.
 
@@ -27,7 +25,7 @@ Discover useful pages without overwhelming hosts, looping forever or retrying fa
 
 A worker crashes after storing a page but before ack. Its lease expires and another worker repeats the task; durable identity makes reprocessing safe. A 429 response backs off that host rather than stopping every host queue.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test URL cycles, retries and one abusive frontier. Track per-host request rates, useful-page yield, duplicate rate and oldest queued URL; define recrawl freshness by page importance.
 

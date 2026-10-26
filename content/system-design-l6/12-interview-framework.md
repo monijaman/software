@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, interviews, requirements, capacity, trade-offs]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 An interviewer asks “Design a messaging app.” There is no stated audience, load, group size, delivery promise or retention policy.
 
-## T — Task: requirements and success criteria
+## What must be true
 
-Turn the ambiguous prompt into a defensible design within 45 minutes. Explain decisions with STAR rather than reciting a technology list.
+Turn the ambiguous prompt into a defensible design within 45 minutes. Explain decisions as a clear sequence rather than reciting a technology list.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Situation: ask who uses it and which workload matters. Task: agree on durable messages, ordering scope, latency and exclusions.
 
@@ -27,13 +25,13 @@ Turn the ambiguous prompt into a defensible design within 45 minutes. Explain de
 
 A gateway crashes after persistence but before acknowledgment. Explain how the client retries the same message ID and fetches missing messages by cursor. This demonstrates the design more clearly than adding another box.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 A good answer has explicit assumptions, an authoritative store, one normal flow, one failure flow and measurable targets. In a hypothetical interview, results are proposed validation criteria, not invented production achievements.
 
 ### Check your understanding
 
-Practice a two-minute STAR answer for chat, then identify one assumption that would change the architecture.
+Practice a two-minute explanation for chat, then identify one assumption that would change the architecture.
 
 ---
 

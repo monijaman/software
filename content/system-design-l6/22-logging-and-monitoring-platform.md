@@ -5,17 +5,15 @@ level: Advanced
 tags: [system-design, logging, monitoring, metrics, tracing, observability]
 ---
 
-> **How to read this lesson:** STAR means **Situation → Task → Action → Result**. The scenario and targets below are worked design assumptions, not claims of measured production results.
-
-## S — Situation: the problem in context
+## The problem in context
 
 A fleet of 5,000 services emits 200,000 log events/s. During an outage, debug logging increases tenfold and the search cluster falls behind.
 
-## T — Task: requirements and success criteria
+## What must be true
 
 Keep telemetry useful without letting observability failure take down production. Define which signals must survive and which may be sampled.
 
-## A — Action: design the normal path
+## Practical response
 
 1. Batch at agents with bounded local buffers; prioritize critical events and avoid blocking application threads on ingestion.
 
@@ -27,7 +25,7 @@ Keep telemetry useful without letting observability failure take down production
 
 The indexer is down but the ingestion stream is healthy. Retain and replay within the declared retention window. If buffers fill, apply explicit priority-based loss rather than consuming unlimited application memory.
 
-## R — Result: how to validate the design
+## How to prove it worked
 
 Test indexer outages and a log storm. Measure ingestion lag, dropped events by class, search freshness and application latency. A dashboard remaining online does not prove critical events were retained.
 
