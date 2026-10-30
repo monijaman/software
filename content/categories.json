@@ -39,7 +39,7 @@
     "slug": "backend",
     "title": "Backend Engineering",
     "tagline": "Servers, data and scale",
-    "description": "How requests travel, API design (REST, GraphQL, gRPC), SQL vs NoSQL, indexing, caching with Redis, queues, authentication, scaling, Docker and backend languages.",
+    "description": "How requests travel, API design (REST, GraphQL, gRPC), SQL vs NoSQL, concurrency, transactions, caching with Redis, queues, webhooks, resilience, authentication, scaling, Docker and backend languages.",
     "icon": "🖥️",
     "color": "#10b981",
     "cover": "/img/covers/backend.svg"
