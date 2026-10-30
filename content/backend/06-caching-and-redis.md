@@ -232,6 +232,137 @@ if (count > 100) throw new TooManyRequestsError();
 
 ❌ **Don't cache:** data that must be perfectly fresh (account balance at the moment of payment), data that is rarely re-read, highly personalised data with no reuse.
 
+## Where should you cache?
+
+Choose the closest layer that can safely answer the request. Caching closer to the user is faster, but it is harder to invalidate and more likely to serve stale data.
+
+```mermaid
+flowchart LR
+    U[Browser] --> CDN[CDN / edge cache]
+    CDN --> L[Load balancer]
+    L --> A[Application local cache]
+    A --> R[(Redis shared cache)]
+    R --> D[(Database / API)]
+```
+
+| Layer | Good for | Freshness and scope |
+| --- | --- | --- |
+| **Browser** | Images, JavaScript, public assets, safe GET responses | Fastest; one user's device; controlled with `Cache-Control` |
+| **CDN / edge** | Public pages, product/catalog data, media, API responses safe to share | Shared globally; purge or version when content changes |
+| **In-process memory** | Tiny, very hot configuration or lookup data | Fastest server-side; each instance has a different copy |
+| **Redis / shared cache** | Sessions, permissions snapshots, API results, rate limits, locks | Shared by instances; network hop and eviction risk |
+| **Database materialized view** | Expensive joins, reports and aggregations | Durable and queryable; refresh on a schedule or after events |
+
+Use a public cache only when the response is safe to share between users. Private or personalised responses need a user/tenant-scoped key and usually `Cache-Control: private`, or should stay in Redis/application storage rather than a shared CDN cache.
+
+## When should the cache refresh?
+
+There is no universal TTL. Choose refresh behavior from the business tolerance for stale data:
+
+| Data | Example policy | Why |
+| --- | --- | --- |
+| Immutable assets | Cache for a year with a content-hashed URL | The URL changes when the file changes |
+| Public content | 1–60 minutes, optionally stale-while-revalidate | A little staleness is acceptable |
+| Product/catalog data | Delete on write plus a 5–30 minute TTL | Fast updates without permanent stale values |
+| User profile/settings | Delete or version immediately after a successful write | Users expect read-your-own-write behavior |
+| Permissions/features | Short TTL plus event invalidation | A stale permission can be dangerous |
+| Exchange rates/availability | Short TTL based on business rules | Freshness has a direct business meaning |
+| Payment/account balance | Do not use a stale cache for the final decision | Correctness is more important than latency |
+
+Use one of these refresh patterns:
+
+### 1. Lazy refresh (cache-aside)
+
+Refresh only after a miss. This is the default for most database-backed reads:
+
+```js
+async function getProduct(id) {
+  const key = `product:${id}`;
+  const cached = await redis.get(key);
+  if (cached) return JSON.parse(cached);
+
+  const product = await db.products.findById(id);
+  if (product) {
+    await redis.set(key, JSON.stringify(product), { EX: 600 });
+  }
+  return product;
+}
+```
+
+Best for data that is read often but does not need pre-warming. The first request after expiry pays the database cost, so protect hot keys with a lock or request coalescing.
+
+### 2. Refresh ahead
+
+Refresh a popular key before its TTL expires. A worker checks keys that are close to expiry and rebuilds them in the background. This avoids a slow first request during predictable traffic, but it costs extra database work and requires knowing which keys are hot.
+
+### 3. Stale-while-revalidate
+
+Return a value that is slightly stale while one background request refreshes it. This keeps latency stable during refreshes:
+
+```js
+const value = await redis.get(key);
+const age = value ? Date.now() - value.createdAt : Infinity;
+
+if (value && age < 300_000) return value.data;       // fresh for 5 min
+if (value && age < 900_000) {                        // stale, but usable
+  refreshOnce(key);                                  // do not start 1,000 refreshes
+  return value.data;
+}
+return await loadAndStore(key);                      // too old: wait for refresh
+```
+
+Use this for feeds, recommendations, catalogs and dashboards—not for an authorization decision or a payment amount.
+
+### 4. Refresh on write
+
+After the database transaction commits, delete or update the affected cache key. Prefer deletion when several writers or derived keys exist:
+
+```js
+await db.products.update(id, changes);
+await redis.del(`product:${id}`);
+```
+
+If the invalidation must not be lost, write an invalidation event to an outbox in the same database transaction and let a worker publish/process it. Never invalidate before the database commit: a failed write could leave a newly repopulated cache containing data that was never committed.
+
+## How do you choose a TTL?
+
+Start with the maximum acceptable staleness, not an arbitrary number. If a product price may be stale for at most 60 seconds, the TTL alone cannot be longer than 60 seconds unless writes also invalidate it immediately.
+
+Then consider:
+
+- **Read/write ratio:** cache longer when reads dominate and writes are rare.
+- **Cost of stale data:** use shorter TTLs for permissions, stock and pricing.
+- **Rebuild cost:** expensive queries benefit from longer TTLs plus background refresh.
+- **Traffic shape:** add random jitter, for example `baseTtl + random(0, baseTtl * 0.2)`, so many keys do not expire together.
+- **Failure behavior:** decide whether an old value is better than an error when the database is unavailable.
+
+Always set an upper bound. A cache entry without an expiry can become permanently stale after an invalidation bug.
+
+## A simple decision tree
+
+```text
+Is stale data unsafe?
+  yes -> do not use a stale cache for the decision; read the source of truth
+  no  -> Is the data public and shared?
+           yes -> CDN/HTTP cache with Cache-Control and purge/versioning
+           no  -> Is it needed by many application instances?
+                    yes -> Redis with a scoped key and TTL
+                    no  -> in-process memory cache with a short TTL
+
+Does a write change it?
+  yes -> delete/version the key after commit; optionally publish invalidation
+  no  -> TTL, refresh-ahead or stale-while-revalidate
+```
+
+## Cache correctness checklist
+
+- Include tenant/user/locale/version in keys when the response varies.
+- Never cache secrets, access tokens or private data in a shared public cache.
+- Set TTLs and monitor hit rate, miss rate, evictions, stale age and rebuild latency.
+- Protect hot keys from stampedes with locks, single-flight refreshes or stale-while-revalidate.
+- Delete or version keys after a committed write; do not update a cache before the database.
+- Have a cold-cache plan: the database should survive cache loss, or the service should degrade gracefully.
+
 ## Key takeaways
 
 - A cache stores copies of expensive data close to where it's needed.
