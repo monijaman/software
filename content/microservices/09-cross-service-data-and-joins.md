@@ -1,5 +1,5 @@
 ---
-title: Cross-Service Data: How to Join Without a Database JOIN
+title: "Cross-Service Data: How to Join Without a Database JOIN"
 summary: When Order Service and User Service own separate databases, learn how to compose APIs, replicate data and build read models without breaking service boundaries.
 level: Intermediate
 tags: [microservices, data, api-composition, cqrs, eventual-consistency, read-models]
