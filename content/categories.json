@@ -3,7 +3,7 @@
     "slug": "clean-code",
     "title": "Clean Code & SOLID",
     "tagline": "Readable code and flexible designs",
-    "description": "Clean code, naming, functions, errors, KISS / DRY / YAGNI, refactoring, Clean Architecture, and all five SOLID principles with practical examples.",
+    "description": "Clean code, naming, functions, errors, KISS / DRY / YAGNI, refactoring, code profiling, Clean Architecture, and all five SOLID principles with practical examples.",
     "icon": "✨",
     "color": "#0ea5e9",
     "cover": "/img/covers/clean-code.svg"
@@ -48,7 +48,7 @@
     "slug": "frontend",
     "title": "Frontend Engineering",
     "tagline": "Fast, safe, delightful UIs",
-    "description": "How browsers render, the JavaScript event loop, TypeScript, React and hooks, state management, Next.js rendering modes, performance, security and testing.",
+    "description": "How browsers render, the JavaScript event loop, advanced TypeScript, React internals and hooks, scalable frontend architecture, state management, design systems and component libraries, Next.js and edge delivery, performance, security and testing.",
     "icon": "🎨",
     "color": "#f43f5e",
     "cover": "/img/covers/frontend.svg"
