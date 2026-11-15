@@ -224,6 +224,167 @@ process.on("SIGTERM", () => {
 });
 ```
 
+### Preventing memory leaks
+
+A Node process runs for days, so anything that stays **reachable** never gets garbage-collected. Leaks almost always come from a reference you forgot to drop.
+
+| Cause | Fix |
+| --- | --- |
+| Global or module-level references (`const sessions = {}` that only grows) | Keep request data inside the request; avoid stashing it on globals |
+| Event listeners added per request and never removed | `emitter.off(...)` / `once(...)`, or an `AbortSignal` to remove them |
+| `setInterval` / `setTimeout` left running | `clearInterval` / `clearTimeout` when the work or connection ends |
+| Unbounded in-memory caches (`Map` used as a cache) | Cap size and add TTLs (`lru-cache`), or move the cache to Redis |
+| Database connections and streams never closed | Use a pool, release clients in `finally`, close everything on shutdown |
+
+```js
+// ❌ Leaks: a new listener and timer per connection, never cleaned up
+io.on("connection", (socket) => {
+  bus.on("price", (p) => socket.emit("price", p));
+  setInterval(() => socket.emit("ping"), 30_000);
+});
+
+// ✅ Clean up when the connection closes
+io.on("connection", (socket) => {
+  const onPrice = (p) => socket.emit("price", p);
+  bus.on("price", onPrice);
+  const timer = setInterval(() => socket.emit("ping"), 30_000);
+
+  socket.on("disconnect", () => {
+    bus.off("price", onPrice);
+    clearInterval(timer);
+  });
+});
+
+// ✅ Bounded cache instead of a Map that grows forever
+import { LRUCache } from "lru-cache";
+const cache = new LRUCache({ max: 10_000, ttl: 5 * 60_000 });
+
+// ✅ Always release pooled DB clients
+const client = await pool.connect();
+try {
+  await client.query("SELECT 1");
+} finally {
+  client.release();
+}
+```
+
+A warning like `MaxListenersExceededWarning` usually means you are adding listeners in a loop or per request.
+
+### Heap snapshots and profiling
+
+When memory or latency looks wrong, don't guess. Measure it with Node's built-in diagnostic tools. **Heap snapshots** answer *"what is holding memory?"* and **profiling** answers *"where is the time going?"*
+
+#### Step 1: Monitor memory over time
+
+Chart `process.memoryUsage().heapUsed` (or the container's RSS) in your metrics. The shape tells you whether you have a leak:
+
+![Healthy memory returns to the same level after each GC; a leak keeps raising the floor](/img/languages/node-memory-growth.svg)
+
+```js
+setInterval(() => {
+  const { heapUsed, rss } = process.memoryUsage();
+  metrics.gauge("node.heap_used_mb", heapUsed / 1024 / 1024);
+  metrics.gauge("node.rss_mb", rss / 1024 / 1024);
+}, 15_000).unref(); // unref: don't keep the process alive just for this
+```
+
+#### Step 2: Take heap snapshots
+
+A **heap snapshot** is a picture of every object in the V8 heap at one moment: what it is, how much memory it uses, and **which references keep it alive** (its *retainers*). It shows you:
+
+- Which objects use the most memory.
+- Which objects keep growing in number.
+- Which objects are being kept unnecessarily.
+- Which reference chain is stopping the garbage collector from freeing them.
+
+**Example:** your API starts at 100 MB. After 10,000 requests it is at 500 MB and never comes back down. Take one snapshot before the load and one after, then compare them:
+
+![Snapshot 2 has 10,000 new Session objects and none deleted, kept alive by a global sessions Map](/img/languages/node-heap-snapshot-compare.svg)
+
+**How to take one locally:**
+
+```bash
+node --inspect server.js
+```
+
+1. Open Chrome and go to `chrome://inspect`.
+2. Under **Remote Target**, click **inspect** on your Node process.
+3. Open the **Memory** tab, choose **Heap snapshot**, and click **Take snapshot** (this is your baseline).
+4. Apply load, for example `npx autocannon -c 50 -d 30 http://localhost:3000/api/orders`.
+5. Click the 🗑️ **Collect garbage** icon, then take a second snapshot.
+6. Select snapshot 2, switch the view from **Summary** to **Comparison**, and sort by **Size Delta**.
+7. Click the suspicious constructor (here `Session`) and read the **Retainers** panel. It shows the chain from a GC root to the object, so you can see which reference to remove.
+
+**In production or a container** (no DevTools attached):
+
+```bash
+node --heapsnapshot-signal=SIGUSR2 server.js
+kill -USR2 <pid>          # writes Heap.<date>.<pid>.heapsnapshot to the working directory
+```
+
+Or from code: `require("node:v8").writeHeapSnapshot()`. Load the `.heapsnapshot` file in the DevTools Memory tab to analyse it.
+
+> ⚠️ Taking a snapshot **pauses the process** and needs roughly as much extra memory as the heap itself. Take it on one instance pulled out of the load balancer, never on the whole fleet at once. Snapshots also contain real data (tokens, personal data), so handle the files as sensitive.
+
+#### Step 3: Profile CPU and performance
+
+**Profiling** records what your application does *while it runs*. It helps you find:
+
+- High CPU usage.
+- High memory allocation.
+- Slow functions.
+- Expensive operations.
+- Bottlenecks that block the event loop.
+
+Suppose `GET /report` takes 5 seconds. A CPU profile tells you whether the cause is an inefficient loop, a CPU-heavy calculation, synchronous blocking calls (`fs.readFileSync`, `bcrypt.hashSync`), or expensive JSON processing:
+
+![In a flame chart, the widest bar shows the hot spot: here a synchronous nested loop in sortRows](/img/languages/node-cpu-flame-chart.svg)
+
+```bash
+# Option A: V8 tick profiler (text report)
+node --prof server.js                       # writes isolate-0x...-v8.log
+node --prof-process isolate-*.log > profile.txt
+
+# Option B: .cpuprofile file you open in Chrome DevTools → Performance (flame chart)
+node --cpu-prof server.js
+
+# Option C: the same, live, through chrome://inspect → Performance → Record
+node --inspect server.js
+```
+
+For memory, `node --heap-prof` records **where allocations come from** (which function created the objects). Tools such as `clinic doctor`, `clinic flame` and `clinic heapprofiler` wrap all of this in one command.
+
+#### Heap snapshot vs profiling
+
+| | Heap snapshot | Profiling |
+| --- | --- | --- |
+| Question it answers | What is holding memory? | Where is time or work spent? |
+| Captures | One moment in time | A period while the app runs |
+| Shows | Retained objects and their reference chains | Hot functions, call stacks, CPU time |
+| Finds | Memory leaks | Slow functions and event-loop blocking |
+| Tools | DevTools Memory, `--heapsnapshot-signal`, `v8.writeHeapSnapshot()` | `--prof`, `--cpu-prof`, `--heap-prof`, DevTools Performance, `clinic` |
+
+#### Interview question
+
+**Q: How do you identify and fix memory leaks in Node.js?**
+
+> "First I monitor memory over time. A sawtooth whose floor keeps rising after each GC is the signal. Then I reproduce it in staging, take a heap snapshot before and after applying load, and use the Comparison view to find objects that are created but never deleted. The Retainers panel shows the reference chain keeping them alive, usually an unbounded cache, a global map, an event listener that was never removed, or a timer that was never cleared. I fix the code that holds the reference, not just raise `--max-old-space-size`. Finally I run the same load test again and confirm memory goes flat."
+
+#### Check yourself
+
+Your app uses 150 MB at startup. After 50,000 requests it uses 900 MB and never drops, even after GC. Which tool would you mainly use to find which objects are being kept in memory?
+
+- A) Heap snapshot
+- B) Postman
+- C) Nodemon
+- D) Express middleware
+
+<details>
+<summary>Show answer</summary>
+
+**A) Heap snapshot.** Take one before and one after the load, then compare them to see which objects grew and what keeps them alive. Postman sends requests, Nodemon restarts the app on file changes, and middleware handles requests. None of them inspect the heap.
+</details>
+
 ## Testing a route
 
 ```js
@@ -244,3 +405,5 @@ test("GET /health returns ok", async () => {
 - Validate every request at the edge, return consistent JSON errors, and never leak stack traces.
 - Split routes → controller → service → repository; export the app separately from `listen`.
 - Validate config at startup, add `helmet`, CORS, rate limits and structured logs, and shut down gracefully on `SIGTERM`.
+- Prevent memory leaks by dropping references: remove listeners, clear timers, bound caches, close connections, and monitor heap usage over time.
+- Use **heap snapshots** (compare before and after load, then read the retainers) to find leaks, and **CPU profiles** (flame charts) to find slow or blocking code.

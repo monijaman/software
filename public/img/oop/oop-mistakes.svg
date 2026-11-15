@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Five common OOP mistakes and their fixes</text>
+  <g font-size="12">
+    <!-- header -->
+    <text x="40" y="56" font-weight="800" fill="#b91c1c">❌ Mistake</text>
+    <text x="420" y="56" font-weight="800" fill="#15803d">✅ Fix</text>
+
+    <g transform="translate(20 66)">
+      <rect width="360" height="38" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="14" y="25" font-size="18">🐘</text><text x="44" y="17" font-weight="700" fill="#991b1b">God class</text><text x="44" y="31" font-size="11" fill="#7f1d1d">OrderManager does everything</text>
+      <rect x="380" width="340" height="38" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="394" y="24" fill="#166534">Split into small classes, one job each</text>
+    </g>
+    <g transform="translate(20 112)">
+      <rect width="360" height="38" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="14" y="25" font-size="18">🩸</text><text x="44" y="17" font-weight="700" fill="#991b1b">Anemic model</text><text x="44" y="31" font-size="11" fill="#7f1d1d">Data in the class, rules outside it</text>
+      <rect x="380" width="340" height="38" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="394" y="24" fill="#166534">Move the rules into the object: order.submit()</text>
+    </g>
+    <g transform="translate(20 158)">
+      <rect width="360" height="38" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="14" y="25" font-size="18">🌲</text><text x="44" y="17" font-weight="700" fill="#991b1b">Deep inheritance</text><text x="44" y="31" font-size="11" fill="#7f1d1d">Six levels of parent classes</text>
+      <rect x="380" width="340" height="38" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="394" y="24" fill="#166534">1–2 levels max, then compose parts</text>
+    </g>
+    <g transform="translate(20 204)">
+      <rect width="360" height="38" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="14" y="25" font-size="18">🔓</text><text x="44" y="17" font-weight="700" fill="#991b1b">Getters/setters for all</text><text x="44" y="31" font-size="11" fill="#7f1d1d">setBalance(getBalance() - x)</text>
+      <rect x="380" width="340" height="38" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="394" y="24" fill="#166534">Expose intent: account.withdraw(x)</text>
+    </g>
+    <g transform="translate(20 250)">
+      <rect width="360" height="38" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="14" y="25" font-size="18">🔍</text><text x="44" y="17" font-weight="700" fill="#991b1b">Type checks</text><text x="44" y="31" font-size="11" fill="#7f1d1d">if (x instanceof Circle) … else if …</text>
+      <rect x="380" width="340" height="38" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="394" y="24" fill="#166534">Polymorphism: each type implements area()</text>
+    </g>
+  </g>
+</svg>

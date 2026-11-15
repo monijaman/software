@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="290" fill="#ffffff"/>
+
+  <!-- The single call -->
+  <rect x="250" y="14" width="260" height="56" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="380" y="38" text-anchor="middle" font-size="12" fill="#166534">for each shape:</text>
+  <text x="380" y="58" text-anchor="middle" font-size="16" font-weight="800" fill="#14532d" font-family="Consolas, monospace">shape.area()</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M300 70 C 250 100, 140 100, 130 120"/>
+    <path d="M380 70 L 380 120"/>
+    <path d="M460 70 C 510 100, 620 100, 630 120"/>
+  </g>
+  <text x="560" y="96" font-size="11" font-weight="700" fill="#475569">same message</text>
+
+  <!-- Shapes -->
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(30 122)">
+      <rect width="200" height="150" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="100" cy="50" r="30" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+      <line x1="100" y1="50" x2="130" y2="50" stroke="#1e40af" stroke-width="2"/><text x="115" y="45" font-size="10" fill="#1e40af">r</text>
+      <text x="100" y="102" font-size="14" font-weight="800" fill="#1e3a8a">Circle</text>
+      <text x="100" y="126" fill="#1e40af" font-family="Consolas, monospace">π × r²</text>
+    </g>
+    <g transform="translate(280 122)">
+      <rect width="200" height="150" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+      <rect x="55" y="25" width="90" height="52" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+      <text x="100" y="20" font-size="10" fill="#9a3412">w</text><text x="152" y="55" font-size="10" fill="#9a3412">h</text>
+      <text x="100" y="102" font-size="14" font-weight="800" fill="#7c2d12">Rectangle</text>
+      <text x="100" y="126" fill="#9a3412" font-family="Consolas, monospace">w × h</text>
+    </g>
+    <g transform="translate(530 122)">
+      <rect width="200" height="150" rx="14" fill="#fdf4ff" stroke="#c026d3" stroke-width="2"/>
+      <path d="M100 20 L145 78 L55 78 Z" fill="#f5d0fe" stroke="#a21caf" stroke-width="2"/>
+      <line x1="100" y1="20" x2="100" y2="78" stroke="#86198f" stroke-dasharray="3 3"/>
+      <text x="108" y="58" font-size="10" fill="#86198f">h</text><text x="100" y="92" font-size="10" fill="#86198f">b</text>
+      <text x="100" y="110" font-size="14" font-weight="800" fill="#701a75">Triangle</text>
+      <text x="100" y="132" fill="#86198f" font-family="Consolas, monospace">½ × b × h</text>
+    </g>
+  </g>
+</svg>

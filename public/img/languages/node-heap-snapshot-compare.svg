@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Comparing two heap snapshots to find a leak</text>
+
+  <!-- Bars -->
+  <line x1="30" y1="300" x2="280" y2="300" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- Snapshot 1: 100 MB -->
+  <rect x="50" y="252" width="80" height="48" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="90" y="280" text-anchor="middle" font-size="11" fill="#1e40af">app + libs</text>
+  <text x="90" y="242" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a">100 MB</text>
+  <text x="90" y="318" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">Snapshot 1</text>
+  <text x="90" y="333" text-anchor="middle" font-size="11" fill="#64748b">after startup</text>
+  <!-- Snapshot 2: 500 MB -->
+  <rect x="180" y="252" width="80" height="48" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="220" y="280" text-anchor="middle" font-size="11" fill="#1e40af">app + libs</text>
+  <rect x="180" y="70" width="80" height="182" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="220" y="155" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Session</text>
+  <text x="220" y="171" text-anchor="middle" font-size="11" fill="#b91c1c">+380 MB</text>
+  <rect x="180" y="60" width="80" height="10" rx="2" fill="#fde68a" stroke="#eab308" stroke-width="1"/>
+  <text x="220" y="52" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a">500 MB</text>
+  <text x="220" y="318" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">Snapshot 2</text>
+  <text x="220" y="333" text-anchor="middle" font-size="11" fill="#64748b">after 10,000 requests</text>
+
+  <!-- Comparison table -->
+  <rect x="305" y="44" width="440" height="160" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="325" y="68" font-size="13" font-weight="800" fill="#334155">DevTools → Memory → “Comparison” view</text>
+  <g font-size="12">
+    <rect x="320" y="80" width="410" height="24" rx="4" fill="#e2e8f0"/>
+    <text x="330" y="96" font-weight="700" fill="#334155">Constructor</text>
+    <text x="540" y="96" font-weight="700" fill="#334155" text-anchor="end"># New</text>
+    <text x="620" y="96" font-weight="700" fill="#334155" text-anchor="end"># Deleted</text>
+    <text x="720" y="96" font-weight="700" fill="#334155" text-anchor="end">Size Δ</text>
+
+    <rect x="320" y="108" width="410" height="24" rx="4" fill="#fee2e2"/>
+    <text x="330" y="124" font-weight="700" fill="#b91c1c">Session</text>
+    <text x="540" y="124" fill="#b91c1c" text-anchor="end">10,000</text>
+    <text x="620" y="124" fill="#b91c1c" text-anchor="end">0</text>
+    <text x="720" y="124" font-weight="700" fill="#b91c1c" text-anchor="end">+380 MB</text>
+
+    <text x="330" y="152" fill="#334155">(string)</text>
+    <text x="540" y="152" fill="#334155" text-anchor="end">41,200</text>
+    <text x="620" y="152" fill="#334155" text-anchor="end">40,950</text>
+    <text x="720" y="152" fill="#334155" text-anchor="end">+12 MB</text>
+
+    <text x="330" y="178" fill="#334155">(closure)</text>
+    <text x="540" y="178" fill="#334155" text-anchor="end">9,800</text>
+    <text x="620" y="178" fill="#334155" text-anchor="end">9,790</text>
+    <text x="720" y="178" fill="#334155" text-anchor="end">+1 MB</text>
+  </g>
+  <text x="525" y="196" text-anchor="middle" font-size="11" fill="#64748b">Created 10,000, deleted 0. That is the leak.</text>
+
+  <!-- Retainer path -->
+  <text x="525" y="232" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">“Retainers” panel: why it can't be collected</text>
+  <rect x="305" y="246" width="96" height="52" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="353" y="268" text-anchor="middle" font-size="12" font-weight="800" fill="#5b21b6">GC root</text>
+  <text x="353" y="285" text-anchor="middle" font-size="10" fill="#334155">module scope</text>
+  <line x1="401" y1="272" x2="417" y2="272" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="419" y="246" width="110" height="52" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="474" y="268" text-anchor="middle" font-size="12" font-weight="800" fill="#c2410c">sessions</text>
+  <text x="474" y="285" text-anchor="middle" font-size="10" fill="#334155">global Map</text>
+  <line x1="529" y1="272" x2="545" y2="272" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="547" y="246" width="90" height="52" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="592" y="268" text-anchor="middle" font-size="12" font-weight="800" fill="#b91c1c">Session</text>
+  <text x="592" y="285" text-anchor="middle" font-size="10" fill="#334155">×10,000</text>
+  <line x1="637" y1="272" x2="653" y2="272" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="655" y="246" width="90" height="52" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="700" y="268" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">req.body</text>
+  <text x="700" y="285" text-anchor="middle" font-size="10" fill="#334155">cart, user…</text>
+  <text x="525" y="322" text-anchor="middle" font-size="11" fill="#0f172a">Fix: delete the entry when the session ends, or use a bounded TTL cache / Redis.</text>
+  <text x="525" y="340" text-anchor="middle" font-size="10" fill="#94a3b8">Illustrative numbers, not real profiling data</text>
+</svg>

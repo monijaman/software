@@ -135,6 +135,14 @@ mindmap
 - **Batching and compression:** many records are sent and stored together.
 - **Partitioning:** work is spread over many brokers and consumed in parallel.
 
+## Interview answer
+
+**Q: What is Kafka?**
+
+> "Apache Kafka is a distributed event-streaming platform. Services publish events to it and other services consume them asynchronously, so producers and consumers don't need to know about each other or be online at the same time. Unlike a traditional queue, Kafka keeps events in a durable, replicated log for a retention period, so many consumer groups can read the same data independently and replay it later.
+>
+> The key concepts are: **producers** write events to **topics**; each topic is split into **partitions** for parallelism and ordering; each record has an **offset**, its position in the partition; **consumers** read at their own pace and commit offsets; a **consumer group** shares a topic's partitions between its members; and **brokers** are the servers that store and replicate the partitions."
+
 ## Key takeaways
 
 - Kafka is a **distributed, durable, append-only log** of events.

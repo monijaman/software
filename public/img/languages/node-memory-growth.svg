@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="280" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Heap used over time: normal vs leaking</text>
+
+  <!-- Healthy panel -->
+  <rect x="15" y="44" width="355" height="220" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="192" y="68" text-anchor="middle" font-size="14" font-weight="800" fill="#15803d">✅ Healthy: flat sawtooth</text>
+  <line x1="40" y1="220" x2="350" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="40" y1="85" x2="40" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="195" y="238" text-anchor="middle" font-size="11" fill="#64748b">time →</text>
+  <text x="30" y="150" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(-90 30 150)">heap MB</text>
+  <polyline fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linejoin="round"
+    points="45,190 85,130 85,190 125,130 125,190 165,130 165,190 205,130 205,190 245,130 245,190 285,130 285,190 325,130 325,190 345,165"/>
+  <line x1="45" y1="190" x2="345" y2="190" stroke="#15803d" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="195" y="256" text-anchor="middle" font-size="11" fill="#15803d">Each drop is a GC. Memory returns to the same level.</text>
+
+  <!-- Leaking panel -->
+  <rect x="390" y="44" width="355" height="220" rx="14" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="567" y="68" text-anchor="middle" font-size="14" font-weight="800" fill="#b91c1c">❌ Leak: the floor keeps rising</text>
+  <line x1="415" y1="220" x2="725" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="415" y1="85" x2="415" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="570" y="238" text-anchor="middle" font-size="11" fill="#64748b">time →</text>
+  <text x="405" y="150" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(-90 405 150)">heap MB</text>
+  <polyline fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linejoin="round"
+    points="420,205 460,170 460,198 500,160 500,186 540,148 540,174 580,136 580,162 620,124 620,150 660,112 660,138 700,100 700,126 720,110"/>
+  <line x1="420" y1="205" x2="720" y2="120" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="708" y="96" text-anchor="end" font-size="11" font-weight="700" fill="#b91c1c">OOM crash ↗</text>
+  <text x="570" y="256" text-anchor="middle" font-size="11" fill="#b91c1c">GC runs but cannot free objects that are still referenced.</text>
+</svg>

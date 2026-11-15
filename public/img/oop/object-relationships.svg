@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10" fill="none" stroke="#475569" stroke-width="1.5"/></marker>
+    <marker id="hollow" viewBox="0 0 16 10" refX="1" refY="5" markerWidth="16" markerHeight="10" orient="auto"><path d="M0 5 L8 0 L16 5 L8 10 z" fill="#ffffff" stroke="#475569" stroke-width="1.5"/></marker>
+    <marker id="filled" viewBox="0 0 16 10" refX="1" refY="5" markerWidth="16" markerHeight="10" orient="auto"><path d="M0 5 L8 0 L16 5 L8 10 z" fill="#475569"/></marker>
+  </defs>
+  <rect width="760" height="330" fill="#ffffff"/>
+
+  <!-- strength bar -->
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#e2e8f0"/><stop offset="1" stop-color="#a21caf"/></linearGradient></defs>
+  <rect x="30" y="16" width="700" height="12" rx="6" fill="url(#g)"/>
+  <text x="30" y="46" font-size="11" fill="#64748b">weaker link</text>
+  <text x="730" y="46" text-anchor="end" font-size="11" font-weight="700" fill="#86198f">stronger link →</text>
+
+  <g font-size="12" text-anchor="middle">
+    <!-- Dependency -->
+    <g transform="translate(20 60)">
+      <rect width="170" height="255" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <text x="85" y="26" font-size="14" font-weight="800" fill="#334155">Dependency</text>
+      <text x="85" y="44" fill="#64748b">"uses"</text>
+      <text x="85" y="84" font-size="30">🧍 🚕</text>
+      <rect x="15" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="42" y="131" font-size="11">Passenger</text>
+      <rect x="100" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="127" y="131" font-size="11">Taxi</text>
+      <line x1="70" y1="126" x2="99" y2="126" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#open)"/>
+      <text x="85" y="170" fill="#334155">Used for one call,</text>
+      <text x="85" y="186" fill="#334155">never stored</text>
+      <text x="85" y="226" font-size="11" fill="#64748b">dashed arrow</text>
+    </g>
+    <!-- Association -->
+    <g transform="translate(205 60)">
+      <rect width="170" height="255" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+      <text x="85" y="26" font-size="14" font-weight="800" fill="#1e40af">Association</text>
+      <text x="85" y="44" fill="#64748b">"knows about"</text>
+      <text x="85" y="84" font-size="30">👩‍🏫 🧑‍🎓</text>
+      <rect x="15" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="42" y="131" font-size="11">Teacher</text>
+      <rect x="100" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="127" y="131" font-size="11">Student</text>
+      <line x1="70" y1="126" x2="100" y2="126" stroke="#475569" stroke-width="1.5"/>
+      <text x="85" y="170" fill="#334155">Linked, but both</text>
+      <text x="85" y="186" fill="#334155">live independently</text>
+      <text x="85" y="226" font-size="11" fill="#64748b">plain line</text>
+    </g>
+    <!-- Aggregation -->
+    <g transform="translate(390 60)">
+      <rect width="170" height="255" rx="14" fill="#fefce8" stroke="#fde047" stroke-width="2"/>
+      <text x="85" y="26" font-size="14" font-weight="800" fill="#a16207">Aggregation</text>
+      <text x="85" y="44" fill="#64748b">"has a" (shared)</text>
+      <text x="85" y="84" font-size="30">🏟️ ⚽</text>
+      <rect x="10" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="37" y="131" font-size="11">Team</text>
+      <rect x="105" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="132" y="131" font-size="11">Player</text>
+      <line x1="66" y1="126" x2="104" y2="126" stroke="#475569" stroke-width="1.5" marker-start="url(#hollow)"/>
+      <text x="85" y="170" fill="#334155">Players can leave</text>
+      <text x="85" y="186" fill="#334155">and join another team</text>
+      <text x="85" y="226" font-size="11" fill="#64748b">◇ hollow diamond</text>
+    </g>
+    <!-- Composition -->
+    <g transform="translate(575 60)">
+      <rect width="165" height="255" rx="14" fill="#fdf4ff" stroke="#e879f9" stroke-width="2"/>
+      <text x="82" y="26" font-size="14" font-weight="800" fill="#86198f">Composition</text>
+      <text x="82" y="44" fill="#64748b">"owns"</text>
+      <text x="82" y="84" font-size="30">🏠 🛏️</text>
+      <rect x="8" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="35" y="131" font-size="11">House</text>
+      <rect x="102" y="112" width="55" height="28" rx="6" fill="#fff" stroke="#475569"/><text x="129" y="131" font-size="11">Room</text>
+      <line x1="64" y1="126" x2="101" y2="126" stroke="#475569" stroke-width="1.5" marker-start="url(#filled)"/>
+      <text x="82" y="170" fill="#334155">Rooms are created</text>
+      <text x="82" y="186" fill="#334155">and destroyed with it</text>
+      <text x="82" y="226" font-size="11" fill="#64748b">◆ filled diamond</text>
+    </g>
+  </g>
+</svg>

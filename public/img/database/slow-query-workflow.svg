@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="260" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">The slow-query loop</text>
+
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(15 50)">
+      <rect width="130" height="130" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+      <text x="65" y="36" font-size="26">🔎</text>
+      <text x="65" y="62" font-size="14" font-weight="800" fill="#1e40af">1. Find</text>
+      <text x="65" y="84" fill="#334155">pg_stat_statements</text>
+      <text x="65" y="100" fill="#334155">slow log · APM</text>
+      <text x="65" y="118" font-size="10" fill="#64748b">sort by total time</text>
+    </g>
+    <g transform="translate(165 50)">
+      <rect width="130" height="130" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="65" y="36" font-size="26">🧾</text>
+      <text x="65" y="62" font-size="14" font-weight="800" fill="#5b21b6">2. Explain</text>
+      <text x="65" y="84" fill="#334155">EXPLAIN (ANALYZE,</text>
+      <text x="65" y="100" fill="#334155">BUFFERS)</text>
+      <text x="65" y="118" font-size="10" fill="#64748b">real data size</text>
+    </g>
+    <g transform="translate(315 50)">
+      <rect width="130" height="130" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+      <text x="65" y="36" font-size="26">🩺</text>
+      <text x="65" y="62" font-size="14" font-weight="800" fill="#c2410c">3. Diagnose</text>
+      <text x="65" y="84" fill="#334155">seq scan? bad</text>
+      <text x="65" y="100" fill="#334155">estimate? locks?</text>
+      <text x="65" y="118" font-size="10" fill="#64748b">biggest actual time</text>
+    </g>
+    <g transform="translate(465 50)">
+      <rect width="130" height="130" rx="14" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+      <text x="65" y="36" font-size="26">🛠️</text>
+      <text x="65" y="62" font-size="14" font-weight="800" fill="#a16207">4. Fix one thing</text>
+      <text x="65" y="84" fill="#334155">index · rewrite ·</text>
+      <text x="65" y="100" fill="#334155">ANALYZE · paginate</text>
+      <text x="65" y="118" font-size="10" fill="#64748b">smallest safe change</text>
+    </g>
+    <g transform="translate(615 50)">
+      <rect width="130" height="130" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text x="65" y="36" font-size="26">📏</text>
+      <text x="65" y="62" font-size="14" font-weight="800" fill="#15803d">5. Verify</text>
+      <text x="65" y="84" fill="#334155">same query,</text>
+      <text x="65" y="100" fill="#334155">before vs after</text>
+      <text x="65" y="118" font-size="10" fill="#64748b">plan · ms · p95</text>
+    </g>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="146" y1="115" x2="163" y2="115"/>
+    <line x1="296" y1="115" x2="313" y2="115"/>
+    <line x1="446" y1="115" x2="463" y2="115"/>
+    <line x1="596" y1="115" x2="613" y2="115"/>
+    <path d="M680 182 C 680 230, 80 230, 80 184" stroke-dasharray="6 5"/>
+  </g>
+  <rect x="250" y="214" width="260" height="26" rx="13" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="380" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">Not fast enough yet? Go round again</text>
+</svg>

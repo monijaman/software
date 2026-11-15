@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="280" fill="#ffffff"/>
+
+  <!-- Class blueprint -->
+  <rect x="20" y="40" width="220" height="210" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="130" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">📐 Class = blueprint</text>
+  <text x="130" y="70" text-anchor="middle" font-size="16" font-weight="800" fill="#1e3a8a">class Dog</text>
+  <line x1="35" y1="82" x2="225" y2="82" stroke="#93c5fd"/>
+  <g font-size="13" fill="#1e40af">
+    <text x="45" y="106">name: string</text>
+    <text x="45" y="128">age: number</text>
+  </g>
+  <line x1="35" y1="142" x2="225" y2="142" stroke="#93c5fd"/>
+  <g font-size="13" fill="#1e40af">
+    <text x="45" y="166">bark()</text>
+    <text x="45" y="188">haveBirthday()</text>
+  </g>
+  <text x="130" y="232" text-anchor="middle" font-size="11" fill="#64748b">Describes the shape. Holds no dog data.</text>
+
+  <!-- arrows -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M240 110 C 290 80, 300 70, 330 70"/>
+    <path d="M240 145 L 330 145"/>
+    <path d="M240 180 C 290 210, 300 220, 330 220"/>
+  </g>
+  <text x="285" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">new</text>
+
+  <!-- Objects -->
+  <text x="530" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#15803d">🐶 Objects = instances</text>
+  <g font-size="12">
+    <g transform="translate(335 42)">
+      <rect width="390" height="56" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text x="16" y="34" font-size="24">🐕</text>
+      <text x="56" y="24" font-weight="800" fill="#166534">rex</text>
+      <text x="56" y="42" fill="#334155">name: "Rex"   age: 3</text>
+      <text x="374" y="34" text-anchor="end" fill="#64748b">new Dog("Rex", 3)</text>
+    </g>
+    <g transform="translate(335 117)">
+      <rect width="390" height="56" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text x="16" y="34" font-size="24">🐩</text>
+      <text x="56" y="24" font-weight="800" fill="#166534">luna</text>
+      <text x="56" y="42" fill="#334155">name: "Luna"   age: 1</text>
+      <text x="374" y="34" text-anchor="end" fill="#64748b">new Dog("Luna", 1)</text>
+    </g>
+    <g transform="translate(335 192)">
+      <rect width="390" height="56" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text x="16" y="34" font-size="24">🦮</text>
+      <text x="56" y="24" font-weight="800" fill="#166534">max</text>
+      <text x="56" y="42" fill="#334155">name: "Max"   age: 7</text>
+      <text x="374" y="34" text-anchor="end" fill="#64748b">new Dog("Max", 7)</text>
+    </g>
+  </g>
+</svg>

@@ -138,6 +138,24 @@ Each service owns its data, publishes facts as events, and reacts to other servi
 
 Running Kafka yourself takes real expertise. Managed services handle brokers, upgrades and scaling: **Confluent Cloud**, **Amazon MSK**, **Aiven**, **Redpanda** (a Kafka-compatible engine), **Azure Event Hubs** (Kafka-compatible API).
 
+## Interview answer
+
+**Q: What is the difference between Kafka and RabbitMQ?**
+
+> "Kafka is built for distributed event streaming. It stores events in a durable, partitioned log, and consumers track their own offsets, so events stay after they're read and can be replayed by many independent consumer groups. That makes it a good fit for high-throughput event pipelines, analytics and event sourcing.
+>
+> RabbitMQ is a traditional message broker. Producers send to exchanges that route messages to queues, and a message is removed once a consumer acknowledges it. It shines at task distribution, flexible routing, priorities and per-message delays.
+>
+> So I pick Kafka when I need replay, very high throughput or many consumers of the same stream, and RabbitMQ when I need work queues with rich routing and per-message control."
+
+| Kafka | RabbitMQ |
+| --- | --- |
+| Event streaming | Message brokering |
+| Topics and partitions | Exchanges and queues |
+| Consumer offsets | Message acknowledgments |
+| Event replay | Queue-based delivery (removed after ack) |
+| High-throughput event pipelines | Task distribution and routing |
+
 ## Key takeaways
 
 - RabbitMQ = smart routing + delete after delivery; Kafka = durable, replayable, ordered log at huge scale.

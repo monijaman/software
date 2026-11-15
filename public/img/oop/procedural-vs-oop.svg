@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+
+  <!-- Procedural -->
+  <rect x="15" y="15" width="355" height="270" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+  <text x="192" y="42" text-anchor="middle" font-size="15" font-weight="800" fill="#c2410c">Procedural: data and functions apart</text>
+  <g font-size="12">
+    <rect x="40" y="70" width="120" height="44" rx="10" fill="#fff" stroke="#f97316" stroke-width="2"/>
+    <text x="100" y="97" text-anchor="middle" font-weight="700" fill="#9a3412">📄 account data</text>
+    <rect x="40" y="150" width="120" height="44" rx="10" fill="#fff" stroke="#f97316" stroke-width="2"/>
+    <text x="100" y="177" text-anchor="middle" font-weight="700" fill="#9a3412">📄 order data</text>
+
+    <rect x="225" y="60" width="120" height="36" rx="18" fill="#ffedd5" stroke="#fb923c"/>
+    <text x="285" y="83" text-anchor="middle" fill="#7c2d12">withdraw()</text>
+    <rect x="225" y="110" width="120" height="36" rx="18" fill="#ffedd5" stroke="#fb923c"/>
+    <text x="285" y="133" text-anchor="middle" fill="#7c2d12">applyDiscount()</text>
+    <rect x="225" y="160" width="120" height="36" rx="18" fill="#ffedd5" stroke="#fb923c"/>
+    <text x="285" y="183" text-anchor="middle" fill="#7c2d12">printReport()</text>
+    <rect x="225" y="210" width="120" height="36" rx="18" fill="#ffedd5" stroke="#fb923c"/>
+    <text x="285" y="233" text-anchor="middle" fill="#7c2d12">fixBalance() 😬</text>
+  </g>
+  <g stroke="#94a3b8" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+    <line x1="225" y1="78" x2="162" y2="90"/>
+    <line x1="225" y1="128" x2="162" y2="98"/>
+    <line x1="225" y1="128" x2="162" y2="168"/>
+    <line x1="225" y1="178" x2="162" y2="100"/>
+    <line x1="225" y1="178" x2="162" y2="176"/>
+    <line x1="225" y1="228" x2="162" y2="106"/>
+  </g>
+  <text x="192" y="272" text-anchor="middle" font-size="12" fill="#9a3412">Any function can change any data, so rules get skipped.</text>
+
+  <!-- OOP -->
+  <rect x="390" y="15" width="355" height="270" rx="16" fill="#fdf4ff" stroke="#e879f9" stroke-width="2"/>
+  <text x="567" y="42" text-anchor="middle" font-size="15" font-weight="800" fill="#a21caf">OOP: each object owns its data</text>
+  <g font-size="12">
+    <rect x="410" y="62" width="150" height="190" rx="14" fill="#fff" stroke="#c026d3" stroke-width="2"/>
+    <text x="485" y="84" text-anchor="middle" font-weight="800" fill="#86198f">BankAccount</text>
+    <rect x="425" y="96" width="120" height="40" rx="8" fill="#fae8ff" stroke="#d946ef" stroke-dasharray="4 3"/>
+    <text x="485" y="114" text-anchor="middle" fill="#86198f">🔒 balance</text>
+    <text x="485" y="129" text-anchor="middle" font-size="10" fill="#a21caf">private data</text>
+    <rect x="425" y="148" width="120" height="28" rx="14" fill="#f5d0fe"/>
+    <text x="485" y="167" text-anchor="middle" fill="#701a75">deposit()</text>
+    <rect x="425" y="184" width="120" height="28" rx="14" fill="#f5d0fe"/>
+    <text x="485" y="203" text-anchor="middle" fill="#701a75">withdraw()</text>
+    <text x="485" y="236" text-anchor="middle" font-size="10" fill="#a21caf">public methods</text>
+
+    <rect x="575" y="62" width="150" height="190" rx="14" fill="#fff" stroke="#c026d3" stroke-width="2"/>
+    <text x="650" y="84" text-anchor="middle" font-weight="800" fill="#86198f">Order</text>
+    <rect x="590" y="96" width="120" height="40" rx="8" fill="#fae8ff" stroke="#d946ef" stroke-dasharray="4 3"/>
+    <text x="650" y="114" text-anchor="middle" fill="#86198f">🔒 items, total</text>
+    <text x="650" y="129" text-anchor="middle" font-size="10" fill="#a21caf">private data</text>
+    <rect x="590" y="148" width="120" height="28" rx="14" fill="#f5d0fe"/>
+    <text x="650" y="167" text-anchor="middle" fill="#701a75">addItem()</text>
+    <rect x="590" y="184" width="120" height="28" rx="14" fill="#f5d0fe"/>
+    <text x="650" y="203" text-anchor="middle" fill="#701a75">applyDiscount()</text>
+    <text x="650" y="236" text-anchor="middle" font-size="10" fill="#a21caf">public methods</text>
+  </g>
+  <text x="567" y="272" text-anchor="middle" font-size="12" fill="#86198f">Data changes only through the object's own methods.</text>
+</svg>

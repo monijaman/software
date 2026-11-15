@@ -1,5 +1,14 @@
 [
   {
+    "slug": "oop",
+    "title": "Object-Oriented Programming",
+    "tagline": "Think in objects, not just functions",
+    "description": "Classes and objects, the four pillars (encapsulation, abstraction, inheritance, polymorphism), composition over inheritance, interfaces vs abstract classes, object relationships, and common mistakes and interview questions, explained with real-life analogies and short TypeScript examples.",
+    "icon": "📦",
+    "color": "#a21caf",
+    "cover": "/img/covers/oop.svg"
+  },
+  {
     "slug": "clean-code",
     "title": "Clean Code & SOLID",
     "tagline": "Readable code and flexible designs",

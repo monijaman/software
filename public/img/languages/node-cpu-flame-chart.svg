@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 270" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="270" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Reading a CPU profile: the widest bar is where the time goes</text>
+  <text x="380" y="46" text-anchor="middle" font-size="12" fill="#64748b">GET /report takes 5 seconds. Width = CPU time, and each bar is called by the one below it.</text>
+  <g font-size="12">
+    <!-- level 4 (top) -->
+    <rect x="160" y="70" width="170" height="26" rx="3" fill="#fde68a" stroke="#eab308"/>
+    <text x="245" y="88" text-anchor="middle" fill="#713f12">JSON.parse · 18%</text>
+    <rect x="334" y="70" width="306" height="26" rx="3" fill="#ef4444" stroke="#b91c1c"/>
+    <text x="487" y="88" text-anchor="middle" font-weight="800" fill="#ffffff">sortRows (nested loop) · 55%</text>
+    <!-- level 3 -->
+    <rect x="40" y="100" width="116" height="26" rx="3" fill="#bfdbfe" stroke="#3b82f6"/>
+    <text x="98" y="118" text-anchor="middle" fill="#1e40af">db.query · 6%</text>
+    <rect x="160" y="100" width="480" height="26" rx="3" fill="#fdba74" stroke="#f97316"/>
+    <text x="400" y="118" text-anchor="middle" font-weight="700" fill="#7c2d12">buildSummary · 75%</text>
+    <!-- level 2 -->
+    <rect x="40" y="130" width="600" height="26" rx="3" fill="#fed7aa" stroke="#f97316"/>
+    <text x="340" y="148" text-anchor="middle" fill="#7c2d12">getReport · 82%</text>
+    <rect x="644" y="130" width="76" height="26" rx="3" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="682" y="148" text-anchor="middle" fill="#334155">logger</text>
+    <!-- level 1 -->
+    <rect x="40" y="160" width="680" height="26" rx="3" fill="#e9d5ff" stroke="#8b5cf6"/>
+    <text x="380" y="178" text-anchor="middle" fill="#5b21b6">router.handle (GET /report)</text>
+    <!-- level 0 -->
+    <rect x="40" y="190" width="680" height="26" rx="3" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="380" y="208" text-anchor="middle" fill="#334155">(program) · event loop</text>
+  </g>
+  <text x="380" y="240" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Hot spot: a synchronous O(n²) sort blocks the event loop. Fix it, or move it to a worker thread.</text>
+  <text x="380" y="258" text-anchor="middle" font-size="10" fill="#94a3b8">Illustrative profile, not real data</text>
+</svg>

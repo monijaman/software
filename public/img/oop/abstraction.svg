@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+
+  <!-- What the user sees -->
+  <rect x="20" y="20" width="720" height="110" rx="16" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+  <text x="40" y="46" font-size="14" font-weight="800" fill="#a16207">👀 What you see: the public interface</text>
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(150 88)"><circle r="26" fill="#fff" stroke="#a16207" stroke-width="4"/><circle r="5" fill="#a16207"/><line x1="-26" y1="0" x2="26" y2="0" stroke="#a16207" stroke-width="3"/><text y="42" font-weight="700" fill="#713f12">steer()</text></g>
+    <g transform="translate(300 88)"><rect x="-16" y="-24" width="32" height="44" rx="6" fill="#fff" stroke="#a16207" stroke-width="3"/><text y="42" font-weight="700" fill="#713f12">accelerate()</text></g>
+    <g transform="translate(450 88)"><rect x="-20" y="-20" width="40" height="36" rx="6" fill="#fff" stroke="#a16207" stroke-width="3"/><text y="42" font-weight="700" fill="#713f12">brake()</text></g>
+    <g transform="translate(600 88)"><line x1="0" y1="18" x2="0" y2="-14" stroke="#a16207" stroke-width="4"/><circle cy="-18" r="9" fill="#fff" stroke="#a16207" stroke-width="3"/><text y="42" font-weight="700" fill="#713f12">shiftGear()</text></g>
+  </g>
+
+  <!-- divider -->
+  <line x1="20" y1="148" x2="740" y2="148" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 6"/>
+  <rect x="300" y="137" width="160" height="22" rx="11" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="380" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">abstraction boundary</text>
+
+  <!-- Hidden -->
+  <rect x="20" y="168" width="720" height="114" rx="16" fill="#1e293b"/>
+  <text x="40" y="194" font-size="14" font-weight="800" fill="#e2e8f0">🙈 What stays hidden: the implementation</text>
+  <g font-size="12" text-anchor="middle" fill="#cbd5e1">
+    <g transform="translate(110 236)"><rect x="-70" y="-22" width="140" height="44" rx="10" fill="#334155"/><text y="-2" fill="#f8fafc">⚙️ Fuel injection</text><text y="14" font-size="10">timing, pressure</text></g>
+    <g transform="translate(265 236)"><rect x="-70" y="-22" width="140" height="44" rx="10" fill="#334155"/><text y="-2" fill="#f8fafc">⚡ Spark plugs</text><text y="14" font-size="10">ignition control</text></g>
+    <g transform="translate(420 236)"><rect x="-70" y="-22" width="140" height="44" rx="10" fill="#334155"/><text y="-2" fill="#f8fafc">🔩 Gearbox</text><text y="14" font-size="10">ratios, clutch plates</text></g>
+    <g transform="translate(575 236)"><rect x="-70" y="-22" width="140" height="44" rx="10" fill="#334155"/><text y="-2" fill="#f8fafc">🛑 ABS sensors</text><text y="14" font-size="10">wheel-speed checks</text></g>
+    <text x="690" y="240" font-size="18">…</text>
+  </g>
+</svg>

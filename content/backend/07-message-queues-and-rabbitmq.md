@@ -170,7 +170,7 @@ flowchart LR
 | Broker | Model | Best for |
 | --- | --- | --- |
 | **RabbitMQ** | Smart broker, queues and routing | Task queues, complex routing, request/reply |
-| **Apache Kafka** | Distributed append-only log | Event streaming, high throughput, replay (see the Kafka lessons) |
+| **Apache Kafka** | Distributed append-only log | Event streaming, high throughput, replay (see [What Is Apache Kafka?](/learn/kafka/what-is-kafka) and [Kafka vs RabbitMQ](/learn/kafka/kafka-vs-rabbitmq-and-ecosystem)) |
 | **AWS SQS / SNS** | Managed queue / pub-sub | Serverless, no ops |
 | **Redis Streams / BullMQ** | In-memory streams | Lightweight background jobs in Node.js |
 | **NATS** | Lightweight pub/sub | Low-latency messaging |
