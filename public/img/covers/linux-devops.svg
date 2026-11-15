@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#713f12"/><stop offset="1" stop-color="#eab308"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-opacity=".25"/></filter>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <circle cx="560" cy="40" r="140" fill="#fff" opacity=".07"/>
+  <circle cx="80" cy="340" r="110" fill="#fff" opacity=".06"/>
+
+  <!-- terminal -->
+  <g filter="url(#sh)">
+    <rect x="330" y="34" width="270" height="170" rx="12" fill="#0f172a"/>
+    <circle cx="350" cy="52" r="5" fill="#ef4444"/><circle cx="366" cy="52" r="5" fill="#eab308"/><circle cx="382" cy="52" r="5" fill="#22c55e"/>
+    <g font-family="Consolas, Menlo, monospace" font-size="13">
+      <text x="346" y="86" fill="#86efac">$ <tspan fill="#e2e8f0">ssh deploy@server</tspan></text>
+      <text x="346" y="110" fill="#86efac">$ <tspan fill="#e2e8f0">git pull &amp;&amp; npm ci</tspan></text>
+      <text x="346" y="134" fill="#86efac">$ <tspan fill="#e2e8f0">npm run build</tspan></text>
+      <text x="346" y="158" fill="#86efac">$ <tspan fill="#e2e8f0">systemctl restart app</tspan></text>
+      <text x="346" y="182" fill="#fde68a">● active (running) ✓</text>
+    </g>
+  </g>
+  <text x="250" y="120" font-size="64" text-anchor="middle">🐧</text>
+
+  <text x="36" y="262" font-size="40" font-weight="800" fill="#fff">Linux &amp; DevOps</text>
+  <text x="36" y="302" font-size="40" font-weight="800" fill="#fff">Deployment</text>
+  <text x="38" y="334" font-size="18" fill="#fff" opacity=".9">Shell · systemd · Nginx · CI/CD · Docker · Monitoring</text>
+</svg>

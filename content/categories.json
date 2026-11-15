@@ -81,6 +81,15 @@
     "cover": "/img/covers/kafka.svg"
   },
   {
+    "slug": "linux-devops",
+    "title": "Linux & DevOps Deployment",
+    "tagline": "From your laptop to a live server, safely",
+    "description": "The Linux command line, users and permissions, processes and systemd, SSH and firewalls, Bash scripting and cron, Nginx with HTTPS, deploying a Node.js app to a VPS, CI/CD with GitHub Actions, Docker in production, zero-downtime releases and rollbacks, monitoring, logs and backups, and a troubleshooting playbook with interview questions.",
+    "icon": "🐧",
+    "color": "#ca8a04",
+    "cover": "/img/covers/linux-devops.svg"
+  },
+  {
     "slug": "kubernetes",
     "title": "Kubernetes",
     "tagline": "Run containers at scale",

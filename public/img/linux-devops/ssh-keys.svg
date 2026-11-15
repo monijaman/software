@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="290" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">SSH key login: the private key never leaves your laptop</text>
+
+  <!-- laptop -->
+  <rect x="20" y="46" width="240" height="200" rx="16" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="140" y="74" text-anchor="middle" font-size="15" font-weight="800" fill="#1e40af">💻 Your laptop</text>
+  <rect x="40" y="90" width="200" height="56" rx="10" fill="#1e293b"/>
+  <text x="140" y="114" text-anchor="middle" font-size="13" font-weight="800" fill="#fde68a">🔑 private key</text>
+  <text x="140" y="134" text-anchor="middle" font-size="11" fill="#cbd5e1" font-family="Consolas, monospace">~/.ssh/id_ed25519</text>
+  <rect x="40" y="158" width="200" height="50" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="140" y="179" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">public key (copy)</text>
+  <text x="140" y="197" text-anchor="middle" font-size="11" fill="#475569" font-family="Consolas, monospace">id_ed25519.pub</text>
+  <text x="140" y="232" text-anchor="middle" font-size="11" fill="#b91c1c" font-weight="700">never share the private key</text>
+
+  <!-- server -->
+  <rect x="500" y="46" width="240" height="200" rx="16" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="620" y="74" text-anchor="middle" font-size="15" font-weight="800" fill="#15803d">🐧 Server</text>
+  <rect x="520" y="90" width="200" height="56" rx="10" fill="#ffffff" stroke="#86efac"/>
+  <text x="620" y="114" text-anchor="middle" font-size="13" font-weight="800" fill="#166534">🔒 public key</text>
+  <text x="620" y="134" text-anchor="middle" font-size="10" fill="#475569" font-family="Consolas, monospace">~/.ssh/authorized_keys</text>
+  <rect x="520" y="158" width="200" height="50" rx="10" fill="#ffffff" stroke="#86efac"/>
+  <text x="620" y="179" text-anchor="middle" font-size="11" fill="#166534" font-family="Consolas, monospace">PasswordAuthentication no</text>
+  <text x="620" y="197" text-anchor="middle" font-size="11" fill="#166534" font-family="Consolas, monospace">PermitRootLogin no</text>
+
+  <!-- handshake -->
+  <g font-size="12">
+    <line x1="262" y1="96" x2="498" y2="96" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="380" y="88" text-anchor="middle" fill="#334155">① "I'm deploy, here is my public key"</text>
+    <line x1="498" y1="140" x2="262" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="380" y="132" text-anchor="middle" fill="#334155">② "Sign this random challenge"</text>
+    <line x1="262" y1="184" x2="498" y2="184" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="380" y="176" text-anchor="middle" fill="#334155">③ signature made with the private key</text>
+    <text x="380" y="214" text-anchor="middle" font-weight="800" fill="#15803d">④ public key verifies it ✅ logged in</text>
+  </g>
+  <text x="380" y="274" text-anchor="middle" font-size="12" fill="#475569">No password is sent, so there is nothing for bots to guess or steal on the network.</text>
+</svg>

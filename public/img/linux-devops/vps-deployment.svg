@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Fresh server to live HTTPS site in ten steps</text>
+
+  <g font-size="11" text-anchor="middle">
+    <!-- row 1 -->
+    <g transform="translate(15 42)"><rect width="134" height="100" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/><text x="67" y="30" font-size="22">👤</text><text x="67" y="54" font-size="13" font-weight="800" fill="#b91c1c">1. User</text><text x="67" y="72" fill="#334155">deploy + sudo</text><text x="67" y="88" fill="#334155">SSH key login</text></g>
+    <g transform="translate(164 42)"><rect width="134" height="100" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/><text x="67" y="30" font-size="22">🔐</text><text x="67" y="54" font-size="13" font-weight="800" fill="#b91c1c">2. Lock down</text><text x="67" y="72" fill="#334155">no root, no passwords</text><text x="67" y="88" fill="#334155">ufw 22/80/443</text></g>
+    <g transform="translate(313 42)"><rect width="134" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/><text x="67" y="30" font-size="22">📦</text><text x="67" y="54" font-size="13" font-weight="800" fill="#1e40af">3. Install</text><text x="67" y="72" fill="#334155">Node 22, Git, Nginx</text><text x="67" y="88" fill="#334155">build-essential</text></g>
+    <g transform="translate(462 42)"><rect width="134" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/><text x="67" y="30" font-size="22">📥</text><text x="67" y="54" font-size="13" font-weight="800" fill="#1e40af">4. Clone</text><text x="67" y="72" fill="#334155">read-only deploy key</text><text x="67" y="88" fill="#334155">/var/www/myapp</text></g>
+    <g transform="translate(611 42)"><rect width="134" height="100" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="67" y="30" font-size="22">🤫</text><text x="67" y="54" font-size="13" font-weight="800" fill="#5b21b6">5. Secrets</text><text x="67" y="72" fill="#334155">.env (chmod 600)</text><text x="67" y="88" fill="#334155">not in Git</text></g>
+    <!-- row 2 (right to left) -->
+    <g transform="translate(611 178)"><rect width="134" height="100" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="67" y="30" font-size="22">🔨</text><text x="67" y="54" font-size="13" font-weight="800" fill="#5b21b6">6. Build</text><text x="67" y="72" fill="#334155">npm ci</text><text x="67" y="88" fill="#334155">npm run build</text></g>
+    <g transform="translate(462 178)"><rect width="134" height="100" rx="12" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/><text x="67" y="30" font-size="22">⚙️</text><text x="67" y="54" font-size="13" font-weight="800" fill="#a16207">7. systemd</text><text x="67" y="72" fill="#334155">myapp.service</text><text x="67" y="88" fill="#334155">enable --now</text></g>
+    <g transform="translate(313 178)"><rect width="134" height="100" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/><text x="67" y="30" font-size="22">🧭</text><text x="67" y="54" font-size="13" font-weight="800" fill="#15803d">8. Nginx</text><text x="67" y="72" fill="#334155">proxy to</text><text x="67" y="88" fill="#334155">127.0.0.1:3000</text></g>
+    <g transform="translate(164 178)"><rect width="134" height="100" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/><text x="67" y="30" font-size="22">🔒</text><text x="67" y="54" font-size="13" font-weight="800" fill="#15803d">9. DNS + HTTPS</text><text x="67" y="72" fill="#334155">A record → IP</text><text x="67" y="88" fill="#334155">certbot --nginx</text></g>
+    <g transform="translate(15 178)"><rect width="134" height="100" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/><text x="67" y="30" font-size="22">✅</text><text x="67" y="54" font-size="13" font-weight="800" fill="#047857">10. Verify</text><text x="67" y="72" fill="#334155">curl each layer</text><text x="67" y="88" fill="#334155">then sudo reboot</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="150" y1="92" x2="162" y2="92"/><line x1="299" y1="92" x2="311" y2="92"/>
+    <line x1="448" y1="92" x2="460" y2="92"/><line x1="597" y1="92" x2="609" y2="92"/>
+    <line x1="678" y1="143" x2="678" y2="176"/>
+    <line x1="610" y1="228" x2="598" y2="228"/><line x1="461" y1="228" x2="449" y2="228"/>
+    <line x1="312" y1="228" x2="300" y2="228"/><line x1="163" y1="228" x2="151" y2="228"/>
+  </g>
+  <text x="230" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#b91c1c">secure first</text>
+  <text x="530" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">build the app</text>
+</svg>

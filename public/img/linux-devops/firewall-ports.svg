@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#15803d"/></marker>
+  <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
+  <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Firewall: open only the doors you use</text>
+
+  <!-- internet -->
+  <g font-size="12">
+    <rect x="15" y="44" width="150" height="240" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="90" y="70" text-anchor="middle" font-size="14" font-weight="800" fill="#334155">🌍 Internet</text>
+    <text x="90" y="104" text-anchor="middle" fill="#334155">👩‍💻 you (SSH)</text>
+    <text x="90" y="150" text-anchor="middle" fill="#334155">👥 visitors</text>
+    <text x="90" y="200" text-anchor="middle" fill="#b91c1c">🤖 bots</text>
+    <text x="90" y="250" text-anchor="middle" fill="#b91c1c">🤖 scanners</text>
+  </g>
+
+  <!-- firewall wall -->
+  <rect x="225" y="44" width="26" height="240" fill="#fecaca" stroke="#ef4444" stroke-width="2"/>
+  <g fill="#ef4444" opacity=".5"><rect x="225" y="70" width="26" height="4"/><rect x="225" y="110" width="26" height="4"/><rect x="225" y="160" width="26" height="4"/><rect x="225" y="210" width="26" height="4"/><rect x="225" y="250" width="26" height="4"/></g>
+  <text x="238" y="296" text-anchor="middle" font-size="11" font-weight="700" fill="#b91c1c">ufw</text>
+
+  <!-- server -->
+  <rect x="290" y="44" width="455" height="240" rx="16" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="517" y="68" text-anchor="middle" font-size="14" font-weight="800" fill="#a16207">🐧 Server 203.0.113.10</text>
+
+  <g font-size="12">
+    <rect x="310" y="86" width="130" height="34" rx="8" fill="#dcfce7" stroke="#22c55e"/>
+    <text x="375" y="108" text-anchor="middle" font-weight="700" fill="#166534">:22 sshd</text>
+    <rect x="310" y="136" width="130" height="34" rx="8" fill="#dcfce7" stroke="#22c55e"/>
+    <text x="375" y="158" text-anchor="middle" font-weight="700" fill="#166534">:80 / :443 Nginx</text>
+
+    <rect x="500" y="136" width="225" height="34" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="612" y="158" text-anchor="middle" fill="#334155">127.0.0.1:3000 Node app</text>
+    <rect x="500" y="196" width="225" height="34" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="612" y="218" text-anchor="middle" fill="#334155">127.0.0.1:5432 PostgreSQL</text>
+    <text x="612" y="252" text-anchor="middle" font-size="11" fill="#64748b">internal only: not reachable</text>
+    <text x="612" y="267" text-anchor="middle" font-size="11" fill="#64748b">from the internet at all</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="150" y1="100" x2="308" y2="103" stroke="#15803d" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="150" y1="146" x2="308" y2="153" stroke="#15803d" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="440" y1="153" x2="498" y2="153" stroke="#64748b" stroke-width="2" marker-end="url(#arrG)"/>
+  <line x1="612" y1="170" x2="612" y2="194" stroke="#64748b" stroke-width="2" marker-end="url(#arrG)"/>
+  <line x1="150" y1="196" x2="222" y2="196" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrR)"/>
+  <line x1="150" y1="246" x2="222" y2="246" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrR)"/>
+  <text x="190" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">✖ :3000</text>
+  <text x="190" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">✖ :5432</text>
+</svg>

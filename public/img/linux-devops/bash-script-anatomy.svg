@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="330" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Anatomy of a safe Bash script</text>
+
+  <rect x="15" y="38" width="430" height="282" rx="12" fill="#0f172a"/>
+  <g font-family="Consolas, Menlo, monospace" font-size="12">
+    <rect x="22" y="48" width="416" height="22" rx="4" fill="#1e3a8a"/>
+    <text x="30" y="64" fill="#93c5fd">#!/usr/bin/env bash</text>
+    <rect x="22" y="74" width="416" height="22" rx="4" fill="#7f1d1d"/>
+    <text x="30" y="90" fill="#fecaca">set -euo pipefail</text>
+    <rect x="22" y="104" width="416" height="44" rx="4" fill="#14532d"/>
+    <text x="30" y="120" fill="#bbf7d0">APP_DIR="/var/www/myapp"</text>
+    <text x="30" y="138" fill="#bbf7d0">log() { echo "[$(date +%T)] $*"; }</text>
+    <rect x="22" y="156" width="416" height="44" rx="4" fill="#713f12"/>
+    <text x="30" y="172" fill="#fde68a">[[ -d "$APP_DIR" ]] || { log "no dir"; exit 1; }</text>
+    <text x="30" y="190" fill="#fde68a">command -v npm &gt;/dev/null || exit 1</text>
+    <rect x="22" y="208" width="416" height="62" rx="4" fill="#3b0764"/>
+    <text x="30" y="224" fill="#e9d5ff">cd "$APP_DIR"</text>
+    <text x="30" y="242" fill="#e9d5ff">npm ci &amp;&amp; npm run build</text>
+    <text x="30" y="260" fill="#e9d5ff">sudo systemctl restart myapp</text>
+    <rect x="22" y="278" width="416" height="34" rx="4" fill="#064e3b"/>
+    <text x="30" y="300" fill="#a7f3d0">curl -fsS localhost:3000 &amp;&amp; log "✅ done"</text>
+  </g>
+
+  <g font-size="12">
+    <line x1="440" y1="59" x2="470" y2="59" stroke="#3b82f6" stroke-width="2"/>
+    <text x="478" y="56" font-weight="800" fill="#1e40af">① Shebang</text><text x="478" y="71" fill="#475569">which program runs the file</text>
+    <line x1="440" y1="85" x2="470" y2="100" stroke="#ef4444" stroke-width="2"/>
+    <text x="478" y="98" font-weight="800" fill="#b91c1c">② Strict mode</text><text x="478" y="113" fill="#475569">stop on errors, unset vars, failed pipes</text>
+    <line x1="440" y1="126" x2="470" y2="142" stroke="#22c55e" stroke-width="2"/>
+    <text x="478" y="140" font-weight="800" fill="#15803d">③ Variables + helpers</text><text x="478" y="155" fill="#475569">one place to change paths; quote "$VARS"</text>
+    <line x1="440" y1="178" x2="470" y2="184" stroke="#eab308" stroke-width="2"/>
+    <text x="478" y="182" font-weight="800" fill="#a16207">④ Pre-flight checks</text><text x="478" y="197" fill="#475569">fail early, with a clear message</text>
+    <line x1="440" y1="239" x2="470" y2="230" stroke="#a855f7" stroke-width="2"/>
+    <text x="478" y="228" font-weight="800" fill="#7e22ce">⑤ The real work</text><text x="478" y="243" fill="#475569">each step stops the script if it fails</text>
+    <line x1="440" y1="295" x2="470" y2="278" stroke="#10b981" stroke-width="2"/>
+    <text x="478" y="276" font-weight="800" fill="#047857">⑥ Verify + exit code</text><text x="478" y="291" fill="#475569">prove it worked; exit 1 if not</text>
+  </g>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">GitHub Actions: test every push, deploy only what passed</text>
+
+  <!-- trigger -->
+  <g transform="translate(15 90)">
+    <rect width="120" height="90" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <text x="60" y="32" text-anchor="middle" font-size="24">📤</text>
+    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">git push</text>
+    <text x="60" y="74" text-anchor="middle" font-size="11" fill="#64748b">or pull request</text>
+  </g>
+
+  <!-- workflow box -->
+  <rect x="160" y="44" width="420" height="232" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="370" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#475569" font-family="Consolas, monospace">.github/workflows/ci.yml</text>
+
+  <!-- test job -->
+  <g transform="translate(178 80)">
+    <rect width="180" height="180" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="90" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">job: test</text>
+    <text x="90" y="40" text-anchor="middle" font-size="10" fill="#64748b">ubuntu-latest runner</text>
+    <g font-size="11" font-family="Consolas, monospace" fill="#1e3a8a">
+      <text x="14" y="66">✓ checkout</text>
+      <text x="14" y="86">✓ setup-node 22</text>
+      <text x="14" y="106">✓ npm ci</text>
+      <text x="14" y="126">✓ npm run lint</text>
+      <text x="14" y="146">✓ npm test</text>
+      <text x="14" y="166">✓ npm run build</text>
+    </g>
+  </g>
+
+  <!-- deploy job -->
+  <g transform="translate(382 80)">
+    <rect width="180" height="180" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <text x="90" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#15803d">job: deploy</text>
+    <text x="90" y="40" text-anchor="middle" font-size="10" fill="#64748b">needs: test · if main</text>
+    <g font-size="11" fill="#14532d">
+      <text x="14" y="66">🔑 load SSH secret</text>
+      <text x="14" y="86">⏸ approval (optional)</text>
+      <text x="14" y="106">🔒 concurrency: prod</text>
+      <text x="14" y="126">📦 upload release</text>
+      <text x="14" y="146">🔁 switch + restart</text>
+      <text x="14" y="166">❤️ health check</text>
+    </g>
+  </g>
+
+  <!-- server -->
+  <g transform="translate(615 90)">
+    <rect width="130" height="90" rx="14" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+    <text x="65" y="32" text-anchor="middle" font-size="24">🐧</text>
+    <text x="65" y="56" text-anchor="middle" font-size="13" font-weight="800" fill="#a16207">VPS</text>
+    <text x="65" y="74" text-anchor="middle" font-size="11" fill="#64748b">deploy.sh over SSH</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="136" y1="135" x2="176" y2="135"/>
+    <line x1="359" y1="135" x2="380" y2="135"/>
+    <line x1="563" y1="135" x2="613" y2="135"/>
+  </g>
+  <text x="370" y="128" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">pass</text>
+  <rect x="198" y="279" width="144" height="19" rx="9" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="270" y="292" text-anchor="middle" font-size="11" font-weight="700" fill="#b91c1c">❌ any fail → no deploy</text>
+  <text x="680" y="210" text-anchor="middle" font-size="11" fill="#475569">CI = test job</text>
+  <text x="680" y="228" text-anchor="middle" font-size="11" fill="#475569">CD = deploy job</text>
+</svg>

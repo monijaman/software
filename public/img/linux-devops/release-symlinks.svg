@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16a34a"/></marker>
+  <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f97316"/></marker></defs>
+  <rect width="760" height="290" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Release folders: build beside the live app, then flip one symlink</text>
+
+  <text x="30" y="58" font-size="12" font-weight="700" fill="#475569" font-family="Consolas, monospace">/var/www/myapp/releases/</text>
+  <g font-size="12" font-family="Consolas, monospace">
+    <g transform="translate(30 70)"><rect width="160" height="70" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/><text x="80" y="28" text-anchor="middle" fill="#475569">1114-0930</text><text x="80" y="48" text-anchor="middle" font-size="11" fill="#64748b">a1b2c3d · old</text></g>
+    <g transform="translate(210 70)"><rect width="160" height="70" rx="10" fill="#fff7ed" stroke="#f97316" stroke-width="2"/><text x="80" y="28" text-anchor="middle" fill="#c2410c" font-weight="700">1115-1012</text><text x="80" y="48" text-anchor="middle" font-size="11" fill="#9a3412">e4f5a6b · previous</text></g>
+    <g transform="translate(390 70)"><rect width="160" height="70" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/><text x="80" y="28" text-anchor="middle" fill="#15803d" font-weight="700">1115-1530</text><text x="80" y="48" text-anchor="middle" font-size="11" fill="#166534">9c8d7e6 · new ✅</text></g>
+    <g transform="translate(570 70)"><rect width="160" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4"/><text x="80" y="28" text-anchor="middle" fill="#94a3b8">next deploy</text><text x="80" y="48" text-anchor="middle" font-size="11" fill="#94a3b8">builds here</text></g>
+  </g>
+
+  <!-- current symlink -->
+  <g transform="translate(300 196)">
+    <rect width="160" height="52" rx="12" fill="#1e293b"/>
+    <text x="80" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#fde68a" font-family="Consolas, monospace">current →</text>
+    <text x="80" y="42" text-anchor="middle" font-size="10" fill="#cbd5e1">systemd runs from here</text>
+  </g>
+  <path d="M440 196 C 455 170, 465 160, 470 142" fill="none" stroke="#16a34a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="520" y="180" font-size="11" font-weight="700" fill="#15803d">② flip: mv -T (atomic)</text>
+  <path d="M320 196 C 305 170, 295 160, 290 142" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrO)"/>
+  <text x="90" y="180" font-size="11" font-weight="700" fill="#c2410c">③ rollback: point back here</text>
+
+  <!-- step 1 -->
+  <g font-size="11" fill="#334155">
+    <text x="30" y="270">① build the new release in its own folder: npm ci + build. The live site is untouched; a failed build changes nothing.</text>
+  </g>
+  <g font-size="11">
+    <rect x="590" y="200" width="150" height="44" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="665" y="218" text-anchor="middle" fill="#334155" font-family="Consolas, monospace">shared/.env</text>
+    <text x="665" y="234" text-anchor="middle" fill="#334155" font-family="Consolas, monospace">shared/uploads</text>
+  </g>
+</svg>

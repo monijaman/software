@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker>
+  <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">systemd keeps your app alive</text>
+
+  <!-- boot -->
+  <g transform="translate(20 70)">
+    <rect width="120" height="70" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <text x="60" y="30" text-anchor="middle" font-size="22">🔌</text>
+    <text x="60" y="54" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">Server boots</text>
+  </g>
+  <!-- systemd -->
+  <g transform="translate(190 55)">
+    <rect width="150" height="100" rx="14" fill="#fefce8" stroke="#ca8a04" stroke-width="2.5"/>
+    <text x="75" y="30" text-anchor="middle" font-size="15" font-weight="800" fill="#a16207">systemd</text>
+    <text x="75" y="52" text-anchor="middle" font-size="11" fill="#334155" font-family="Consolas, monospace">myapp.service</text>
+    <text x="75" y="72" text-anchor="middle" font-size="11" fill="#64748b">enabled → start on boot</text>
+    <text x="75" y="88" text-anchor="middle" font-size="11" fill="#64748b">Restart=always</text>
+  </g>
+  <!-- app -->
+  <g transform="translate(410 55)">
+    <rect width="160" height="100" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2.5"/>
+    <text x="80" y="30" text-anchor="middle" font-size="15" font-weight="800" fill="#15803d">🟢 Node app</text>
+    <text x="80" y="52" text-anchor="middle" font-size="11" fill="#334155">User=deploy</text>
+    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#334155">PORT=3000</text>
+    <text x="80" y="88" text-anchor="middle" font-size="11" fill="#64748b">active (running)</text>
+  </g>
+  <!-- journald -->
+  <g transform="translate(620 70)">
+    <rect width="120" height="70" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="60" y="28" text-anchor="middle" font-size="13" font-weight="800" fill="#1e40af">📜 journald</text>
+    <text x="60" y="50" text-anchor="middle" font-size="10" fill="#334155" font-family="Consolas, monospace">journalctl -u myapp</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="140" y1="105" x2="188" y2="105"/>
+    <line x1="340" y1="95" x2="408" y2="95"/>
+    <line x1="570" y1="105" x2="618" y2="105"/>
+  </g>
+  <text x="374" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">start</text>
+  <text x="594" y="98" text-anchor="middle" font-size="10" fill="#475569">stdout</text>
+
+  <!-- crash loop -->
+  <path d="M490 157 C 490 215, 265 215, 265 160" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrR)"/>
+  <text x="378" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#dc2626">💥 crash → wait RestartSec=5 → start again</text>
+
+  <!-- commands -->
+  <g font-size="11" font-family="Consolas, Menlo, monospace">
+    <rect x="20" y="228" width="720" height="56" rx="10" fill="#0f172a"/>
+    <text x="36" y="250" fill="#86efac">$ <tspan fill="#e2e8f0">sudo systemctl enable --now myapp</tspan></text>
+    <text x="36" y="270" fill="#86efac">$ <tspan fill="#e2e8f0">sudo systemctl restart myapp</tspan><tspan fill="#64748b">   # after each deploy</tspan></text>
+    <text x="410" y="250" fill="#86efac">$ <tspan fill="#e2e8f0">systemctl status myapp</tspan></text>
+    <text x="410" y="270" fill="#86efac">$ <tspan fill="#e2e8f0">journalctl -u myapp -f</tspan></text>
+  </g>
+</svg>
