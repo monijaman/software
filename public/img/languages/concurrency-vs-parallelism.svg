@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Concurrency vs parallelism</text>
+
+  <!-- Concurrency -->
+  <rect x="15" y="40" width="355" height="245" rx="16" fill="#ecfeff" stroke="#67e8f9" stroke-width="2"/>
+  <text x="192" y="64" text-anchor="middle" font-size="14" font-weight="800" fill="#155e75">🧑‍🍳 Concurrency: one cook, many dishes</text>
+  <text x="192" y="82" text-anchor="middle" font-size="11" fill="#475569">switches whenever a dish has to wait</text>
+  <text x="40" y="112" font-size="11" fill="#334155" font-weight="700">core 1</text>
+  <g transform="translate(90 98)">
+    <rect x="0" width="50" height="22" rx="4" fill="#3b82f6"/><rect x="50" width="40" height="22" rx="4" fill="#f97316"/>
+    <rect x="90" width="35" height="22" rx="4" fill="#22c55e"/><rect x="125" width="45" height="22" rx="4" fill="#3b82f6"/>
+    <rect x="170" width="40" height="22" rx="4" fill="#f97316"/><rect x="210" width="50" height="22" rx="4" fill="#22c55e"/>
+  </g>
+  <g font-size="11" fill="#334155">
+    <rect x="40" y="140" width="12" height="12" rx="2" fill="#3b82f6"/><text x="58" y="151">task A: fetch user (waits for DB)</text>
+    <rect x="40" y="162" width="12" height="12" rx="2" fill="#f97316"/><text x="58" y="173">task B: call payment API (waits)</text>
+    <rect x="40" y="184" width="12" height="12" rx="2" fill="#22c55e"/><text x="58" y="195">task C: read a file (waits)</text>
+  </g>
+  <rect x="35" y="214" width="315" height="54" rx="10" fill="#ffffff" stroke="#a5f3fc"/>
+  <text x="192" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">About dealing with many things at once</text>
+  <text x="192" y="254" text-anchor="middle" font-size="11" fill="#475569">Great for I/O: while A waits, B and C run</text>
+
+  <!-- Parallelism -->
+  <rect x="390" y="40" width="355" height="245" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="567" y="64" text-anchor="middle" font-size="14" font-weight="800" fill="#15803d">🧑‍🍳🧑‍🍳🧑‍🍳 Parallelism: three cooks</text>
+  <text x="567" y="82" text-anchor="middle" font-size="11" fill="#475569">each works at the same moment</text>
+  <g font-size="11" fill="#334155" font-weight="700"><text x="415" y="112">core 1</text><text x="415" y="142">core 2</text><text x="415" y="172">core 3</text></g>
+  <rect x="465" y="98" width="260" height="22" rx="4" fill="#3b82f6"/>
+  <rect x="465" y="128" width="260" height="22" rx="4" fill="#f97316"/>
+  <rect x="465" y="158" width="260" height="22" rx="4" fill="#22c55e"/>
+  <text x="595" y="113" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="700">task A</text>
+  <text x="595" y="143" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="700">task B</text>
+  <text x="595" y="173" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="700">task C</text>
+  <rect x="410" y="214" width="315" height="54" rx="10" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="567" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">About doing many things at once</text>
+  <text x="567" y="254" text-anchor="middle" font-size="11" fill="#475569">Needs several CPU cores; great for CPU-heavy work</text>
+</svg>

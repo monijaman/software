@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="300" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Worker pool: a fixed team pulls jobs from one queue</text>
+
+  <!-- producer -->
+  <g transform="translate(15 105)">
+    <rect width="110" height="80" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">producer</text>
+    <text x="55" y="50" text-anchor="middle" font-size="10" fill="#475569">sends 9 jobs</text>
+    <text x="55" y="66" text-anchor="middle" font-size="10" fill="#475569" font-family="Consolas, monospace">close(jobs)</text>
+  </g>
+
+  <!-- jobs channel -->
+  <g transform="translate(150 120)">
+    <rect width="140" height="50" rx="25" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+    <text x="70" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#155e75">jobs channel</text>
+    <g font-size="10" fill="#0e7490" text-anchor="middle"><text x="30" y="38">J7</text><text x="55" y="38">J8</text><text x="80" y="38">J9</text><text x="110" y="38">→</text></g>
+  </g>
+
+  <!-- workers -->
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(330 46)"><rect width="150" height="58" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="75" y="24" font-weight="800" fill="#5b21b6">👷 worker 1</text><text x="75" y="44" font-size="11" fill="#334155">working on J4</text></g>
+    <g transform="translate(330 116)"><rect width="150" height="58" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="75" y="24" font-weight="800" fill="#5b21b6">👷 worker 2</text><text x="75" y="44" font-size="11" fill="#334155">working on J5</text></g>
+    <g transform="translate(330 186)"><rect width="150" height="58" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="75" y="24" font-weight="800" fill="#5b21b6">👷 worker 3</text><text x="75" y="44" font-size="11" fill="#334155">working on J6</text></g>
+  </g>
+
+  <!-- results channel -->
+  <g transform="translate(515 120)">
+    <rect width="120" height="50" rx="25" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <text x="60" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#15803d">results channel</text>
+    <g font-size="10" fill="#166534" text-anchor="middle"><text x="30" y="38">R1</text><text x="60" y="38">R2</text><text x="90" y="38">R3</text></g>
+  </g>
+  <!-- collector -->
+  <g transform="translate(655 105)">
+    <rect width="90" height="80" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <text x="45" y="34" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">collector</text>
+    <text x="45" y="54" text-anchor="middle" font-size="10" fill="#475569" font-family="Consolas, monospace">for r := range</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="126" y1="145" x2="148" y2="145"/>
+    <line x1="290" y1="140" x2="328" y2="78"/><line x1="290" y1="145" x2="328" y2="145"/><line x1="290" y1="150" x2="328" y2="212"/>
+    <line x1="481" y1="78" x2="520" y2="138"/><line x1="481" y1="145" x2="513" y2="145"/><line x1="481" y1="212" x2="520" y2="152"/>
+    <line x1="636" y1="145" x2="653" y2="145"/>
+  </g>
+  <rect x="150" y="262" width="460" height="28" rx="14" fill="#fefce8" stroke="#fde68a"/>
+  <text x="380" y="281" text-anchor="middle" font-size="12" fill="#713f12">Close jobs → workers stop · wg.Wait() → close results → collector stops</text>
+</svg>
