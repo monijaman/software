@@ -26,6 +26,15 @@ const groupedCategories: Record<string, readonly GroupDefinition[]> = {
     { title: "Database Design & Performance", description: "Relations, normalization, transactions, indexes, query performance and scaling.", positions: [1, 2, 3, 4, 5, 6, 7] },
     { title: "Database Interview Prep", description: "Thirty DBMS interview questions with detailed answers and SQL practice.", positions: [8, 9, 10, 11, 12] },
   ],
+  "programming-languages": [
+    { title: "Start Here", description: "Compare languages by runtime, typing, concurrency and team fit before you pick one.", positions: [1] },
+    { title: "JavaScript Tutorial", description: "Learn JavaScript step by step, from your first line of code to the DOM, events, async code and small projects. Short lessons with examples and exercises.", positions: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30] },
+    { title: "JavaScript Deep Dives", description: "Values and references, prototypes, modules and how async code really runs.", positions: [31, 32] },
+    { title: "TypeScript & Node.js", description: "Typed JavaScript in practice, then servers with Express and NestJS.", positions: [33, 34, 35] },
+    { title: "Python", description: "Python fundamentals and web APIs with FastAPI and Django.", positions: [36, 37] },
+    { title: "Go", description: "Go fundamentals, goroutines and channels, and web services with Gin.", positions: [38, 39, 40] },
+    { title: "Rust", description: "Ownership and borrowing, then types, errors and fearless concurrency.", positions: [41, 42] },
+  ],
   "software-architecture": [
     { title: "Beginner Foundations", description: "Start with the core vocabulary, common application structure, and C4 diagrams for explaining a system.", positions: [1, 2, 14] },
     { title: "Intermediate Architecture Patterns", description: "Compare boundaries, domain modelling, communication styles and practical trade-offs.", positions: [3, 4, 5, 6, 7, 9, 10, 11, 12, 13] },

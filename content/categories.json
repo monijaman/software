@@ -111,7 +111,7 @@
     "slug": "programming-languages",
     "title": "Programming Languages",
     "tagline": "Write code with the right tools and mental models",
-    "description": "JavaScript fundamentals and async code, TypeScript in practice, Node.js with Express and NestJS, Python with FastAPI and Django, Go with goroutines and Gin, and Rust ownership, traits and concurrency, plus how to choose a language.",
+    "description": "A step-by-step JavaScript tutorial from first line to DOM, events, async code and projects, then JavaScript deep dives, TypeScript in practice, Node.js with Express and NestJS, Python with FastAPI and Django, Go with goroutines and Gin, and Rust ownership, traits and concurrency, plus how to choose a language.",
     "icon": "⌨️",
     "color": "#0891b2",
     "cover": "/img/covers/programming-languages.svg"
