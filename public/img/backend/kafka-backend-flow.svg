@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="330" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">Kafka in a backend: outbox in, idempotent consumers out</text>
+
+  <!-- producer side -->
+  <rect x="12" y="44" width="250" height="250" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="137" y="64" text-anchor="middle" font-size="12" font-weight="800" fill="#1e40af">orders-service</text>
+  <g transform="translate(30 76)"><rect width="214" height="44" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="107" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">🌐 POST /orders</text></g>
+  <g transform="translate(30 136)"><rect width="214" height="74" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="107" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">🐘 Postgres: ONE transaction</text>
+    <rect x="12" y="30" width="88" height="30" rx="6" fill="#dbeafe"/><text x="56" y="50" text-anchor="middle" font-size="11" fill="#1e3a8a">orders</text>
+    <text x="107" y="50" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">+</text>
+    <rect x="114" y="30" width="88" height="30" rx="6" fill="#dbeafe"/><text x="158" y="50" text-anchor="middle" font-size="11" fill="#1e3a8a">outbox</text></g>
+  <g transform="translate(30 226)"><rect width="214" height="50" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="107" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">🔁 Outbox relay / Debezium</text><text x="107" y="39" text-anchor="middle" font-size="10" fill="#64748b">acks=all · idempotent producer</text></g>
+
+  <!-- topic -->
+  <g transform="translate(300 96)">
+    <rect width="170" height="150" rx="14" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+    <text x="85" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#115e59">📨 shop.orders</text>
+    <text x="85" y="40" text-anchor="middle" font-size="10" fill="#64748b">key = orderId</text>
+    <g font-size="10" font-family="Consolas, monospace" fill="#115e59">
+      <rect x="12" y="52" width="146" height="22" rx="5" fill="#ccfbf1"/><text x="20" y="67">P0 │0│1│2│3│4│→</text>
+      <rect x="12" y="80" width="146" height="22" rx="5" fill="#ccfbf1"/><text x="20" y="95">P1 │0│1│2│→</text>
+      <rect x="12" y="108" width="146" height="22" rx="5" fill="#ccfbf1"/><text x="20" y="123">P2 │0│1│2│3│→</text>
+    </g>
+  </g>
+
+  <!-- consumers -->
+  <g font-size="11">
+    <g transform="translate(510 52)"><rect width="236" height="62" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/><text x="14" y="24" font-size="13" font-weight="800" fill="#15803d">💳 payments-service</text><text x="14" y="44" fill="#475569">group: payments · processed_events</text></g>
+    <g transform="translate(510 140)"><rect width="236" height="62" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/><text x="14" y="24" font-size="13" font-weight="800" fill="#15803d">✉️ email-service</text><text x="14" y="44" fill="#475569">group: email · idempotency key</text></g>
+    <g transform="translate(510 228)"><rect width="236" height="62" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/><text x="14" y="24" font-size="13" font-weight="800" fill="#15803d">🔎 search-indexer</text><text x="14" y="44" fill="#475569">group: search · upsert + version</text></g>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="137" y1="121" x2="137" y2="134"/>
+    <line x1="137" y1="211" x2="137" y2="224"/>
+    <line x1="245" y1="251" x2="298" y2="200"/>
+    <line x1="471" y1="140" x2="508" y2="84"/>
+    <line x1="471" y1="171" x2="508" y2="171"/>
+    <line x1="471" y1="202" x2="508" y2="258"/>
+  </g>
+  <rect x="300" y="262" width="170" height="30" rx="8" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="385" y="282" text-anchor="middle" font-size="11" font-weight="700" fill="#b91c1c">☠️ shop.orders.dlt</text>
+  <text x="380" y="318" text-anchor="middle" font-size="11" fill="#64748b">Every group reads every event at its own pace · at-least-once delivery, so handlers must be idempotent · poison messages go to the DLT</text>
+</svg>

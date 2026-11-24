@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="Segoe UI, system-ui, sans-serif">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+  <rect width="760" height="320" fill="#ffffff"/>
+  <text x="380" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">A 3-broker Kafka cluster (KRaft): one broker can fail without data loss</text>
+
+  <g transform="translate(15 100)"><rect width="120" height="90" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/><text x="60" y="34" text-anchor="middle" font-size="22">📤</text><text x="60" y="58" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">Producers</text><text x="60" y="76" text-anchor="middle" font-size="10" fill="#64748b">acks=all</text></g>
+  <g transform="translate(625 100)"><rect width="120" height="90" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/><text x="60" y="34" text-anchor="middle" font-size="22">📥</text><text x="60" y="58" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">Consumers</text><text x="60" y="76" text-anchor="middle" font-size="10" fill="#64748b">watch lag</text></g>
+
+  <rect x="160" y="44" width="440" height="200" rx="16" fill="#f0fdfa" stroke="#0d9488" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="380" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#115e59">private network · TLS + SASL + ACLs · RF=3 · min.insync.replicas=2</text>
+
+  <g font-size="11">
+    <g transform="translate(176 78)"><rect width="128" height="150" rx="12" fill="#fff" stroke="#0d9488" stroke-width="2"/><text x="64" y="22" text-anchor="middle" font-size="13" font-weight="800" fill="#115e59">Broker 1</text><text x="64" y="38" text-anchor="middle" font-size="10" fill="#64748b">+ controller · rack a</text>
+      <rect x="12" y="50" width="104" height="22" rx="5" fill="#0d9488"/><text x="64" y="65" text-anchor="middle" fill="#fff" font-weight="700">P0 leader</text>
+      <rect x="12" y="78" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="93" text-anchor="middle" fill="#115e59">P1 replica</text>
+      <rect x="12" y="106" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="121" text-anchor="middle" fill="#115e59">P2 replica</text></g>
+    <g transform="translate(316 78)"><rect width="128" height="150" rx="12" fill="#fff" stroke="#0d9488" stroke-width="2"/><text x="64" y="22" text-anchor="middle" font-size="13" font-weight="800" fill="#115e59">Broker 2</text><text x="64" y="38" text-anchor="middle" font-size="10" fill="#64748b">+ controller · rack b</text>
+      <rect x="12" y="50" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="65" text-anchor="middle" fill="#115e59">P0 replica</text>
+      <rect x="12" y="78" width="104" height="22" rx="5" fill="#0d9488"/><text x="64" y="93" text-anchor="middle" fill="#fff" font-weight="700">P1 leader</text>
+      <rect x="12" y="106" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="121" text-anchor="middle" fill="#115e59">P2 replica</text></g>
+    <g transform="translate(456 78)"><rect width="128" height="150" rx="12" fill="#fff" stroke="#0d9488" stroke-width="2"/><text x="64" y="22" text-anchor="middle" font-size="13" font-weight="800" fill="#115e59">Broker 3</text><text x="64" y="38" text-anchor="middle" font-size="10" fill="#64748b">+ controller · rack c</text>
+      <rect x="12" y="50" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="65" text-anchor="middle" fill="#115e59">P0 replica</text>
+      <rect x="12" y="78" width="104" height="22" rx="5" fill="#ccfbf1"/><text x="64" y="93" text-anchor="middle" fill="#115e59">P1 replica</text>
+      <rect x="12" y="106" width="104" height="22" rx="5" fill="#0d9488"/><text x="64" y="121" text-anchor="middle" fill="#fff" font-weight="700">P2 leader</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="136" y1="145" x2="174" y2="145"/>
+    <line x1="586" y1="145" x2="623" y2="145"/>
+  </g>
+
+  <g transform="translate(160 256)" font-size="11">
+    <rect width="440" height="48" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+    <text x="220" y="20" text-anchor="middle" font-weight="800" fill="#a16207">📈 Monitoring: JMX exporter → Prometheus → Grafana</text>
+    <text x="220" y="38" text-anchor="middle" fill="#713f12">alert on under-replicated / offline partitions · consumer lag · disk &gt; 75%</text>
+  </g>
+</svg>

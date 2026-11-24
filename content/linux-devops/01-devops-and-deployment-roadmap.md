@@ -82,6 +82,10 @@ Every box in this picture has a lesson in this section.
 | 11 | Zero-downtime deploys & rollbacks | Release without errors and undo in seconds |
 | 12 | Monitoring, logs & backups | Know about problems before users tell you |
 | 13 | Troubleshooting & interview questions | Fix "the site is down" calmly |
+| 14 | CI/CD fundamentals & pipeline design | Design a pipeline that works in any tool |
+| 15 | Jenkins: install to first pipeline | Run Jenkins and write a Jenkinsfile |
+| 16 | Jenkins in production | Build, approve and deploy Docker images from Jenkins |
+| 17 | Running Kafka in production | Operate a Kafka cluster: tuning, security, monitoring, upgrades |
 
 ## DevOps principles worth remembering
 

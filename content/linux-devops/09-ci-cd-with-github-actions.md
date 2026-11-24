@@ -202,11 +202,11 @@ Or keep previous releases on the server and switch back in seconds (lesson 11). 
 | --- | --- |
 | **GitHub Actions** | Built into GitHub, huge marketplace of actions |
 | **GitLab CI** | `.gitlab-ci.yml`, built into GitLab, strong self-hosting |
-| **Jenkins** | Self-hosted, very flexible, more maintenance |
+| **Jenkins** | Self-hosted, very flexible, more maintenance (lessons 15 and 16) |
 | **CircleCI, Buildkite** | Hosted CI services |
 | **Argo CD, Flux** | GitOps for Kubernetes: the cluster pulls changes from Git |
 
-The ideas are the same everywhere: trigger → jobs → steps → secrets → deploy only after checks pass.
+The ideas are the same everywhere: trigger → jobs → steps → secrets → deploy only after checks pass. Lesson 14 explains these shared ideas in depth.
 
 ## Key takeaways
 

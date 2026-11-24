@@ -163,3 +163,8 @@ Running Kafka yourself takes real expertise. Managed services handle brokers, up
 - **Kafka Connect** integrates databases and data stores without code; **Debezium** provides CDC.
 - **Kafka Streams / Flink** process streams in real time; **Schema Registry** keeps event contracts safe.
 - An event backbone lets new consumers plug in without changing producers.
+
+## Next steps
+
+- **Build it:** [Kafka for Backend Services](/learn/backend/kafka-for-backend-services) puts these ideas into backend code: event design, the outbox, idempotent consumers, retries and dead-letter topics.
+- **Run it:** [Running Kafka in Production](/learn/linux-devops/running-kafka-in-production) covers clusters, tuning, security and monitoring.

@@ -26,6 +26,14 @@ const groupedCategories: Record<string, readonly GroupDefinition[]> = {
     { title: "Database Design & Performance", description: "Relations, normalization, transactions, indexes, query performance and scaling.", positions: [1, 2, 3, 4, 5, 6, 7] },
     { title: "Database Interview Prep", description: "Thirty DBMS interview questions with detailed answers and SQL practice.", positions: [8, 9, 10, 11, 12] },
   ],
+  "linux-devops": [
+    { title: "Start Here", description: "What DevOps means and the path from git push to a live server.", positions: [1] },
+    { title: "Linux Server Essentials", description: "The command line, users and permissions, processes and systemd, SSH, firewalls, Bash and cron.", positions: [2, 3, 4, 5, 6] },
+    { title: "Deploying to Production", description: "Nginx with HTTPS, a step-by-step VPS deploy, Docker in production, zero-downtime releases, monitoring and backups.", positions: [7, 8, 10, 11, 12] },
+    { title: "CI/CD Pipelines", description: "Pipeline design that works in any tool, GitHub Actions, and Jenkins from first Jenkinsfile to production deploys.", positions: [14, 9, 15, 16] },
+    { title: "Operating Platform Services", description: "Running Kafka in production: clusters, tuning, security, monitoring, topics as code and upgrades.", positions: [17] },
+    { title: "Troubleshooting & Interview Prep", description: "A step-by-step playbook for production problems and common DevOps interview questions.", positions: [13] },
+  ],
   "software-architecture": [
     { title: "Beginner Foundations", description: "Start with the core vocabulary, common application structure, and C4 diagrams for explaining a system.", positions: [1, 2, 14] },
     { title: "Intermediate Architecture Patterns", description: "Compare boundaries, domain modelling, communication styles and practical trade-offs.", positions: [3, 4, 5, 6, 7, 9, 10, 11, 12, 13] },
