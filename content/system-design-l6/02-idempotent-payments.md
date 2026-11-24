@@ -1,88 +1,164 @@
 ---
 title: "Payment Retries: Prevent Duplicate Charges"
-summary: "Safe payment retries need a durable idempotency record, atomic state transition and provider-side deduplication."
+summary: "When a payment request is retried, the customer must never be charged twice. Save the attempt first, reuse one ID for every retry, and look up unclear results instead of guessing."
 level: Advanced
 tags: [system-design, payments, idempotency, reliability]
 ---
 
-## The problem in context
+## The story in one minute
 
-A customer pays for a ৳2,000 order. Their mobile connection drops after the payment provider accepts the charge, and the browser retries.
+A customer pays **৳2,000** for an order. Here is what goes wrong:
 
-## What must be true
+1. The app asks the payment company to charge the card.
+2. The payment company **charges it successfully**.
+3. Right then, the customer's mobile connection drops. The "success" reply never arrives.
+4. The browser thinks it failed and **sends the payment again**.
+5. The payment company sees what looks like a brand-new payment and charges **another ৳2,000**.
 
-Return a stable outcome for one payment intent despite retries and crashes. “Exactly once” is a business goal, not a guarantee supplied by an HTTP request.
+The customer paid twice for one order. This lesson is about making step 5 impossible.
 
-## Practical response
+## Words you need
 
-1. Persist an intent with a unique key, amount, currency and request hash. Reject the same key with different parameters.
+| Word | Plain meaning | Everyday example |
+| --- | --- | --- |
+| **Idempotent** | Doing it twice has the same effect as doing it once. | Pressing a lift button 5 times still calls one lift. |
+| **Idempotency key** | A unique ID for one attempt, sent again on every retry so the receiver knows "this is the same one". | A cheque number: the bank won't cash cheque #1042 twice. |
+| **Payment intent / attempt** | Our saved record of "we are trying to charge this order this amount". | The order slip a waiter writes before going to the kitchen. |
+| **Reconcile** | Compare our records with the payment company's and fix mismatches. | Matching your bank statement against your receipts. |
+| **Outbox** | A table where we save "messages to send later" in the same step as the main change. | A sticky note "email the receipt" stuck on the finished order. |
 
-2. Claim work atomically and send a stable provider idempotency key. A client key alone cannot protect two different keys for the same order; enforce the order’s payable state too.
+One honest point first: "charged **exactly once**" is a **business goal**. A single web request can't promise it, because the network can always lose a reply. We reach the goal by combining the rules below.
 
-3. Record confirmed outcomes and publish order events through an outbox. Keep provider keys and attempt history for the documented retry window.
+## The fix in four rules
 
-### Walk through a failure and recovery
+### Rule 1: Save the attempt before you call anyone
 
-A worker dies after charging but before saving success. A replacement queries the provider using the existing intent identity. If the provider has no usable deduplication or lookup contract, hold ambiguous attempts for reconciliation rather than claiming an unconditional at-most-once guarantee.
+Before talking to the payment company, save a row with: a unique key, the order, the amount, the currency, and a **request hash** (a short fingerprint of the request's details).
 
-## How to prove it worked
+- If the same key comes back with the **same** details, it's a retry. Return the saved result.
+- If the same key comes back with **different** details (say ৳5,000 instead of ৳2,000), **reject it**. Returning the old "success" for a different request would be wrong.
 
-Duplicate-request and crash-injection tests must yield one provider charge per payable intent. Track unknown-attempt age and reconcile database/provider totals; a low API latency alone proves nothing about charge safety.
+### Rule 2: One key per attempt, reused on every retry
+
+❌ **Wrong:** make a new key each time you retry. The payment company sees a new payment every time.
+
+✅ **Right:** create one key when the customer starts paying, and send **that same key** on every retry, to our server **and** to the payment company.
+
+Two layers of protection:
+
+- **Our database's unique key** stops our own app from starting two attempts.
+- **The payment company's idempotency key** protects the risky moment where the charge happened but we never heard back.
+
+### Rule 3: Protect the order, not just the key
+
+A key only matches **itself**. If the customer opens **two browser tabs**, each tab may make its own key. Two different keys look like two different payments.
+
+So also make the **order** itself enforce "only one payment in progress". (See the answer below for how.)
+
+### Rule 4: Timeout means "unknown", not "failed"
+
+❌ **Wrong:** the call timed out, so mark it failed and charge again.
+
+✅ **Right:** mark it `UNKNOWN`. A background worker asks the payment company "what happened to this key?" and records the real answer.
+
+## Walk through a failure
+
+A worker charges the card, then **crashes** before saving "success".
+
+1. A replacement worker picks up the same attempt (it's still saved in our database).
+2. It asks the payment company about the **existing** attempt key.
+3. The payment company says "already charged, here's the payment ID". We save `COMPLETED`. No second charge.
+
+What if the payment company **can't** look up or de-duplicate by key? Then you **cannot** promise "at most once" on your own. Hold those unclear attempts for **reconciliation** (a person or job checks them) instead of retrying.
+
+## How to prove it works
+
+1. **Duplicate test:** send the same request 10 times at once. Exactly **one** charge reaches the payment company.
+2. **Crash test:** kill the worker right after the charge and before saving. Still exactly **one** charge.
+3. **Two-tabs test:** pay for the same order from two tabs with different keys. Only **one** proceeds.
+4. **Watch the unknowns:** track how many `UNKNOWN` attempts exist and **how old** the oldest one is. Regularly compare our totals with the payment company's totals.
+
+Fast API responses prove **nothing** about charge safety. Only these tests do.
 
 ### Check your understanding
 
-What prevents two tabs from creating different payment keys for the same order?
+What stops two browser tabs from creating two different payment keys for the **same order** and getting charged twice?
+
+<details>
+<summary>Show answer</summary>
+
+The idempotency key alone can't, because each tab may have its own key. You need a rule on the **order** itself, in the database:
+
+- Move the order from `AWAITING_PAYMENT` to `PAYMENT_IN_PROGRESS` with a **conditional update** ("only if it is still awaiting payment"). Only one tab's update succeeds; the other gets "already being paid" and is shown the first attempt.
+- Or add a **unique rule**: at most one active payment attempt per `order_id`.
+- It also helps to base the payment company's key on the order (for example, the order ID plus attempt number) so both tabs map to the same charge.
+
+The key protects **retries of one attempt**. The order's state protects **the order**.
+
+</details>
 
 ---
 
-## Concepts and implementation details
+## Going deeper
 
-## The invariant
+## The promise
 
-For one customer, amount, and checkout intent: **charge at most once**. A retry returns the original outcome; it does not create another payment.
+For one customer, one amount and one checkout: **charge at most once**. A retry gives back the **original** result. It never creates another payment.
 
 ![The safe payment path: durable attempt, provider idempotency key, then recovery for an unknown result](/img/system-design-l6/payment-idempotency.svg)
 
-## Why a naive flow fails
+## Why the simple way fails
 
-The provider can charge successfully while the app crashes before recording `COMPLETED`. A database transaction cannot include that network call.
+The simple way is: check the key, call the payment company, save the result. The problem: the charge can succeed and then our app crashes **before** saving. A database transaction (an all-or-nothing group of changes) **cannot include** a call over the network to another company. So there's always a gap.
 
-| Unsafe | Safe |
+| ❌ Unsafe | ✅ Safe |
 | --- | --- |
-| Check key → call provider → save | Atomically create/get attempt → call with same key → save |
-| Retry means “try again” | Retry means “look up this attempt” |
-| Concurrent requests race | A unique key permits one attempt |
+| Check key, then call the provider, then save. | Create (or fetch) the attempt in one step, call with the same key, then save. |
+| Retry means "try again". | Retry means "look up this attempt". |
+| Two requests at the same time can both pass the check. | A unique key lets only one attempt exist. |
 
-## State and recovery
+## The states an attempt goes through
 
 ```text
 NEW → PROCESSING → COMPLETED
-                 ↘ UNKNOWN → reconcile with provider → COMPLETED / FAILED
+                 → FAILED
+                 → UNKNOWN → reconcile with provider → COMPLETED / FAILED
 ```
 
-Use `idempotency_key` as a unique database key and store a request hash. Reject reuse of the key with a different amount. Send the same key to the provider: your database protects your app, and the provider key protects the network failure window.
+In plain words: a new attempt starts as `NEW`. A worker moves it to `PROCESSING` and calls the payment company. A clear answer gives `COMPLETED` or `FAILED`. A timeout or lost reply gives `UNKNOWN`, which a background job later resolves by asking the payment company.
 
-Never blindly re-charge after a timeout. Store `UNKNOWN`, query the provider, and reconcile in a worker.
+Use `idempotency_key` as a **unique** column in the database and store the request hash next to it. Send the **same** key to the payment company. Your database protects your app; the provider's key protects the network gap.
 
-## Step-by-step flow
+## Step by step
 
-1. The browser creates one random idempotency key for its checkout attempt.
-2. The API stores `payment_attempt(key, order_id, amount, request_hash, status=NEW)` in a transaction. A unique constraint makes two clicks return the same row.
-3. One worker moves it to `PROCESSING` and calls the provider with that exact key.
-4. On a confirmed response it saves `COMPLETED` or `FAILED`. It also records the provider payment ID.
-5. If the network times out, it stores `UNKNOWN`. A reconciler asks the provider about the same key before anyone retries.
+1. The browser creates **one random key** when the customer starts this checkout attempt.
+2. The API saves `payment_attempt(key, order_id, amount, request_hash, status=NEW)` in a transaction. The unique rule on `key` means two clicks get back the **same row**, not two rows.
+3. One worker moves it to `PROCESSING` and calls the payment company with that exact key.
+4. On a clear answer, it saves `COMPLETED` or `FAILED`, plus the payment company's payment ID.
+5. On a timeout, it saves `UNKNOWN`. A **reconciler** (a background checker) asks the payment company about that same key **before** anyone retries.
 
-The request hash matters: if somebody reuses `checkout-123` with a different amount, reject it. Returning the old success for a different request would be unsafe.
+Example of the request-hash check: someone reuses key `checkout-123`, first for ৳2,000, then for ৳5,000. The hashes don't match, so the second request is **rejected**.
 
 ## Common mistakes
 
 | Mistake | Why it breaks | Better rule |
 | --- | --- | --- |
-| Generate a key on every retry | Provider sees new payments | Client keeps one key per intent. |
-| Delete old attempts quickly | Repeated retries lose history | Retain attempts for the retry/support window. |
-| Treat timeout as failure | The charge may have happened | Use `UNKNOWN` and reconcile. |
-| Send receipt before commit | Customer receives a false receipt | Publish after durable completion, usually via outbox. |
+| A new key on every retry | The provider sees each retry as a new payment. | The client keeps **one key per attempt**. |
+| Deleting old attempts too soon | A late retry finds no history and starts fresh. | Keep attempts for the whole retry and support window. |
+| Treating a timeout as failure | The charge may have gone through. | Use `UNKNOWN` and reconcile. |
+| Sending the receipt before saving | The customer gets a receipt for a payment we didn't record. | Send it **after** saving `COMPLETED`, usually via the outbox. |
 
-**Measure:** duplicate-key conflicts, number and age of `UNKNOWN` attempts, provider webhook lag, and mismatch count between provider and database.
+## What to watch on your dashboard
 
-**Watch:** duplicate attempts, age of `UNKNOWN` records, provider timeouts, reconciliation backlog.
+- **Duplicate-key hits:** how often retries arrive (normal, but a spike means trouble upstream).
+- **Number and age of `UNKNOWN` attempts:** old unknowns are customers waiting for an answer.
+- **Provider timeouts** and **webhook lag** (a *webhook* is the payment company calling us back to report a result; lag is how late those calls arrive).
+- **Reconciliation backlog** and **mismatch count** between our records and the provider's.
+
+## Quick recap
+
+- 💾 **Save first:** record the attempt (key, order, amount, hash) before calling the provider.
+- 🔑 **One key, every retry:** same key to our database and to the provider.
+- 🧾 **Guard the order too:** two tabs with two keys are stopped by the order's own state.
+- ❓ **Timeout = unknown:** look it up and reconcile, never blindly re-charge.
+- 📬 **Receipt last:** send it only after success is saved, through the outbox.

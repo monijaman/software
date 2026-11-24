@@ -1,52 +1,161 @@
 ---
 title: "Big Data: ETL, Warehouses and Streaming"
-summary: "Build reliable analytical pipelines with batch/stream processing, lake and warehouse layers, and explicit freshness contracts."
+summary: "Turn millions of raw events into reports people can trust: keep the raw data, clean it in clear stages, say how fresh each report is, and be able to rebuild when something goes wrong."
 level: Advanced
 tags: [system-design, mapreduce, etl, data-lake, warehouse, lambda, kappa]
 ---
 
-## The problem in context
+## The story in one minute
 
-A retailer receives 50 million purchase and browsing events/day. Finance needs reproducible daily totals; operations wants a dashboard no more than two minutes behind.
+A retailer gets **50 million** events a day: purchases, page views, clicks. Two teams want numbers:
 
-## What must be true
+- **Finance** wants yesterday's revenue, exact, and the same every time they ask.
+- **Operations** wants a live dashboard, **at most 2 minutes** behind.
 
-Build analytical views with defined freshness, lineage and correction rules, keeping raw evidence available for replay.
+Here is what goes wrong, step by step:
 
-## Practical response
+1. A small code change in the cleanup step counts each purchase **twice**.
+2. Yesterday's revenue report shows **$2 million** instead of $1 million.
+3. The team fixes the code, but the raw events were thrown away after cleanup. There's **nothing to recompute from**.
+4. They patch the report by hand. Halfway through, finance opens it and sees a mix of old and new numbers.
+5. Meanwhile, the live dashboard stopped updating an hour ago, but still looks "live." Nobody notices.
 
-1. Land immutable raw events with IDs and schema versions. Separate ingestion from transformations.
+This lesson is about building data pipelines you can **trust, explain and rebuild**.
 
-2. Create curated datasets with event-time handling and deduplication, then load warehouse models optimized for reporting.
+## Words you need
 
-3. Use streaming for freshness and bounded backfills for repair. Partition by query patterns and constrain scan cost; avoid two independent business-rule implementations where possible.
+| Word | Plain meaning | Everyday example |
+| --- | --- | --- |
+| **Pipeline** | A series of steps that moves and cleans data. | A water plant: collect, filter, deliver. |
+| **ETL** | **E**xtract data, **T**ransform (clean, join, sum) it, **L**oad it where reports read it. | Collect receipts, sort and total them, put the summary in a binder. |
+| **Data warehouse** | A database built for big report queries. | A library organized for research. |
+| **Batch vs streaming** | Batch: process a big pile at once (e.g. nightly). Streaming: process each event as it arrives. | Doing laundry once a week vs washing each shirt right away. |
+| **Backfill** | Re-running a pipeline over past data. | Re-grading last month's exams with the corrected answer key. |
 
-### Walk through a failure and recovery
+## The fix in three rules
 
-A transformation bug doubles yesterday’s revenue. Correct the transformation and replay the raw partition into a versioned output. Publish the replacement atomically instead of exposing a half-rebuilt report.
+### Rule 1: Keep the raw events, and never change them
 
-## How to prove it worked
+Land every event as-is, with an **event ID**, a **schema version** (which format it's in), and the time it arrived. These raw files are **immutable** (never edited, only added to).
 
-Reconcile reported totals against transactional records and test a full backfill. Measure freshness, missing/duplicate input and cost per workload; rapid dashboards with wrong revenue are a failure.
+Keep **ingestion** (collecting) separate from **transformation** (cleaning and calculating). Then a bug in transformation can always be fixed by re-running from the untouched raw data.
+
+### Rule 2: Clean in stages, and say how fresh each result is
+
+1. **Raw** layer: exactly what arrived.
+2. **Curated** layer: cleaned, duplicates removed, sorted by **event time** (when it actually happened, not when it arrived; a phone offline for an hour sends events late).
+3. **Warehouse** layer: tables shaped for reports ("revenue per day per store").
+
+Publish a **freshness promise** for each output, like: "daily revenue complete by 08:00 UTC" and "dashboard under 5 minutes old." If data is older than promised, the dashboard should **say so**.
+
+### Rule 3: Stream for speed, batch for repair, and write the rules once
+
+- **Streaming** keeps the dashboard fresh.
+- **Batch backfills** (limited to the date range you need) fix the past.
+- Try to keep **one** implementation of each business rule ("what counts as revenue?"). Two separate versions, one for streaming and one for batch, will slowly drift apart and give different answers.
+- **Partition** data (split it into folders) by how people query it, usually by date, so a "last 7 days" query reads 7 folders, not all of history.
+
+## Walk through a failure
+
+The double-counting bug doubled yesterday's revenue.
+
+1. **Fix** the transformation code.
+2. **Replay** yesterday's raw partition through the fixed code into a **new version** of the output (e.g. `revenue_v2`), not on top of the live one.
+3. **Check** the new numbers against the order database.
+4. **Swap** the report to point at the new version in **one step** (an **atomic publish**). Finance never sees a half-fixed table.
+
+## How to prove it works
+
+1. **Reconcile:** compare report totals to the real transactional records (the orders database). They must match.
+2. **Test a full backfill** of, say, a month, before you need one in an emergency.
+3. **Measure freshness:** how old is the newest data in each output?
+4. **Count at each step:** missing input, duplicates, and **cost** per job.
+
+A fast dashboard with **wrong** revenue is a failure, not a success.
 
 ### Check your understanding
 
-What evidence must be retained to rebuild a month of reports?
+The team must rebuild a full month of reports after a bug. What must they have kept to do that?
+
+<details>
+<summary>Show answer</summary>
+
+- The **raw events** for that whole month, unchanged, with their event IDs (to remove duplicates).
+- The **schema versions** so old events can still be read correctly.
+- The **code and business rules** (version of the transformation) that should apply.
+- Any **reference data** used in the calculation as it was at that time (e.g. product prices, currency rates, store list).
+
+If the raw events were deleted or edited, the month can't be rebuilt honestly. That's why raw data is kept immutable.
+
+</details>
 
 ---
 
-## Concepts and implementation details
+## Going deeper
 
 ![Analytics pipeline: raw events land durably, ETL/stream processing creates curated lake and warehouse datasets](/img/system-design-l6/big-data.svg)
 
-MapReduce partitions large batch work into map, shuffle and reduce stages. ETL extracts, transforms and loads curated data. A data lake holds raw/flexible data; a warehouse optimizes governed analytical queries; a lakehouse combines lake storage with warehouse-style tables.
+## MapReduce: the original big batch idea
 
-Lambda architecture combines batch truth with a speed layer; Kappa treats an ordered event stream as the main source and reprocesses it when logic changes. Choose based on team operations and freshness needs, not fashion. Record lineage, schema evolution, data quality checks and the age of the newest successful dataset.
+Say you want "total sales per store" over 10 billion rows. One machine is too slow. **MapReduce** splits the work across many machines in three stages:
 
-## A dependable analytics pipeline
+1. **Map:** each machine reads its chunk and outputs pairs like `(store_7, $20)`.
+2. **Shuffle:** all pairs for the same store are sent to the same machine.
+3. **Reduce:** each machine adds up the values for its stores: `(store_7, $41,200)`.
 
-Land immutable raw events with source, schema version and arrival time. Validate them, quarantine malformed records, and transform them into curated tables. Publish a freshness contract: for example, “daily revenue is complete by 08:00 UTC; dashboard events are under five minutes old.” A dashboard with old data should say it is old, not silently look current.
+Modern tools (like Spark) are faster and easier, but use the same idea.
 
-Every stage needs counts and reconciliation: input rows, accepted rows, rejected rows, output rows, duplicates and newest data timestamp. Partition data by time and commonly filtered dimensions, but avoid producing millions of tiny files/partitions.
+## Lake, warehouse, lakehouse
 
-Backfills must be isolated from current production work and idempotent. They often expose hidden assumptions about mutable source data, schema changes and duplicate events.
+| | Data lake | Data warehouse | Lakehouse |
+| --- | --- | --- | --- |
+| Stores | Raw files of any shape | Clean, structured tables | Files in a lake, but with table features |
+| Like... | A big storage unit, everything in boxes | A neat library with a catalog | A storage unit with a catalog and shelves |
+| Good for | Keeping everything cheaply, replay | Fast, governed business reports | Both, in one place |
+
+## Lambda vs Kappa architecture
+
+- **Lambda:** run **two** paths. A **batch** layer computes the correct, complete answer slowly. A **speed** layer gives quick, approximate answers for the latest data. Reports combine both. Downside: two codebases for the same logic.
+- **Kappa:** keep everything as **one ordered event stream** (like a long log). There's only a streaming path. When logic changes, **replay the stream** from the start through the new code.
+
+Pick by your team's skills and freshness needs, not by what's trendy.
+
+## A dependable pipeline, step by step
+
+1. **Land** immutable raw events with source, schema version and arrival time.
+2. **Validate** them. Move broken records to a **quarantine** area (a holding pen) instead of dropping them silently or crashing the pipeline.
+3. **Transform** into curated tables.
+4. **Publish** with a freshness contract. An old dashboard should **show its age** ("data as of 10:42"), not quietly look current.
+
+Track **lineage**: which inputs and code produced each table, so you can answer "where did this number come from?"
+
+## Count everything at every stage
+
+| Stage | Count |
+| --- | --- |
+| Input | 50,000,000 rows |
+| Accepted | 49,980,000 |
+| Rejected (quarantined) | 15,000 |
+| Duplicates removed | 5,000 |
+| Output | 49,980,000 |
+| Newest event time | 07:58 UTC |
+
+If accepted + rejected + duplicates doesn't add up to input, something is leaking. Here, 49,980,000 + 15,000 + 5,000 = 50,000,000, so it checks out.
+
+## Partitions: not too few, not too many
+
+Partition by **time** (e.g. one folder per day) and maybe one commonly filtered field (e.g. country). But don't go too fine: partitioning by day **and** by user creates millions of tiny files, and reading many tiny files is very slow.
+
+## Backfills need care
+
+- **Isolate them:** run on separate capacity so they don't slow down today's pipeline.
+- **Make them idempotent:** running a backfill twice must give the same result, not double data.
+- **Expect surprises:** backfills often reveal that source data was edited after the fact, old events had a different schema, or duplicates existed all along.
+
+## Quick recap
+
+- 📥 **Keep raw events forever (or long enough), unchanged.** They're your undo button.
+- 🧹 **Clean in layers:** raw, curated, warehouse.
+- ⏱️ **Publish freshness promises**, and show the data's age when it's late.
+- 🔁 **Fix by replaying** into a new version, then swap in one step.
+- 🧮 **Count rows at every stage** and reconcile with the real records.

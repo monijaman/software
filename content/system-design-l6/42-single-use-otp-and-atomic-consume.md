@@ -1,47 +1,108 @@
 ---
 title: "A WhatsApp OTP Is Only Single Use If You Make It So"
-summary: "Design one-time passcodes that can be consumed exactly once, even when two requests arrive in the same second: hashed codes, atomic consume, attempt limits, crash recovery and race-condition tests."
+summary: "Make a one-time code really work only once, even when two requests arrive in the same second: store a hash, check and mark it used in one step, limit wrong guesses, handle crashes, and test the race."
 level: Advanced
 tags: [system-design, security, authentication, otp, concurrency, atomicity, race-condition, postgresql, redis, idempotency]
 ---
 
-## The problem in context
+## The story in one minute
 
-A user receives a 6-digit OTP on WhatsApp, enters it and is logged in. Five minutes later someone with the same code (an attacker who saw the message, or a retrying client) submits it and is logged in too. In a second variant, two requests with the same valid code reach two API servers in the same millisecond, both read "not used yet", and both succeed.
+A user gets a **6-digit code on WhatsApp** (an *OTP*, one-time passcode), types it in, and logs in. Good.
 
-## What must be true
+Here is what goes wrong, step by step:
 
-For one issued code, at most one verification may succeed, no matter how many requests, servers or retries are involved. A code must also stop working after its time window and after too many wrong guesses.
+1. Five minutes later, someone else sends the **same code**. Maybe an attacker who saw the message, maybe a client retrying.
+2. The server checks: "Is this code right? Yes." It logs them in **too**.
+3. Worse version: two requests with the same code reach **two different servers in the same millisecond**.
+4. Both servers read "not used yet". Both log the user in.
 
-## Practical response
+The code was called "one-time", but it worked **twice**. This lesson is about making "once" really mean once.
 
-1. **Generate** the code with a cryptographically secure random generator, store only a **hash** of it, and record `expires_at`, `attempts` and an empty `consumed_at`.
+## Words you need
 
-2. **Make consuming the code one atomic database operation** that checks *unused*, *unexpired* and *matches* and marks it used in the same statement, so there is no gap between check and write.
+| Word | Plain meaning | Everyday example |
+| --- | --- | --- |
+| **OTP** | A short code that should work once, for a few minutes. | A cloakroom ticket. |
+| **Consume** | Use up the code and mark it used. | Handing in the ticket and getting your coat. |
+| **Atomic** | Happens as one single step. Nothing can sneak in between. | A turnstile: you push and pass in one motion. |
+| **Race condition** | Two things happen at the same time and both "win" when only one should. | Two people grabbing the last seat at the same moment. |
+| **Hash** | A one-way scramble of a value. You can check a guess against it, but not reverse it. | A fingerprint: it matches the person but isn't the person. |
+| **Transaction** | A group of database steps that all succeed, or all get undone. | A bank transfer: money leaves one account *and* arrives in the other, or neither. |
 
-3. **Create the login in the same step** (same transaction) whenever you can. If you cannot, record the consumption first and make the next step idempotent.
+## The fix in four rules
 
-4. **Limit attempts.** A 6-digit code has only one million possibilities, so the attempt counter is the real security control.
+### Rule 1: Store a fingerprint, not the code
 
-### Walk through a failure and recovery
+Generate the code with a **secure random** generator. Store only a **hash** of it, plus `expires_at`, an `attempts` counter, and an empty `consumed_at`.
 
-Two requests with the correct code arrive together. Both run the consume statement. The database locks the row for the first; the second waits, then re-evaluates the condition `consumed_at IS NULL`, finds it false and updates **zero rows**. One request logs in; the other gets `invalid or already used`. Now suppose the winner's server crashes after the consume committed but before it issued a session. The code is burned, so the user is not logged in. That is the correct, safe failure: the user requests a new code (within rate limits), and nobody gained access. If the session store is a separate system, you can store a login-attempt ID with the consumption so the *same* client can safely resume instead of starting over.
+❌ **Wrong:** save `482913` in the database. Anyone who sees the database can use it.
 
-## How to prove it worked
+✅ **Right:** save a keyed hash of it. A database leak reveals nothing usable.
 
-Fire 50 concurrent verify requests with the same valid code and assert exactly one success and 49 rejections. Repeat after the expiry time and after the attempt limit. Kill the process between consume and session creation and assert the code cannot be reused. Check that no plain-text code appears in the database or logs.
+### Rule 2: Check and mark "used" in one step
+
+Make the check (*right code? not used? not expired?*) and the write (*mark used*) **one database statement**.
+
+❌ **Wrong:** read the row, decide in app code, then write `used = true`. There's a gap in between.
+
+✅ **Right:** `UPDATE ... WHERE consumed_at IS NULL ...`. The database picks exactly one winner.
+
+### Rule 3: Log in at the same time, or use the code up first
+
+If you can, create the login (the *session*) **in the same transaction** as consuming the code. If you can't, **consume the code first**, then create the session in a way that's safe to repeat.
+
+### Rule 4: Limit wrong guesses
+
+A 6-digit code has only **1,000,000** possible values. With unlimited tries, an attacker will find it. The **attempt counter** is the real security control.
+
+## Walk through a failure
+
+**Two correct requests arrive together.** Both run the consume statement.
+
+1. The database **locks** the row for the first request (a lock is a "wait, I'm using this" sign).
+2. The second request **waits**.
+3. The first one sets `consumed_at` and finishes.
+4. The second one wakes up and **re-checks** `consumed_at IS NULL`. It's now false, so it updates **zero rows**.
+5. One request logs in. The other gets "invalid or already used".
+
+**Now the winner's server crashes** after the consume was saved, but before it created the session.
+
+- The code is used up ("burned"), and the user is **not** logged in.
+- That's the **correct, safe** failure. Nobody got in. The user asks for a new code (within rate limits).
+- If sessions live in a separate system, you can save a **login-attempt ID** with the consumption. Then the *same* client can safely finish its login instead of starting over.
+
+## How to prove it works
+
+1. Fire **50 verify requests at the same time** with the same correct code. Exactly **1** succeeds and **49** are rejected.
+2. Repeat **after the code expires**: all are rejected.
+3. Repeat **after the attempt limit** is reached: all are rejected, even with the right code.
+4. **Kill the process** between consume and session creation. The code can't be used again.
+5. Search the database and logs: **no plain-text code** appears anywhere.
 
 ### Check your understanding
 
-Why is "SELECT the code, then UPDATE it if unused" unsafe, but a single `UPDATE ... WHERE consumed_at IS NULL` is safe? And what happens to a login whose server crashed after the consume succeeded?
+Why is "SELECT the code, then UPDATE it if unused" unsafe, while a single `UPDATE ... WHERE consumed_at IS NULL` is safe? And what happens to a login whose server crashed right after the consume succeeded?
+
+<details>
+<summary>Show answer</summary>
+
+**SELECT then UPDATE** has a gap. Two requests can both SELECT and both see "unused" before either one writes. Then both UPDATE, and both log in.
+
+**A single UPDATE** has no gap. The database locks the row while it checks and writes. The second request waits, re-checks the condition, finds `consumed_at` already set, and changes **zero rows**, so it loses.
+
+**After a crash** following the consume, the code is burned and the user isn't logged in. That's safe: they request a new code. (Or, if you saved a login-attempt ID, the same client can retry with it and finish the login.) You must **never** "un-burn" the code on a guess that the login probably failed.
+
+</details>
 
 ---
 
-## Concepts and implementation details
+## Going deeper
 
-## An OTP is a number with a window
+## An OTP is just a number with a time window
 
-Nothing about a 6-digit number makes it single use. By itself it is just a value that is *valid for a time window*. "Single use" is a **fact you write down**: a row that says this code was consumed at this moment. If recording that fact and granting the login are not the same step, two requests can both see "unused" and both win.
+Nothing about a 6-digit number makes it single use. On its own, it's just a value that's **valid for a few minutes**. "Single use" is a **fact you write down**: a row that says "this code was used at this moment".
+
+If writing that fact and granting the login aren't the same step, two requests can both see "unused" and both win:
 
 ```text
 Request A: read code → unused          Request B: read code → unused
@@ -50,7 +111,9 @@ Request A: mark used                   Request B: mark used
                       ↑ both succeeded
 ```
 
-This is a classic **time-of-check to time-of-use (TOCTOU)** race. The fix is not faster code; it is removing the gap between *check* and *write*.
+This is a classic **time-of-check to time-of-use (TOCTOU)** race: the world changes between when you **check** and when you **act**. Faster code doesn't fix it. Removing the gap between check and write does.
+
+Think of two cashiers selling the last concert ticket. Both look at the screen, both see "1 left", both sell it. The fix isn't faster cashiers. It's a system where "sell" and "mark sold" happen together.
 
 ## The data model
 
@@ -72,7 +135,9 @@ CREATE UNIQUE INDEX one_live_otp
   WHERE consumed_at IS NULL;
 ```
 
-The partial unique index means a new request cannot leave several valid codes lying around: you either invalidate the old one or replace it. The fewer live codes exist, the smaller the guessing surface.
+The last part is a **partial unique index**: "among rows that aren't used yet, each (user, purpose) pair may appear only once". So you can't leave several valid codes lying around. When a user asks for a new code, you must first mark the old one used (invalidate it) or replace it.
+
+Why care? Every live code is another chance for a lucky guess. Fewer live codes, fewer chances.
 
 ## Generating and storing the code
 
@@ -89,13 +154,13 @@ function hashOtp(code: string, userId: string): Buffer {
 }
 ```
 
-- **Use a secure random source.** `Math.random()` is predictable.
-- **Hash the code.** A database leak must not reveal usable codes. A plain SHA-256 of a 6-digit number can be reversed in microseconds by trying all million values, which is why the hash is keyed with a secret pepper that is *not* stored in the database.
-- **Bind it to context** (user, purpose) so a code for password reset cannot confirm a payment.
+- **Use a secure random source.** `randomInt` from `crypto` uses a *CSPRNG* (cryptographically secure random number generator). `Math.random()` can be predicted.
+- **Hash the code, with a secret key.** A plain SHA-256 of a 6-digit number is useless: an attacker who steals the database just hashes all 1,000,000 possibilities in well under a second and finds the match. That's why we use an **HMAC**, a hash mixed with a secret key (called a *pepper*) that lives in the server's config, **not** in the database. Without the pepper, the stolen hashes can't be checked.
+- **Tie it to its context** (user and purpose). A code sent for a password reset must not work to confirm a payment.
 
 ## The atomic consume
 
-This single statement is the heart of the lesson:
+This one statement is the heart of the lesson:
 
 ```sql
 UPDATE otp_codes
@@ -103,17 +168,18 @@ SET    consumed_at = now()
 WHERE  user_id    = $1
   AND  purpose    = $2
   AND  code_hash  = $3
-  AND  consumed_at IS NULL
-  AND  expires_at > now()
+  AND  consumed_at IS NULL     -- not used yet
+  AND  expires_at > now()      -- not expired
+  AND  attempts   < 5          -- not locked out by wrong guesses
 RETURNING id;
 ```
 
-- **One row returned:** you won. Proceed.
-- **Zero rows returned:** the code was wrong, expired or already used. Respond the same way for every reason so the endpoint does not reveal which.
+- **One row back:** you won. Go ahead and log in.
+- **Zero rows back:** the code was wrong, expired, locked, or already used. Give the **same answer** for every reason, so an attacker can't tell which.
 
-Why this is safe: the database takes a lock on the matching row. Under the default `READ COMMITTED` isolation, a second concurrent `UPDATE` waits for the first to commit, then re-checks the `WHERE` clause against the new row version. `consumed_at` is no longer `NULL`, so it matches nothing. Check and write are **one operation**, so there is no gap to race through.
+**Why it's safe:** the database locks the matching row while it updates. In PostgreSQL's default mode (`READ COMMITTED`), a second `UPDATE` on the same row **waits** for the first to finish, then **re-checks** the `WHERE` conditions against the new version of the row. `consumed_at` is no longer `NULL`, so nothing matches. Check and write are **one operation**, so there's no gap to slip through.
 
-The unsafe version separates them:
+The unsafe version splits them:
 
 ```sql
 SELECT ... WHERE ... AND consumed_at IS NULL;   -- both requests see "unused"
@@ -121,9 +187,9 @@ SELECT ... WHERE ... AND consumed_at IS NULL;   -- both requests see "unused"
 UPDATE otp_codes SET consumed_at = now() WHERE id = $1;   -- both succeed
 ```
 
-### The insert-wins alternative
+### Another way: let the first insert win
 
-Another way to get the same guarantee is to let a **unique constraint** decide the winner:
+You can get the same guarantee with a **unique constraint** (a rule that a value can appear only once):
 
 ```sql
 CREATE TABLE otp_consumptions (
@@ -135,21 +201,28 @@ INSERT INTO otp_consumptions (otp_id) VALUES ($1);
 -- first insert succeeds; the second fails with a unique violation
 ```
 
-"One insert wins. The other gets a conflict." This is useful when the consumption must be recorded in a different store from the codes, or when you want an append-only audit trail. In either style, the winner is chosen by the database, not by application code that ran earlier.
+"One insert wins. The other gets a conflict." This is handy when:
+
+- the "used" record must live in a different place from the codes, or
+- you want a history that only ever grows (an *append-only audit trail*).
+
+Either way, **the database picks the winner**, not app code that looked at the data a moment earlier.
 
 ### The same idea in Redis
 
-If codes live in Redis, use an operation that reads and deletes in one step instead of `GET` followed by `DEL`:
+If codes live in **Redis** (a fast in-memory store), use a command that **reads and deletes in one step**, instead of `GET` followed by `DEL`:
 
 ```text
 GETDEL otp:{userId}:{purpose}      # returns the value and removes it atomically
 ```
 
-Compare the returned hash to the submitted one. If a wrong code consumed the key, you need to handle that deliberately (see attempts below), so for multi-field logic a short Lua script or a database is often cleaner.
+Then compare the returned hash with the submitted one.
+
+One catch: `GETDEL` deletes the code even when the guess was **wrong**. If you want "5 tries, then dead" instead, you need more logic, so a short **Lua script** (which Redis runs as one atomic step) or a database is often cleaner.
 
 ## Do the login in the same transaction
 
-When the sessions or the user's state live in the same database, make consuming the code and creating the login **one transaction**:
+When sessions live in the **same database**, make "consume the code" and "create the login" **one transaction**:
 
 ```sql
 BEGIN;
@@ -158,24 +231,39 @@ BEGIN;
 COMMIT;
 ```
 
-Now a crash anywhere before `COMMIT` rolls back both: the code is still unused and the user can try again within the window. A crash after `COMMIT` means the user is logged in. There is no state in between, which is the best answer to "what if it dies halfway?"
+Now there are only two possible outcomes:
 
-## When the login is in another system
+| Crash happens... | Result |
+| --- | --- |
+| Before `COMMIT` | Both steps are undone. The code is still unused. The user tries again within the time window. |
+| After `COMMIT` | The user is logged in. |
 
-Often the session lives elsewhere (a token service, Redis, another microservice), so one transaction is impossible. You then have two steps and must choose which failure to prefer:
+There's no half-done state in between. That's the best possible answer to "what if it dies halfway?"
+
+## When the login lives in another system
+
+Often the session lives somewhere else: a token service, Redis, another microservice. Then one transaction is impossible. You have two separate steps, and you must pick **which failure you'd rather have**:
 
 | Order | If it crashes in between | Verdict |
 | --- | --- | --- |
-| Consume code, **then** create session | Code is burned, user not logged in | **Safe.** The user asks for a new code |
-| Create session, **then** consume code | User logged in, code still usable | **Unsafe.** Two logins can win |
+| Consume code, **then** create session | Code is burned, user not logged in | ✅ **Safe.** The user asks for a new code. |
+| Create session, **then** consume code | User logged in, code still usable | ❌ **Unsafe.** A second login can also win. |
 
-Always consume first. A burned code is an inconvenience; a reusable code is a security incident.
+**Always consume first.** A burned code is annoying. A reusable code is a security incident.
 
-You can still reduce the pain. Record a `login_attempt_id` (supplied by the client, or created at the start of verification) alongside the consumption. If the same client retries with the same `login_attempt_id`, the server sees "already consumed *by this attempt*" and finishes issuing the session idempotently instead of forcing a new code. Without that proof, the only safe options are to wait out the window or issue a fresh code. Never reopen a consumed code on the basis of a guess that "the first login probably never finished."
+You can make the safe failure less annoying:
+
+1. At the start of verification, create a `login_attempt_id` (or let the client send one).
+2. Save it together with the consumption.
+3. If the **same client** retries with the **same** `login_attempt_id`, the server sees "already consumed, *by this very attempt*" and just finishes creating the session. Doing that twice is harmless (it's *idempotent*).
+
+Without that proof, the only safe choices are: wait for the window to end, or send a fresh code. **Never** re-open a used code because "the first login probably didn't finish."
 
 ## Wrong guesses and the attempt limit
 
-A one-in-a-million guess is not safe if an attacker may try millions of times, so count failures. Do it in a **separate statement that is not rolled back** by the failure path:
+A one-in-a-million guess isn't safe if an attacker can try a million times. So **count wrong guesses**.
+
+Do it in a **separate statement** that isn't undone (rolled back) when the verify fails:
 
 ```sql
 UPDATE otp_codes
@@ -184,28 +272,32 @@ WHERE  user_id = $1 AND purpose = $2 AND consumed_at IS NULL
 RETURNING attempts;
 ```
 
-When `attempts` reaches the limit (commonly 3 to 5), invalidate the code and require a new one. Add limits around it, too:
+When `attempts` reaches the limit (usually 3 to 5), the code is dead: the consume statement above already refuses it (`attempts < 5`), and you can also mark it used so a new code can be issued. Then require a new code.
+
+Quick math on why this works: with 5 tries per code, the chance of guessing right is 5 in 1,000,000 (0.0005%). With no limit, it's 100%.
+
+Put more limits around it:
 
 | Limit | Typical rule |
 | --- | --- |
 | Attempts per code | 5, then the code is dead |
 | Code requests per user / phone | e.g. 3 per 10 minutes |
-| Requests per IP and per device | Rate limit and watch for spraying many accounts |
+| Requests per IP and per device | Rate limit, and watch for one source trying many accounts |
 | Lifetime | 3 to 10 minutes for login codes |
-| Cooldown on resend | 30 to 60 seconds |
+| Wait before resending | 30 to 60 seconds |
 
-Also remember that sending a WhatsApp or SMS message costs money. An unprotected "send code" endpoint can be abused to run up your bill or harass someone, so rate-limit sending as strictly as verifying.
+Also: **sending** a WhatsApp or SMS message costs money. An unprotected "send code" button can be abused to run up your bill, or to spam someone's phone. Rate-limit **sending** as strictly as **verifying**.
 
 ## Other details that matter
 
-- **Same response for every failure.** "Wrong code", "expired" and "already used" should look identical to an attacker, with similar timing.
-- **Constant-time comparison** if you compare hashes in application code (`timingSafeEqual`), though comparing inside the SQL `WHERE` avoids the issue entirely.
-- **Never log the code**, the request body or the WhatsApp message content.
-- **Delete or archive old rows** after a few days. They are no longer useful and they hold security-relevant data.
-- **Messaging channels are not secure.** Anyone who can read the phone's notifications or take over the number can read the OTP. For high-risk actions prefer app-based or hardware factors, and treat SMS or WhatsApp as the weaker option.
-- **Idempotent requests are different.** If the *same* verify request is retried by the network, a second attempt with the same `request_id` can safely return the stored result. Do not confuse that with accepting a second, separate use of the code.
+- **Same response for every failure.** "Wrong code", "expired" and "already used" should look identical to an attacker, and take about the same time.
+- **Constant-time comparison** if you compare hashes in app code (use `timingSafeEqual`). A normal comparison stops at the first different byte, and that tiny time difference can leak information. Comparing inside the SQL `WHERE` avoids the issue.
+- **Never log the code**, the request body, or the WhatsApp message text.
+- **Delete or archive old rows** after a few days. They're no longer useful, and they hold security-sensitive data.
+- **Messaging apps aren't fully secure.** Anyone who can see the phone's notifications, or who takes over the phone number, can read the code. For high-risk actions, prefer an authenticator app or a hardware key, and treat SMS or WhatsApp as the weaker option.
+- **Retrying the same request is different.** If the network re-sends the *same* verify request (same `request_id`), returning the saved result is fine. Don't confuse that with accepting a second, **separate** use of the code.
 
-## Test the race, do not just reason about it
+## Test the race, don't just reason about it
 
 ```ts
 it('allows exactly one of 50 concurrent verifications', async () => {
@@ -218,21 +310,29 @@ it('allows exactly one of 50 concurrent verifications', async () => {
 });
 ```
 
-Add the same test against expiry, the attempt limit and a simulated crash between consume and session creation. If your test only calls verify once at a time, it proves nothing about concurrency.
+`Promise.all` fires all 50 requests at once, which is exactly the situation that breaks a check-then-write design. Add the same kind of test for expiry, the attempt limit, and a simulated crash between consume and session creation. If your tests only ever call verify one at a time, they prove nothing about races.
 
 ## Common mistakes
 
-- Reading the code, deciding in application code, then writing `used = true` as a second step.
-- Setting "used" **after** creating the session, or in a background job.
-- Storing the plain code, or hashing it with unsalted SHA-256.
-- A six-digit code with no attempt limit.
-- Several live codes per user, each a fresh guessing chance.
+- Reading the code, deciding in app code, then writing `used = true` as a second step.
+- Marking "used" **after** creating the session, or in a background job.
+- Storing the plain code, or hashing it with plain SHA-256 (a million guesses takes no time; use a keyed HMAC with a secret pepper).
+- A 6-digit code with no attempt limit.
+- Several live codes per user, each one an extra chance to guess.
 - Different error messages for "expired" and "wrong".
-- Trusting a cache or read replica for the "unused" check. The consume must hit the primary or the single authoritative store.
+- Trusting a cache or a *read replica* (a read-only copy of the database that may be slightly behind) for the "unused" check. The consume must hit the main database or the one true store.
 - Re-opening a burned code because "the login probably failed."
 
-## The L6 takeaway
+## The big takeaway
 
-The hard part of an OTP is not generating the number. It is making the *consume* atomic, so that one request wins and every other gets a clean conflict.
+The hard part of an OTP isn't making the number. It's making the **consume atomic**, so one request wins and every other one gets a clean "no".
 
-Write the used flag in the same step that makes the decision. Prefer a burned code over a reusable one when a crash leaves you unsure. Limit the attempts, because the code space is small. Then prove the guarantee with 50 requests in the same second instead of assuming it.
+Write the "used" mark in the same step that makes the decision. When a crash leaves you unsure, prefer a burned code over a reusable one. Limit attempts, because the code space is small. Then prove it with 50 requests in the same second, instead of assuming it works.
+
+## Quick recap
+
+- 🔐 **Store a keyed hash,** never the plain code; generate it with a secure random source.
+- ⚛️ **One statement decides:** `UPDATE ... WHERE consumed_at IS NULL AND not expired` returns 1 row for the single winner.
+- 🔥 **Consume first:** a burned code after a crash is safe; a reusable one is not.
+- 🚫 **Limit guesses and sends:** about 5 tries per code, plus rate limits on sending.
+- 🧪 **Test the race:** 50 requests at once, exactly 1 success.

@@ -1,80 +1,158 @@
 ---
 title: "Premiere-Night Video Streaming"
-summary: "Let millions press Play together by separating small control-plane APIs from CDN-delivered video bytes."
+summary: "Let millions press Play at once by keeping the small 'can I watch?' checks separate from the huge video data, which is served from copies close to viewers."
 level: Advanced
 tags: [system-design, video, cdn, streaming, caching]
 ---
 
-## The problem in context
+## The story in one minute
 
-Two million viewers press Play for a premiere in the same minute. Video averages 5 Mb/s, so payload demand is roughly 10 Tb/s.
+A big new show premieres at **8:00 PM**. **Two million** people press Play in the same minute. Each stream averages **5 megabits per second** (Mb/s).
 
-## What must be true
+Here is what goes wrong in a naive design:
 
-Start playback quickly and avoid origin overload. Authorization must remain correct; playback progress may lag.
+1. All the video is sent from our own main servers (the **origin**).
+2. 2,000,000 viewers × 5 Mb/s = **10,000,000 Mb/s = 10 terabits per second** (Tb/s). No single data center can push that.
+3. The servers that check "is this user allowed to watch?" are the same ones sending video, so logins slow down too.
+4. Viewers see a spinning wheel. Many give up and complain on social media.
 
-## Practical response
+The fix is to put **copies of the video close to viewers before 8:00 PM**, and keep the small "may I watch?" check apart from the heavy video data.
 
-1. Transcode before launch into several bitrate variants and publish manifests plus immutable segments.
+## Words you need
 
-2. Serve video through CDN edges and regional shields. At a 99% byte hit ratio the origin still needs about 100 Gb/s; size the miss path explicitly.
+| Word | Plain meaning | Everyday example |
+| --- | --- | --- |
+| **Origin** | Our main storage, where the master copy of each video lives. | The central warehouse. |
+| **CDN** (Content Delivery Network) | Many servers around the world (called **edges**) that keep copies of popular files near users. | Local corner shops stocked from the warehouse. |
+| **Cache hit ratio** | Out of all requests, the share the edge could answer from its own copy. | 99 of 100 customers find what they need at the corner shop. |
+| **Segment** | A short chunk of video, a few seconds long. The player downloads them one after another. | Pages of a book handed over one at a time. |
+| **Control plane / data plane** | Control = the small decisions (who, what, may I). Data = the heavy stuff (the actual video bytes). | The ticket desk vs. the cinema screen. |
 
-3. Keep entitlement checks and signed playback access in a separate control plane. Warm popular assets and stagger nonessential progress writes.
+## The fix in three rules
 
-### Walk through a failure and recovery
+### Rule 1: Prepare the video before the doors open
 
-An edge cache is cold after a regional shift. Request coalescing and origin limits bound duplicate segment fetches; adaptive bitrate reduces buffering but does not replace origin protection.
+Before launch, **transcode** the show: convert it into several quality levels (for example 480p, 720p, 1080p, 4K). Each version is called a **bitrate** (how much data per second it needs). Together they form a **bitrate ladder**.
 
-## How to prove it worked
+Cut each version into short **segments** and publish a **manifest**: a small list file that tells the player "here are the segments, at these qualities". Segments never change once published, which makes them easy to cache.
 
-Use cold-cache launch drills and region-shift drills. Set explicit targets for time to first frame and rebuffering, then measure origin egress and control-plane saturation against them.
+### Rule 2: Send video from the CDN, and size the leftovers
+
+Video comes from **edges** near the viewer. Behind the edges sit **regional shields** (a middle layer of caches that edges ask before bothering the origin).
+
+Now do the maths for what still reaches the origin:
+
+- Total demand: **10 Tb/s**
+- At a **99%** byte hit ratio, **1%** misses: 10 Tb/s × 0.01 = **100 Gb/s** still reaches the origin.
+
+100 Gb/s is still a lot. Plan and test that "miss path" explicitly. Don't assume the CDN takes everything.
+
+### Rule 3: Keep the "may I watch?" check separate
+
+❌ **Wrong:** check the database for permission on **every** video segment. That's millions of checks per second.
+
+✅ **Right:** check **once** when Play is pressed. Return a **signed URL**: a link with a built-in, tamper-proof permission stamp that expires soon (say, in a few hours). The CDN can verify the stamp itself, without calling us.
+
+Also **warm** (pre-load) popular segments at the edges, and **spread out** non-urgent writes like "save my playback position", so they don't all land at once.
+
+## Walk through a failure
+
+Traffic shifts to another region, and that region's edge caches are **cold** (empty). Suddenly thousands of viewers ask for the same first segment, and none of the edges have it.
+
+- ❌ Every request goes to the origin. 10,000 identical fetches for one file. The origin falls over.
+- ✅ **Request coalescing** (also called *request collapsing*): when many people ask for the same missing file, the cache fetches it **once** and gives the result to everyone waiting. Plus **origin limits** cap how many fetches can reach the origin at once.
+
+**Adaptive bitrate** (the player dropping to lower quality when the network is slow) reduces buffering for viewers. But it does **not** protect the origin by itself. You still need coalescing and limits.
+
+## How to prove it works
+
+Run drills before the real night:
+
+1. **Cold-cache launch drill:** empty the caches, then simulate the 8:00 PM rush.
+2. **Region-shift drill:** move traffic to another region mid-stream.
+3. Set targets and measure against them: **time to first frame** (how long until the picture appears), **rebuffering** (how often the video pauses to load), **origin egress** (data leaving the origin), and how busy the control-plane services are.
 
 ### Check your understanding
 
-How does a 95% CDN hit ratio change the required origin bandwidth?
+With 10 Tb/s total demand, how does a **95%** CDN hit ratio change the bandwidth the origin must handle, compared with 99%?
+
+<details>
+<summary>Show answer</summary>
+
+At 95%, **5%** of bytes miss the CDN:
+
+**10 Tb/s × 0.05 = 0.5 Tb/s = 500 Gb/s**
+
+At 99% it was **100 Gb/s**. So dropping from 99% to 95% means the origin side must handle **5 times more** traffic. A hit ratio that "sounds high" can still hide a huge miss load. (Regional shields and request coalescing can absorb part of those misses before the origin, but you must size the miss path for it.)
+
+</details>
 
 ---
 
-## Concepts and implementation details
+## Going deeper
 
 ## The big idea
 
-At 8:00 PM millions press Play. Sending every byte through application servers is like making every cinema customer collect a film reel from one warehouse. Put copies close to viewers before the doors open.
+At 8:00 PM, millions press Play. Sending every byte through our application servers is like making every cinema customer collect the film reel from one central warehouse. Instead, **put copies in every cinema before the doors open**.
 
 ![Premiere streaming splits control-plane APIs from a CDN data plane with edge, regional and origin tiers](/img/system-design-l6/premiere-streaming.svg)
 
 | Plane | Handles | Goal |
 | --- | --- | --- |
-| **Control** | Auth, entitlement, manifest, progress | Small, stateless, scalable APIs |
-| **Data** | Video segments | CDN serves bytes from a nearby edge |
+| **Control** | Login, entitlement (may this user watch this?), manifest, playback progress | Small, **stateless** APIs (they don't keep per-user memory between calls), so you can add more copies easily. |
+| **Data** | Video segments | The CDN serves the bytes from a nearby edge. |
 
-Transcode titles into bitrate ladders and short HLS/DASH segments. The player lowers quality when bandwidth dips instead of stalling.
+The common streaming formats are **HLS** and **DASH**. Both use the same idea: short segments plus a manifest. The player **lowers quality** when bandwidth dips instead of freezing.
 
-## Prepare for a known spike
+## Prepare for a spike you know is coming
 
-- Pre-warm popular first segments at edges.
-- Use edge → regional → origin caches and request collapsing.
-- Pre-scale entitlement and manifest services.
-- Use short-lived signed URLs so every segment does not call auth.
-- Define degradation: cap bitrate, disable previews, or queue sessions.
+- **Pre-warm** the first few segments of the show at the edges (everyone starts at the beginning).
+- Use three cache layers: **edge → regional shield → origin**, with request coalescing at each.
+- **Pre-scale** (add servers ahead of time for) the entitlement and manifest services.
+- Use **short-lived signed URLs**, so segments don't need a permission call each.
+- Decide in advance how to **degrade**: cap the top quality, turn off previews, or put new sessions in a short waiting line.
 
-Heartbeat progress to Redis for fast resume and persist asynchronously to durable storage. Include a timestamp/sequence so an old device cannot move progress backward.
+## Saving "where you stopped watching"
 
-**Watch:** startup time, rebuffer ratio, CDN hit rate, origin egress, manifest errors, and control-plane p99.
+The player sends a **heartbeat** (a small "still watching, at minute 12:34" message) every so often.
+
+- Write it to **Redis** (a fast in-memory store) so "resume" is quick.
+- Copy it to durable storage **in the background**.
+- Include a **timestamp or sequence number**. Otherwise an old phone that wakes up later could move your position **backward** ("you were at minute 2").
 
 ## What happens when someone presses Play
 
-The app first checks entitlement: is this user allowed to watch this title in this country and time window? It returns a short-lived signed manifest URL. The player downloads a small manifest that lists video segments at several qualities, then retrieves segments from the CDN. It chooses a lower bitrate when its measured network speed falls.
+1. The app checks **entitlement**: is this user allowed to watch this title, in this country, at this time?
+2. If yes, it returns a **short-lived signed manifest URL**.
+3. The player downloads the small manifest, which lists segments at several qualities.
+4. The player fetches segments from the **CDN**.
+5. If its measured network speed drops, it switches to a lower bitrate.
 
-This separation is crucial: auth is small and personalized; video bytes are huge and mostly identical. Do not put a database check in front of every segment.
+Why this split matters: the permission check is **small and personal**. Video bytes are **huge and identical** for everyone. Never put a database check in front of every segment.
 
-## Failure and degradation plan
+## Plan for bad moments
 
 | Problem | Safe response |
 | --- | --- |
-| Edge cache miss surge | Use shield/regional cache and request collapsing. |
-| Origin is overloaded | Cap top bitrate; protect manifest/auth first. |
-| Entitlement service slow | Fail closed only where required, with a short cached decision when policy allows. |
-| One title is hot | Pre-position first segments and isolate its origin capacity. |
+| Many edge cache misses at once | Use the regional shield and request coalescing. |
+| Origin overloaded | Cap the top bitrate. Protect manifest and permission checks first. |
+| Entitlement service slow | Deny access ("fail closed") only where rules require it. Where policy allows, reuse a short-lived cached decision. |
+| One title is extremely popular | Pre-place its first segments and give it its own origin capacity. |
 
-Keep control-plane logs separate from CDN delivery metrics. A fast API does not prove viewers are not buffering.
+## What to watch on your dashboard
+
+- **Startup time** (time to first frame)
+- **Rebuffer ratio** (share of watch time spent waiting for video to load)
+- **CDN hit rate** and **origin egress**
+- **Manifest errors**
+- **Control-plane p99** (the response time that 99 out of 100 requests beat)
+
+Keep control-plane logs **separate** from CDN delivery metrics. A fast API does **not** prove viewers aren't buffering.
+
+## Quick recap
+
+- 🎬 **Prepare early:** transcode into several qualities, cut into segments, pre-warm the start.
+- 🌍 **CDN carries the bytes:** at 99% hits, 10 Tb/s still leaves 100 Gb/s for the origin. Size it.
+- 🎟️ **Check permission once:** signed, short-lived URLs instead of a check per segment.
+- 🧊 **Cold caches:** request coalescing and origin limits stop identical fetches piling up.
+- 📊 **Measure what viewers feel:** startup time and rebuffering, not just API speed.
