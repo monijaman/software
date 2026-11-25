@@ -9,6 +9,12 @@ export interface LessonGroup {
 type GroupDefinition = { title: string; description: string; positions: readonly number[] };
 
 const groupedCategories: Record<string, readonly GroupDefinition[]> = {
+  career: [
+    { title: "Start Here: Plan Your Search", description: "Pick a clear target role, then build a resume, LinkedIn profile and portfolio that match it.", positions: [1, 2, 3, 4] },
+    { title: "Finding Opportunities", description: "The best job sites, referrals and cold outreach, and certifications that help you get shortlisted.", positions: [5, 6, 7] },
+    { title: "Interview Preparation", description: "Technical rounds, behavioral answers with STAR, and smart questions to ask the interviewer.", positions: [8, 9, 10] },
+    { title: "Offer and Beyond", description: "Negotiate your offer, handle follow-ups and rejection, and start strong in your first 90 days.", positions: [11, 12] },
+  ],
   "system-design-l6": [
     { title: "Start Here: Learn the STAR Method", description: "Define the situation and task, explain your actions, then validate the result.", positions: [1, 12, 39] },
     { title: "Core Concepts Through Worked Scenarios", description: "Connect capacity, caching, networking and data choices to concrete user requirements.", positions: [7, 33, 8, 10, 11, 23, 24, 25, 26, 40, 38] },

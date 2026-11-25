@@ -151,5 +151,14 @@
     "icon": "🗃️",
     "color": "#0f766e",
     "cover": "/img/covers/databases.svg"
+  },
+  {
+    "slug": "career",
+    "title": "Job Preparation",
+    "tagline": "From job plan to signed offer",
+    "description": "A step-by-step path to your next developer job: plan your target role, build a resume that passes ATS, turn LinkedIn into an interview-call machine, find jobs on the best sites, use referrals and cold outreach, pick certifications that matter, prepare for coding, system design and behavioral rounds, ask smart questions, negotiate your offer, and start strong in your first 90 days.",
+    "icon": "💼",
+    "color": "#be123c",
+    "cover": "/img/covers/career.svg"
   }
 ]

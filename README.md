@@ -100,6 +100,8 @@ AWS is available at `/learn/aws` with 24 detailed lessons. The path includes gui
 
 ## Adding or editing a lesson
 
+Job Preparation is available at `/learn/career` with 12 lessons: job-search planning, ATS-friendly resumes, getting interview calls from LinkedIn, portfolio and GitHub, the best job sites (local, Bangladesh, remote and freelance), referrals and cold outreach, certifications, technical and behavioral interviews, questions to ask the interviewer, salary negotiation, and the first 90 days. Source lessons are in `content/career/`.
+
 AI & Machine Learning is available at `/learn/ai` with 15 lessons. The path covers an introduction and developer roadmap, machine learning, data preparation, neural networks, LLMs, prompting, RAG, agents, evaluation, and production, plus runnable Python math and training labs, real-world specialties, and a document-assistant capstone. Source lessons live in `content/ai/`; `npm run seed` or `npm run build` loads them into lesson pages and full-text search.
 
 1. Create `content/<topic>/NN-some-slug.md`. The number sets the order; the rest becomes the URL.
