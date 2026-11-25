@@ -2,7 +2,7 @@
 
 A Next.js + SQLite learning site with easy, picture-first lessons on software engineering, built from the notes in `../Theoretical`.
 
-- **166 lessons** in 13 topics, each with diagrams, real-life analogies, code examples and key takeaways
+- **287 lessons** in 18 topics, each with diagrams, real-life analogies, code examples and key takeaways
 - **Library** of all 178 original notes from `../Theoretical`, sorted into the same topics
 - **Full-text search** (SQLite FTS5) across lessons and notes
 - Home page index with live filtering, level filters and per-browser progress tracking

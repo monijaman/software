@@ -9,6 +9,11 @@ export interface LessonGroup {
 type GroupDefinition = { title: string; description: string; positions: readonly number[] };
 
 const groupedCategories: Record<string, readonly GroupDefinition[]> = {
+  ai: [
+    { title: "Start Here: AI Foundations", description: "What AI is, what to learn and in what order, and the Python and math you need, with runnable examples.", positions: [11, 1, 12, 13] },
+    { title: "Core Concepts", description: "Machine learning, data and training, neural networks, transformers and LLMs, prompting, RAG, agents, evaluation and production.", positions: [2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15] },
+    { title: "24-Week Plan: Software Architect to AI Architect", description: "A week-by-week plan with daily tasks, weekend builds and checklists: classic ML, deep learning, LLM engineering, RAG, agents, evals, security, fine-tuning and production.", positions: [16, 17, 18, 19, 20, 21, 22, 23] },
+  ],
   career: [
     { title: "Start Here: Plan Your Search", description: "Pick a clear target role, then build a resume, LinkedIn profile and portfolio that match it.", positions: [1, 2, 3, 4] },
     { title: "Finding Opportunities", description: "The best job sites, referrals and cold outreach, and certifications that help you get shortlisted.", positions: [5, 6, 7] },
